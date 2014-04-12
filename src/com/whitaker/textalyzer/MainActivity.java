@@ -55,10 +55,6 @@ public class MainActivity extends Activity implements OnItemClickListener
 		cursor.moveToFirst();
 		do
 		{
-			for(int i=0; i<cursor.getColumnCount(); i++)
-			{
-				Log.d("CATEGORY", cursor.getColumnName(i) + " : " + i);
-			}
 			//Each message is a separate while loop call
 			Integer personCode = cursor.getInt(4);
 			
@@ -69,6 +65,8 @@ public class MainActivity extends Activity implements OnItemClickListener
 				
 				String body = cursor.getString(13);
 				holder.textReceived += body.length();
+				
+				holder.phoneNumber = cursor.getString(3);
 				
 				ContentResolver content = this.getContentResolver();
 				String[] projection = {Data.MIMETYPE,
@@ -101,6 +99,52 @@ public class MainActivity extends Activity implements OnItemClickListener
 			}
 			
 		}while(cursor.moveToNext());
+		cursor.close();
+		
+		cursor = getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, null);
+		cursor.moveToFirst();
+		do
+		{
+			String address = cursor.getString(3);
+			
+			Iterator it = contactMap.entrySet().iterator();
+			while(it.hasNext())
+			{
+				Map.Entry pairs = (Map.Entry)it.next();
+				ContactHolder holder = (ContactHolder)pairs.getValue();
+				if(holder.phoneNumber.equals(address))
+				{
+					String body = cursor.getString(13);
+					holder.textSent += body.length();
+					TextMessage message = new TextMessage(Directions.OUTBOUND, body, cursor.getInt(5));
+					holder.textMessages.add(message);
+					break;
+				}
+			}
+		}while(cursor.moveToNext());
+		cursor.close();
+		
+		/*
+		cursor = getContentResolver().query(Uri.parse("content://sms/out"), null, null, null, null);
+		while(cursor.moveToNext())
+		{
+			String address = cursor.getString(3);
+			Iterator it = contactMap.entrySet().iterator();
+			while(it.hasNext())
+			{
+				Map.Entry pairs = (Map.Entry)it.next();
+				ContactHolder holder = (ContactHolder)pairs.getValue();
+				if(holder.phoneNumber.equals(address))
+				{
+					String body = cursor.getString(13);
+					holder.textSent += body.length();
+					TextMessage message = new TextMessage(Directions.OUTBOUND, body, cursor.getInt(5));
+					holder.textMessages.add(message);
+					break;				}
+			}
+		}
+		cursor.close();
+		*/
 		
 		grabAllViews();
 		titleText.setText("FINISHED BITCH DICK PUSSY CUNT");	
@@ -117,17 +161,20 @@ public class MainActivity extends Activity implements OnItemClickListener
 		contactListView = (ListView)findViewById(R.id.contacts_list);
 	}
 	
-	private class ContactHolder
+	public class ContactHolder
 	{
 		public int personId;
 		public int textReceived;
+		public int textSent;
 		public String personName;
+		public String phoneNumber;
 		public ArrayList<TextMessage> textMessages;
 		
 		public ContactHolder()
 		{
 			textMessages = new ArrayList<TextMessage>();
 			textReceived = 0;
+			textSent = 0;
 		}
 	}
 	
@@ -191,7 +238,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 			{
 				ContactHolder holder = (ContactHolder)this.getItem(position);
 				nameText.setText(holder.personName);
-				subText.setText(holder.textReceived+"");
+				subText.setText(holder.textReceived+" : " + holder.textSent);
 			}
 			return itemView;
 		}
