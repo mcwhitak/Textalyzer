@@ -2,7 +2,6 @@ package com.whitaker.textalyzer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import com.whitaker.textalyzer.TextMessage.Directions;
 
 public class ContactHolder
@@ -17,8 +16,8 @@ public class ContactHolder
 	public HashMap<String,Integer> incomingWordFrequency;
 	public HashMap<String,Integer> outgoingWordFrequency;
 	
-	public int incomingTextCount;
-	public int outgoingTextCount;
+	public int incomingTextCount; //present
+	public int outgoingTextCount; //present
 	
 	public int incomingTextAverage;
 	public int outgoingTextAverage;
@@ -27,6 +26,12 @@ public class ContactHolder
 	
 	public long totalIncomingDelay;
 	public long totalOutgoingDelay;
+	
+	public double averageIncomingDelay; //present
+	public double averageOutgoingDelay; //present
+	
+	public int outgoingConversationsStarted; //present
+	public int incomingConversationsStarted; //present
 	
 	public ArrayList<InstructionHolder> instructions;
 	
@@ -43,6 +48,9 @@ public class ContactHolder
 		outgoingTextCount = 0;
 		incomingTextAverage = 0;
 		outgoingTextAverage = 0;
+		
+		incomingConversationsStarted = 0; 
+		outgoingConversationsStarted = 0;
 	}
 	
 	public class InstructionHolder
@@ -92,11 +100,12 @@ public class ContactHolder
 		for (int i = 1; i < textMessages.size(); i++) //maybe size - 1
 		{
 			currentDirection = textMessages.get(i).direction;
+			long delay = textMessages.get(i).timeCreated - textMessages.get(i - 1).timeCreated;
+			
 			if (currentDirection != textMessages.get(i).direction) //Ignore times of double texts
 			{
-				long delay = textMessages.get(i).timeCreated - textMessages.get(i - 1).timeCreated;
-				//if (delay < ONE_HOUR) //conversation part of a convo
-				//{	
+				if (delay < MainActivity.ONE_HOUR) //conversation part of a convo
+				{	
 					if (currentDirection == Directions.INBOUND)
 					{
 						totalIncomingDelay += delay;
@@ -105,8 +114,23 @@ public class ContactHolder
 					{
 						totalOutgoingDelay += delay;
 					}
-				//}
+				}
+			}
+			
+			if (delay > MainActivity.ONE_HOUR * 24) //Started a conversation
+			{
+				if (currentDirection == Directions.INBOUND)
+				{
+					incomingConversationsStarted++;
+				}
+				else 
+				{
+					incomingConversationsStarted++;
+				}	
 			}
 		}	
+		averageIncomingDelay = ((int)(((totalIncomingDelay / incomingTextCount) / 1000) * 10)) / 10; //take average delay,convert to seconds, round to one digit
+		averageOutgoingDelay = ((int)(((totalOutgoingDelay / outgoingTextCount) / 1000) * 10)) / 10; //take average delay,convert to seconds, round to one digit
+
 	}
 }

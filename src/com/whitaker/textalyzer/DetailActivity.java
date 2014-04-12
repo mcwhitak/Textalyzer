@@ -61,7 +61,6 @@ public class DetailActivity extends Activity
 	
 	private class InformationAdapter extends BaseAdapter
 	{
-
 		@Override
 		public int getCount() 
 		{
