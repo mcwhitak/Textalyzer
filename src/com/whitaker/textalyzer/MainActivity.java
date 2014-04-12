@@ -69,7 +69,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 				String body = cursor.getString(13);
 				holder.textReceivedLength += body.length(); 
 				
-				setWordFrequency(body, Directions.INBOUND, holder);
+				determineWordFrequency(body, Directions.INBOUND, holder);
 				
 				holder.incomingTextCount++;
 				
@@ -102,7 +102,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 			{
 				ContactHolder holder = contactMap.get(personCode);
 				String body = cursor.getString(13);
-				setWordFrequency(body, Directions.INBOUND, holder);
+				determineWordFrequency(body, Directions.INBOUND, holder);
 				holder.textReceivedLength += body.length(); 
 				//holder.
 				holder.incomingTextCount++;
@@ -128,7 +128,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 				if(holder.phoneNumber.equals(address))
 				{
 					String body = cursor.getString(13);
-					setWordFrequency(body, Directions.OUTBOUND, holder);
+					determineWordFrequency(body, Directions.OUTBOUND, holder);
 					holder.textSentLength += body.length(); 
 					holder.outgoingTextCount++;
 					TextMessage message = new TextMessage(Directions.OUTBOUND, body, cursor.getInt(5));
@@ -151,7 +151,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 
 	}
 	
-	public void setWordFrequency (String body, Directions direction, ContactHolder holder)
+	public void determineWordFrequency (String body, Directions direction, ContactHolder holder)
 	{
 		String [] words = body.replaceAll("[!?,]", "").split("\\s+"); //remove punctuation and split by whitespace(s)
 		if (direction == Directions.OUTBOUND)
