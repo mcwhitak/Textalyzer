@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 public class DetailActivity extends Activity
 {
+	private TextView scoreHeaderTextView;
+	private TextView scoreValueTextView;
+	private TextView contactNameTextView;
 	private TextView titleText;
 	private TextView subText;
 	private TextView thirdText;
@@ -39,8 +42,9 @@ public class DetailActivity extends Activity
 				outgoing++;
 			}
 		}
-		titleText.setText(holder.personName);
-		subText.setText(holder.phoneNumber);
+		contactNameTextView.setText(holder.personName);
+		titleText.setText("Phone: " + holder.phoneNumber);
+		subText.setText("ID: " + holder.personId);
 		
 		thirdText.setText("Outgoing: " + outgoing);
 		fourthText.setText("Incoming: " + incoming);
@@ -48,6 +52,9 @@ public class DetailActivity extends Activity
 	
 	private void grabAllViews()
 	{
+		scoreHeaderTextView = (TextView)findViewById(R.id.score_header);
+		scoreValueTextView = (TextView)findViewById(R.id.score_value);
+		contactNameTextView = (TextView)findViewById(R.id.contact_name);
 		titleText = (TextView)findViewById(R.id.title_text);
 		subText = (TextView)findViewById(R.id.subtitle_text);
 		thirdText = (TextView)findViewById(R.id.third_text);

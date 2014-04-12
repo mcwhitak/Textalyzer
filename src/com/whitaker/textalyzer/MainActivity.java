@@ -138,6 +138,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 	private void grabAllViews()
 	{
 		contactListView = (ListView)findViewById(R.id.contacts_list);
+		
 	}
 	
 	public class ContactHolder
@@ -211,13 +212,11 @@ public class MainActivity extends Activity implements OnItemClickListener
 			}
 			
 			TextView nameText = (TextView)itemView.findViewById(R.id.contact_item_name);
-			TextView subText = (TextView)itemView.findViewById(R.id.contact_item_subtitle);
 			
 			if(position < contactMap.size())
 			{
 				ContactHolder holder = (ContactHolder)this.getItem(position);
 				nameText.setText(holder.personName);
-				subText.setText(holder.textReceived+" : " + holder.textSent);
 			}
 			return itemView;
 		}

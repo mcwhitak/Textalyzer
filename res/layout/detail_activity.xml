@@ -3,37 +3,99 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.whitaker.textalyzer.MainActivity$PlaceholderFragment" >
+	<RelativeLayout
+	    android:id="@+id/relative_header"
+		android:layout_width="match_parent"
+		android:layout_height="320dp"
+		android:background="#FF6600"
+		android:layout_margin="20dp"
+	>
+		<TextView
+		    android:id="@+id/score_header"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_centerHorizontal="true"
+		    android:layout_alignParentTop="true"
+		    android:padding="10dp"
+		    android:textSize="30sp"
+		    android:textColor="#FFFFFF"
+		    android:text="Friend Score"
+		/>
+		
+		<TextView
+		    android:id="@+id/score_value"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_centerVertical="true"
+		    android:layout_centerHorizontal="true"
+		    android:padding="10dp"
+		    android:textSize="120sp"
+		    android:textColor="#FFFFFF"
+		    android:text="96"
+		/>
+		
+		<TextView
+		    android:id="@+id/contact_name"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_centerHorizontal="true"
+		    android:layout_alignParentBottom="true"
+		    android:padding="10dp"
+		    android:textSize="34sp"
+		    android:textColor="#FFFFFF"
+		/>
+		
+	</RelativeLayout>
 	
-	<TextView
-        android:id="@+id/title_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="32sp"
-   	/>
+	<View
+	    android:id="@+id/break1"
+	    android:layout_width="match_parent"
+	    android:layout_height="1dp"
+	    android:layout_below="@id/relative_header"
+	    android:background="#B2B2CC"
+	    android:layout_marginLeft="10dp"
+	    android:layout_marginRight="10dp"
+	/>
 	
-	<TextView
-        android:id="@+id/subtitle_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:layout_below="@id/title_text"
-   	/>
+	<RelativeLayout
+	    android:id="@+id/relative_information"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@id/break1"
+	    android:padding="10dp"   
+	 >
+	 	<TextView
+        	android:id="@+id/title_text"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:textSize="20sp"
+        	android:layout_alignParentTop="true"
+   		/>
 	
-	<TextView
-        android:id="@+id/third_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:layout_below="@id/subtitle_text"
-   	/>	
+		<TextView
+        	android:id="@+id/subtitle_text"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:textSize="20sp"
+        	android:layout_below="@id/title_text"
+   		/>
+	
+		<TextView
+        	android:id="@+id/third_text"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:textSize="20sp"
+        	android:layout_below="@id/subtitle_text"
+   		/>	
    	
-   	<TextView
-        android:id="@+id/fourth_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:layout_below="@id/third_text"
-   	/>
+   		<TextView
+        	android:id="@+id/fourth_text"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:textSize="20sp"
+        	android:layout_below="@id/third_text"
+   		/>
+	</RelativeLayout>
 
 
 </RelativeLayout>
