@@ -14,11 +14,10 @@
         android:layout_alignParentLeft="true"
    	/>
     
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:orientation="vertical"
         android:layout_alignParentRight="true"
    	>
         
@@ -26,6 +25,7 @@
        		android:id="@+id/result_item_value1"
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content"
+        	android:layout_alignParentRight="true"
         	android:textSize="16sp"
         	android:padding="5dp"
   		/>
@@ -34,11 +34,13 @@
         	android:id="@+id/result_item_value2"
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content"
+        	android:layout_alignParentRight="true"
+        	android:layout_below="@id/result_item_value1"
         	android:textSize="16sp"
         	android:padding="5dp"
         	android:visibility="gone"
     	/>
-    </LinearLayout>
+    </RelativeLayout>
     
     
 </RelativeLayout>

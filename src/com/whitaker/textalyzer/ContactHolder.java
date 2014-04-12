@@ -16,21 +16,21 @@ public class ContactHolder
 	public HashMap<String,Integer> incomingWordFrequency;
 	public HashMap<String,Integer> outgoingWordFrequency;
 	
-	public int incomingTextCount; //present
+	public int incomingTextCount; //present DONE
 	public int outgoingTextCount; //present
 	
-	public int incomingTextAverage;
-	public int outgoingTextAverage;
+	public int incomingTextAverage; //present DONE
+	public int outgoingTextAverage; //present
 	
 	public long timeOfFirstText;
 	
 	public long totalIncomingDelay;
 	public long totalOutgoingDelay;
 	
-	public double averageIncomingDelay; //present
+	public double averageIncomingDelay; //present DONE
 	public double averageOutgoingDelay; //present
 	
-	public int outgoingConversationsStarted; //present
+	public int outgoingConversationsStarted; //present MESSED UP
 	public int incomingConversationsStarted; //present
 	
 	public ArrayList<InstructionHolder> instructions;
@@ -92,8 +92,20 @@ public class ContactHolder
 	
 	public void analyze() 
 	{
-		incomingTextAverage = textReceivedLength / incomingTextCount;
-		outgoingTextAverage = textReceivedLength / incomingTextCount;
+		incomingTextAverage = 0;
+		if(incomingTextCount != 0)
+		{
+			incomingTextAverage = textReceivedLength / incomingTextCount;
+			addInstruction("Average Length", "Incoming: " + incomingTextAverage, null);
+		}
+		
+		outgoingTextAverage = 0;
+		if(outgoingTextCount != 0)
+		{
+			outgoingTextAverage = textSentLength / outgoingTextCount;
+			addInstruction("Average Length", null, "Outgoing: " + outgoingTextAverage);
+		}
+		
 		//TODO Calculate most common words, filter out articles, pronouns, etc
 		timeOfFirstText = textMessages.get(0).timeCreated;
 		Directions currentDirection = textMessages.get(0).direction;
@@ -117,7 +129,7 @@ public class ContactHolder
 				}
 			}
 			
-			if (delay > MainActivity.ONE_HOUR * 24) //Started a conversation
+			if (delay > MainActivity.ONE_HOUR * 12) //Started a conversation
 			{
 				if (currentDirection == Directions.INBOUND)
 				{
@@ -125,10 +137,15 @@ public class ContactHolder
 				}
 				else 
 				{
-					incomingConversationsStarted++;
+					outgoingConversationsStarted++;
 				}	
 			}
 		}	
+		
+		addInstruction("Coversations Started", "Them: " + incomingConversationsStarted, "You: " + outgoingConversationsStarted);
+		
+		
+		
 		averageIncomingDelay = 0;
 		averageOutgoingDelay = 0;
 		
