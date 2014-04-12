@@ -8,7 +8,9 @@ import java.util.TreeMap;
 
 import android.util.Log;
 
+import com.whitaker.textalyzer.MainActivity.ContactHolder;
 import com.whitaker.textalyzer.TextMessage.Directions;
+
 
 public class ConversationHolder {
 		
@@ -19,10 +21,12 @@ public class ConversationHolder {
 		private double averageInboundLength;
 		private int numOutbound;
 		private int numInbound;
+		private String name;
 		
-		public Person(ArrayList<TextMessage> textMessages)
+		public Person(ContactHolder contact)
 		{
-			this.textMessages = textMessages;
+			this.name = contact.personName;
+			this.textMessages = contact.textMessages;
 			double inboundTotal = 0, outboundTotal = 0;
 			
 			for (int i = 0; i < textMessages.size(); i++)
@@ -46,17 +50,16 @@ public class ConversationHolder {
 	}
 	
 	private Map<Integer,Person> conversations;
-	private String name;
 	
-	public ConversationHolder(TreeMap<Integer, ArrayList<TextMessage>> textMap, String name) 
+	//Int -> Contact Holder (ArrayList, Name)
+	public ConversationHolder(TreeMap<Integer,ContactHolder> textMap) 
 	{
 		this.conversations = new HashMap<Integer, Person> ();
         for(int key: textMap.keySet())
         {
         	Person person = new Person(textMap.get(key));
         	conversations.put(key, person);
-        	this.name = name;
-        	Log.d("Roy Stuff.", this.name + " Outbound average length: " + conversations.get(key).averageOutboundLength);
+        	Log.d("Roy Stuff.", person.name + " Outbound average length: " + conversations.get(key).averageOutboundLength);
         }
 	}
 	

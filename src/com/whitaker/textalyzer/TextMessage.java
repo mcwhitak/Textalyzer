@@ -2,10 +2,10 @@ package com.whitaker.textalyzer;
 
 public class TextMessage 
 {
-	private enum Directions {OUTBOUND, INBOUND};
-	private Directions direction;
-	private String body;
-	private long timeCreated;
+	public enum Directions {OUTBOUND, INBOUND};
+	public Directions direction;
+	public String body;
+	public long timeCreated;
 
 	public TextMessage(Directions direction, String body, int timeCreated) 
 	{

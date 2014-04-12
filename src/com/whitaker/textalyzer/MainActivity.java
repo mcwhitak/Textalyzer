@@ -106,7 +106,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 		contactListView = (ListView)findViewById(R.id.contacts_list);
 	}
 	
-	private class ContactHolder 
+	public class ContactHolder 
 	{
 		public int personId;
 		public int textReceived = 0;
