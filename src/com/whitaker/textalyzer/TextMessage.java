@@ -5,7 +5,7 @@ public class TextMessage
 	public enum Directions {OUTBOUND, INBOUND};
 	public Directions direction;
 	public String body;
-	private long timeCreated;
+	public long timeCreated;
 
 	public TextMessage(Directions direction, String body, int timeCreated) 
 	{
