@@ -39,7 +39,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 	private TextView titleText;
 	private ListView contactListView;
 	private ArrayList<ContactHolder> personList;
-	private HashMap<Integer, ContactHolder> contactMap;
+	private static HashMap<Integer, ContactHolder> contactMap;
 	private ContactsAdapter contactAdapter;
 	
 	@Override
@@ -66,7 +66,20 @@ public class MainActivity extends Activity implements OnItemClickListener
 				String body = cursor.getString(13);
 				holder.textReceived += body.length();
 				
-				holder.phoneNumber = cursor.getString(3);
+				String address = cursor.getString(3);
+				if(address.contains("+1"))
+				{
+					address = address.substring(2);
+				}
+				
+				if(address.contains(" ") || address.contains("(") || address.contains(")"))
+				{
+					address = address.replace(" ", "");
+					address = address.replace("(", "");
+					address = address.replace(")", "");
+					address = address.replace("-", "");
+				}
+				holder.phoneNumber = address;
 				
 				ContentResolver content = this.getContentResolver();
 				String[] projection = {Data.MIMETYPE,
@@ -106,6 +119,18 @@ public class MainActivity extends Activity implements OnItemClickListener
 		do
 		{
 			String address = cursor.getString(3);
+			if(address.contains("+1"))
+			{
+				address = address.substring(2);
+			}
+			
+			if(address.contains(" ") || address.contains("(") || address.contains(")"))
+			{
+				address = address.replace(" ", "");
+				address = address.replace("(", "");
+				address = address.replace(")", "");
+				address = address.replace("-", "");
+			}
 			
 			Iterator it = contactMap.entrySet().iterator();
 			while(it.hasNext())
@@ -124,30 +149,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 		}while(cursor.moveToNext());
 		cursor.close();
 		
-		/*
-		cursor = getContentResolver().query(Uri.parse("content://sms/out"), null, null, null, null);
-		while(cursor.moveToNext())
-		{
-			String address = cursor.getString(3);
-			Iterator it = contactMap.entrySet().iterator();
-			while(it.hasNext())
-			{
-				Map.Entry pairs = (Map.Entry)it.next();
-				ContactHolder holder = (ContactHolder)pairs.getValue();
-				if(holder.phoneNumber.equals(address))
-				{
-					String body = cursor.getString(13);
-					holder.textSent += body.length();
-					TextMessage message = new TextMessage(Directions.OUTBOUND, body, cursor.getInt(5));
-					holder.textMessages.add(message);
-					break;				}
-			}
-		}
-		cursor.close();
-		*/
-		
 		grabAllViews();
-		titleText.setText("FINISHED BITCH DICK PUSSY CUNT");	
 		
 		contactAdapter = new ContactsAdapter();
 		contactListView.setAdapter(contactAdapter);
@@ -157,7 +159,6 @@ public class MainActivity extends Activity implements OnItemClickListener
 	
 	private void grabAllViews()
 	{
-		titleText = (TextView)findViewById(R.id.title_text);
 		contactListView = (ListView)findViewById(R.id.contacts_list);
 	}
 	
@@ -249,6 +250,11 @@ public class MainActivity extends Activity implements OnItemClickListener
 	{
 		return this;
 	}
+	
+	public static ContactHolder getContactHolder(int id)
+	{
+		return contactMap.get(id);
+	}
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) 
@@ -259,7 +265,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 			{				
 				ContactHolder contact = (ContactHolder)contactListView.getAdapter().getItem(position);
 				Intent intent = new Intent(getCtx(), DetailActivity.class);
-				intent.putExtra("name", contact.personName);
+				intent.putExtra("id", contact.personId);
 				startActivity(intent);
 			}
 		}

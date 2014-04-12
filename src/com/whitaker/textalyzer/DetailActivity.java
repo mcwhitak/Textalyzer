@@ -1,5 +1,7 @@
 package com.whitaker.textalyzer;
 
+import com.whitaker.textalyzer.MainActivity.ContactHolder;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -16,11 +18,12 @@ public class DetailActivity extends Activity
 		this.setContentView(R.layout.detail_activity);
 		
 		Bundle b = getIntent().getExtras();
-		String name = b.getString("name");
-		
+		Integer id = b.getInt("id");
 		grabAllViews();
 		
-		titleText.setText(name);
+		ContactHolder holder = MainActivity.getContactHolder(id);
+		titleText.setText(holder.personName);
+		subText.setText(holder.phoneNumber);
 	}
 	
 	private void grabAllViews()
