@@ -2,6 +2,11 @@ package com.whitaker.textalyzer;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import com.whitaker.textalyzer.TextMessage.Directions;
 
 import android.app.Activity;
 import android.app.ActionBar;
@@ -12,6 +17,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,7 +39,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 	private TextView titleText;
 	private ListView contactListView;
 	private ArrayList<ContactHolder> personList;
-	private ArrayList<Integer> personIdList;
+	private HashMap<Integer, ContactHolder> contactMap;
 	private ContactsAdapter contactAdapter;
 	
 	@Override
@@ -42,23 +49,27 @@ public class MainActivity extends Activity implements OnItemClickListener
 		setContentView(R.layout.activity_main);
 		
 		personList = new ArrayList<ContactHolder>();
-		personIdList = new ArrayList<Integer>();
+		contactMap = new HashMap<Integer, ContactHolder>();
 		
 		Cursor cursor = getContentResolver().query(Uri.parse("content://sms/inbox"), null, null, null, null);
 		cursor.moveToFirst();
 		do
 		{
-			Integer personCode = cursor.getInt(4);
-					
-			if(!personIdList.contains(personCode) && personCode!=0)
+			for(int i=0; i<cursor.getColumnCount(); i++)
 			{
-				personIdList.add(personCode);
+				Log.d("CATEGORY", cursor.getColumnName(i) + " : " + i);
+			}
+			//Each message is a separate while loop call
+			Integer personCode = cursor.getInt(4);
+			
+			if(contactMap.get(personCode) == null && personCode != 0)
+			{
 				ContactHolder holder = new ContactHolder();
 				holder.personId = personCode;
-						
+				
 				String body = cursor.getString(13);
 				holder.textReceived += body.length();
-						
+				
 				ContentResolver content = this.getContentResolver();
 				String[] projection = {Data.MIMETYPE,
 						ContactsContract.Contacts._ID,
@@ -74,19 +85,19 @@ public class MainActivity extends Activity implements OnItemClickListener
 				conCursor.moveToFirst();
 				String displayName = conCursor.getString(2);
 				holder.personName = displayName;
-				personList.add(holder);
+				contactMap.put(personCode, holder);
 				conCursor.close();
+				
+				TextMessage message = new TextMessage(Directions.INBOUND, body, cursor.getInt(5));
+				holder.textMessages.add(message);
 			}
-			else
+			else if(personCode != 0)
 			{
-				for(int i=0; i<personList.size(); i++)
-				{
-					if(personList.get(i).personId == personCode)
-					{
-						String body = cursor.getString(13);
-						personList.get(i).textReceived += body.length();
-					}
-				}
+				ContactHolder holder = contactMap.get(personCode);
+				String body = cursor.getString(13);
+				holder.textReceived += body.length();
+				TextMessage message = new TextMessage(Directions.INBOUND, body, cursor.getInt(5));
+				holder.textMessages.add(message);
 			}
 			
 		}while(cursor.moveToNext());
@@ -109,8 +120,15 @@ public class MainActivity extends Activity implements OnItemClickListener
 	public class ContactHolder 
 	{
 		public int personId;
-		public int textReceived = 0;
+		public int textReceived;
 		public String personName;
+		public ArrayList<TextMessage> textMessages;
+		
+		public ContactHolder()
+		{
+			textMessages = new ArrayList<TextMessage>();
+			textReceived = 0;
+		}
 	}
 	
 	private class ContactsAdapter extends BaseAdapter
@@ -118,19 +136,42 @@ public class MainActivity extends Activity implements OnItemClickListener
 		@Override
 		public int getCount() 
 		{
-			return personList.size();
+			return contactMap.size();
 		}
 
 		@Override
 		public Object getItem(int position) 
 		{
-			return personList.get(position);
+			Iterator it = contactMap.entrySet().iterator();
+			int i=0;
+			while(it.hasNext())
+			{
+				Map.Entry pairs = (Map.Entry)it.next();
+				if(i == position)
+				{
+					return pairs.getValue();
+				}
+				i++;
+			}
+			return null;
 		}
 
 		@Override
 		public long getItemId(int position)
 		{
-			return personList.get(position).personId;
+			Iterator it = contactMap.entrySet().iterator();
+			int i=0;
+			while(it.hasNext())
+			{
+				Map.Entry pairs = (Map.Entry)it.next();
+				if(i == position)
+				{
+					ContactHolder holder = (ContactHolder)pairs.getValue();
+					return holder.personId;
+				}
+				i++;
+			}
+			return -1;
 		}
 
 		@Override
@@ -146,10 +187,11 @@ public class MainActivity extends Activity implements OnItemClickListener
 			TextView nameText = (TextView)itemView.findViewById(R.id.contact_item_name);
 			TextView subText = (TextView)itemView.findViewById(R.id.contact_item_subtitle);
 			
-			if(position < personList.size())
+			if(position < contactMap.size())
 			{
-				nameText.setText(personList.get(position).personName);
-				subText.setText(personList.get(position).textReceived + "");//
+				ContactHolder holder = (ContactHolder)this.getItem(position);
+				nameText.setText(holder.personName);
+				subText.setText(holder.textReceived+"");
 			}
 			return itemView;
 		}
@@ -166,9 +208,9 @@ public class MainActivity extends Activity implements OnItemClickListener
 	{
 		if(parent == contactListView)
 		{
-			if(position < personList.size())
+			if(position < contactMap.size())
 			{				
-				ContactHolder contact = personList.get(position);
+				ContactHolder contact = (ContactHolder)contactListView.getAdapter().getItem(position);
 				Intent intent = new Intent(getCtx(), DetailActivity.class);
 				intent.putExtra("name", contact.personName);
 				startActivity(intent);
