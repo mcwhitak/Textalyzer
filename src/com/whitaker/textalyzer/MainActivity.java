@@ -8,6 +8,7 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,7 +27,7 @@ import android.os.Build;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Data;
 
-public class MainActivity extends Activity 
+public class MainActivity extends Activity implements OnItemClickListener
 {
 	private TextView titleText;
 	private ListView contactListView;
@@ -49,8 +52,6 @@ public class MainActivity extends Activity
 					
 			if(!personIdList.contains(personCode) && personCode!=0)
 			{
-				Log.d("CATEGORY", cursor.getString(5) + " : DATE");
-				Log.d("CATEGORY", cursor.getString(6) + " : DATE_SENT");
 				personIdList.add(personCode);
 				ContactHolder holder = new ContactHolder();
 				holder.personId = personCode;
@@ -95,6 +96,7 @@ public class MainActivity extends Activity
 		
 		contactAdapter = new ContactsAdapter();
 		contactListView.setAdapter(contactAdapter);
+		contactListView.setOnItemClickListener(this);
 
 	}
 	
@@ -157,6 +159,21 @@ public class MainActivity extends Activity
 	private Activity getCtx()
 	{
 		return this;
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) 
+	{
+		if(parent == contactListView)
+		{
+			if(position < personList.size())
+			{				
+				ContactHolder contact = personList.get(position);
+				Intent intent = new Intent(getCtx(), DetailActivity.class);
+				intent.putExtra("name", contact.personName);
+				startActivity(intent);
+			}
+		}
 	}
 	
 }
