@@ -1,6 +1,5 @@
 package com.whitaker.textalyzer;
 
-import com.whitaker.textalyzer.MainActivity.ContactHolder;
 import com.whitaker.textalyzer.TextMessage.Directions;
 
 import android.app.Activity;
