@@ -27,7 +27,8 @@ public class MainActivity extends Activity
 {
 	private TextView titleText;
 	private ListView contactListView;
-	private ArrayList<Integer> personList;
+	private ArrayList<ContactHolder> personList;
+	private ArrayList<Integer> personIdList;
 	private ContactsAdapter contactAdapter;
 	
 	@Override
@@ -36,7 +37,9 @@ public class MainActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		personList = new ArrayList<Integer>();
+		personList = new ArrayList<ContactHolder>();
+		personIdList = new ArrayList<Integer>();
+		
 		
 		Cursor cursor = getContentResolver().query(Uri.parse("content://sms/inbox"), null, null, null, null);
 		cursor.moveToFirst();
@@ -47,9 +50,12 @@ public class MainActivity extends Activity
 				if(i == 4)
 				{
 					Integer personCode = cursor.getInt(i);
-					if(!personList.contains(personCode) && personCode!=0)
+					
+					if(!personIdList.contains(personCode) && personCode!=0)
 					{
-						personList.add(cursor.getInt(i));
+						personIdList.add(personCode);
+						ContactHolder holder = new ContactHolder();
+						holder.personId = personCode;
 						
 						ContentResolver content = this.getContentResolver();
 						String[] projection = {Data.MIMETYPE,
@@ -63,7 +69,11 @@ public class MainActivity extends Activity
 						String sortOrder = Data.LOOKUP_KEY;
 						String[] args = {personCode+""};
 						Cursor conCursor = content.query(Data.CONTENT_URI, projection, selection, args, sortOrder);
-						
+						conCursor.moveToFirst();
+						String displayName = conCursor.getString(2);
+						holder.personName = displayName;
+						personList.add(holder);
+						conCursor.close();
 					}
 				}
 				//Log.d("CATEGORY", cursor.getColumnName(i) + " : " + i);
@@ -85,6 +95,12 @@ public class MainActivity extends Activity
 		contactListView = (ListView)findViewById(R.id.contacts_list);
 	}
 	
+	private class ContactHolder 
+	{
+		public int personId;
+		public String personName;
+	}
+	
 	private class ContactsAdapter extends BaseAdapter
 	{
 		@Override
@@ -102,7 +118,7 @@ public class MainActivity extends Activity
 		@Override
 		public long getItemId(int position)
 		{
-			return personList.get(position);
+			return personList.get(position).personId;
 		}
 
 		@Override
@@ -120,7 +136,8 @@ public class MainActivity extends Activity
 			
 			if(position < personList.size())
 			{
-				nameText.setText(personList.get(position).toString());
+				nameText.setText(personList.get(position).personName);
+				subText.setText(personList.get(position).personId + "");//
 			}
 			return itemView;
 		}
