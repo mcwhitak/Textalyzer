@@ -67,18 +67,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 				holder.textReceived += body.length();
 				
 				String address = cursor.getString(3);
-				if(address.contains("+1"))
-				{
-					address = address.substring(2);
-				}
-				
-				if(address.contains(" ") || address.contains("(") || address.contains(")"))
-				{
-					address = address.replace(" ", "");
-					address = address.replace("(", "");
-					address = address.replace(")", "");
-					address = address.replace("-", "");
-				}
+				address = addressClipper(address);
 				holder.phoneNumber = address;
 				
 				ContentResolver content = this.getContentResolver();
@@ -119,18 +108,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 		do
 		{
 			String address = cursor.getString(3);
-			if(address.contains("+1"))
-			{
-				address = address.substring(2);
-			}
-			
-			if(address.contains(" ") || address.contains("(") || address.contains(")"))
-			{
-				address = address.replace(" ", "");
-				address = address.replace("(", "");
-				address = address.replace(")", "");
-				address = address.replace("-", "");
-			}
+			address = addressClipper(address);
 			
 			Iterator it = contactMap.entrySet().iterator();
 			while(it.hasNext())
@@ -244,6 +222,24 @@ public class MainActivity extends Activity implements OnItemClickListener
 			return itemView;
 		}
 		
+	}
+	
+	private String addressClipper(String address)
+	{
+		if(address.contains("+1"))
+		{
+			address = address.substring(2);
+		}
+		
+		if(address.contains(" ") || address.contains("(") || address.contains(")"))
+		{
+			address = address.replace(" ", "");
+			address = address.replace("(", "");
+			address = address.replace(")", "");
+			address = address.replace("-", "");
+		}
+		
+		return address;
 	}
 	
 	private Activity getCtx()
