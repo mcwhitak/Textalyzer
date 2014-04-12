@@ -195,8 +195,6 @@ public class MainActivity extends Activity implements OnItemClickListener
 		
 	}
 	
-
-	
 	private class ContactsAdapter extends BaseAdapter
 	{
 		@Override
@@ -276,7 +274,6 @@ public class MainActivity extends Activity implements OnItemClickListener
 			address = address.replace(")", "");
 			address = address.replace("-", "");
 		}
-		
 		return address;
 	}
 	
