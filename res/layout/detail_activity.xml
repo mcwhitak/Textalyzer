@@ -57,45 +57,12 @@
 	    android:layout_marginRight="10dp"
 	/>
 	
-	<RelativeLayout
-	    android:id="@+id/relative_information"
+	<ListView
+	    android:id="@+id/list_information"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:layout_below="@id/break1"
-	    android:padding="10dp"   
-	 >
-	 	<TextView
-        	android:id="@+id/title_text"
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:textSize="20sp"
-        	android:layout_alignParentTop="true"
-   		/>
-	
-		<TextView
-        	android:id="@+id/subtitle_text"
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:textSize="20sp"
-        	android:layout_below="@id/title_text"
-   		/>
-	
-		<TextView
-        	android:id="@+id/third_text"
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:textSize="20sp"
-        	android:layout_below="@id/subtitle_text"
-   		/>	
-   	
-   		<TextView
-        	android:id="@+id/fourth_text"
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:textSize="20sp"
-        	android:layout_below="@id/third_text"
-   		/>
-	</RelativeLayout>
-
+	    android:padding="10dp"
+	/>
 
 </RelativeLayout>

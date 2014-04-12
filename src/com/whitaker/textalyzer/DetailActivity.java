@@ -5,6 +5,10 @@ import com.whitaker.textalyzer.TextMessage.Directions;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class DetailActivity extends Activity
@@ -12,10 +16,7 @@ public class DetailActivity extends Activity
 	private TextView scoreHeaderTextView;
 	private TextView scoreValueTextView;
 	private TextView contactNameTextView;
-	private TextView titleText;
-	private TextView subText;
-	private TextView thirdText;
-	private TextView fourthText;
+	private ListView informationListView;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -43,11 +44,6 @@ public class DetailActivity extends Activity
 			}
 		}
 		contactNameTextView.setText(holder.personName);
-		titleText.setText("Phone: " + holder.phoneNumber);
-		subText.setText("ID: " + holder.personId);
-		
-		thirdText.setText("Outgoing: " + outgoing);
-		fourthText.setText("Incoming: " + incoming);
 	}
 	
 	private void grabAllViews()
@@ -55,9 +51,39 @@ public class DetailActivity extends Activity
 		scoreHeaderTextView = (TextView)findViewById(R.id.score_header);
 		scoreValueTextView = (TextView)findViewById(R.id.score_value);
 		contactNameTextView = (TextView)findViewById(R.id.contact_name);
-		titleText = (TextView)findViewById(R.id.title_text);
-		subText = (TextView)findViewById(R.id.subtitle_text);
-		thirdText = (TextView)findViewById(R.id.third_text);
-		fourthText = (TextView)findViewById(R.id.fourth_text);
+		informationListView = (ListView)findViewById(R.id.list_information);
+	}
+	
+	private class InformationAdapter extends BaseAdapter
+	{
+
+		@Override
+		public int getCount() 
+		{
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public Object getItem(int position)
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public long getItemId(int position) 
+		{
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) 
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
 	}
 }
