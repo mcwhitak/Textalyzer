@@ -41,43 +41,51 @@ public class MainActivity extends Activity
 		personList = new ArrayList<ContactHolder>();
 		personIdList = new ArrayList<Integer>();
 		
-		
 		Cursor cursor = getContentResolver().query(Uri.parse("content://sms/inbox"), null, null, null, null);
 		cursor.moveToFirst();
 		do
 		{
-			for(int i=0; i<cursor.getColumnCount(); i++)
-			{
-				if(i == 4)
-				{
-					Integer personCode = cursor.getInt(i);
+			Integer personCode = cursor.getInt(4);
 					
-					if(!personIdList.contains(personCode) && personCode!=0)
+			if(!personIdList.contains(personCode) && personCode!=0)
+			{
+				Log.d("CATEGORY", cursor.getString(5) + " : DATE");
+				Log.d("CATEGORY", cursor.getString(6) + " : DATE_SENT");
+				personIdList.add(personCode);
+				ContactHolder holder = new ContactHolder();
+				holder.personId = personCode;
+						
+				String body = cursor.getString(13);
+				holder.textReceived += body.length();
+						
+				ContentResolver content = this.getContentResolver();
+				String[] projection = {Data.MIMETYPE,
+						ContactsContract.Contacts._ID,
+						ContactsContract.Contacts.DISPLAY_NAME,
+						ContactsContract.CommonDataKinds.Phone.NUMBER,
+						ContactsContract.CommonDataKinds.Email.ADDRESS
+				};
+						
+				String selection = ContactsContract.Data.RAW_CONTACT_ID + "=?";
+				String sortOrder = Data.LOOKUP_KEY;
+				String[] args = {personCode+""};
+				Cursor conCursor = content.query(Data.CONTENT_URI, projection, selection, args, sortOrder);
+				conCursor.moveToFirst();
+				String displayName = conCursor.getString(2);
+				holder.personName = displayName;
+				personList.add(holder);
+				conCursor.close();
+			}
+			else
+			{
+				for(int i=0; i<personList.size(); i++)
+				{
+					if(personList.get(i).personId == personCode)
 					{
-						personIdList.add(personCode);
-						ContactHolder holder = new ContactHolder();
-						holder.personId = personCode;
-						
-						ContentResolver content = this.getContentResolver();
-						String[] projection = {Data.MIMETYPE,
-								ContactsContract.Contacts._ID,
-								ContactsContract.Contacts.DISPLAY_NAME,
-								ContactsContract.CommonDataKinds.Phone.NUMBER,
-								ContactsContract.CommonDataKinds.Email.ADDRESS
-						};
-						
-						String selection = ContactsContract.Data.RAW_CONTACT_ID + "=?";
-						String sortOrder = Data.LOOKUP_KEY;
-						String[] args = {personCode+""};
-						Cursor conCursor = content.query(Data.CONTENT_URI, projection, selection, args, sortOrder);
-						conCursor.moveToFirst();
-						String displayName = conCursor.getString(2);
-						holder.personName = displayName;
-						personList.add(holder);
-						conCursor.close();
+						String body = cursor.getString(13);
+						personList.get(i).textReceived += body.length();
 					}
 				}
-				//Log.d("CATEGORY", cursor.getColumnName(i) + " : " + i);
 			}
 			
 		}while(cursor.moveToNext());
@@ -99,6 +107,7 @@ public class MainActivity extends Activity
 	private class ContactHolder 
 	{
 		public int personId;
+		public int textReceived = 0;
 		public String personName;
 	}
 	
@@ -138,7 +147,7 @@ public class MainActivity extends Activity
 			if(position < personList.size())
 			{
 				nameText.setText(personList.get(position).personName);
-				subText.setText(personList.get(position).personId + "");//
+				subText.setText(personList.get(position).textReceived + "");//
 			}
 			return itemView;
 		}
