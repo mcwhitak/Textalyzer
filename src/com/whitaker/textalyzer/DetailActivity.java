@@ -17,6 +17,7 @@ public class DetailActivity extends Activity
 	private TextView scoreValueTextView;
 	private TextView contactNameTextView;
 	private ListView informationListView;
+	private int FIELDS = 10;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -60,22 +61,19 @@ public class DetailActivity extends Activity
 		@Override
 		public int getCount() 
 		{
-			// TODO Auto-generated method stub
-			return 0;
+			return FIELDS;
 		}
 
 		@Override
 		public Object getItem(int position)
 		{
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
 		public long getItemId(int position) 
 		{
-			// TODO Auto-generated method stub
-			return 0;
+			return -1;
 		}
 
 		@Override
