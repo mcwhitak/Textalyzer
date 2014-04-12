@@ -48,6 +48,7 @@ public class DetailActivity extends Activity
 			}
 		}
 		contactNameTextView.setText(contactHolder.personName);
+		informationListView.setAdapter(new InformationAdapter());
 	}
 	
 	private void grabAllViews()
@@ -109,7 +110,6 @@ public class DetailActivity extends Activity
 					val2Text.setVisibility(View.GONE);
 				}
 			}
-			
 			
 			return itemView;
 		}

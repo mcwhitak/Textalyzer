@@ -72,6 +72,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 				determineWordFrequency(body, Directions.INBOUND, holder);
 				
 				holder.incomingTextCount++;
+				holder.addInstruction("Text Count:", "Incoming: " + holder.incomingTextCount, null);
 				
 				String address = cursor.getString(3);
 				address = addressClipper(address);
@@ -104,8 +105,8 @@ public class MainActivity extends Activity implements OnItemClickListener
 				String body = cursor.getString(13);
 				determineWordFrequency(body, Directions.INBOUND, holder);
 				holder.textReceivedLength += body.length(); 
-				//holder.
 				holder.incomingTextCount++;
+				holder.addInstruction("Text Count:", "Incoming: " + holder.incomingTextCount, null);
 				TextMessage message = new TextMessage(Directions.INBOUND, body, cursor.getInt(5));
 				holder.textMessages.add(message);
 			}
@@ -131,6 +132,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 					determineWordFrequency(body, Directions.OUTBOUND, holder);
 					holder.textSentLength += body.length(); 
 					holder.outgoingTextCount++;
+					holder.addInstruction("Text Count:", null, "Outgoing: " + holder.outgoingTextCount);
 					TextMessage message = new TextMessage(Directions.OUTBOUND, body, cursor.getInt(5));
 					holder.textMessages.add(message);
 					break;

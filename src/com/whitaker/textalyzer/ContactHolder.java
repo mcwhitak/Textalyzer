@@ -54,14 +54,17 @@ public class ContactHolder
 	
 	public void addInstruction(String instruction, String value1, String value2)
 	{
-		if(instruction != null && value1 != null)
+		if(instruction != null)
 		{
 			boolean found = false;
 			for(int i=0; i<instructions.size(); i++)
 			{
 				if(instructions.get(i).instruction.equals(instruction))
 				{
-					instructions.get(i).value1 = value1;
+					if(value1 != null)
+					{
+						instructions.get(i).value1 = value1;
+					}
 					instructions.get(i).value2 = value2;
 					found = true;
 					break;
