@@ -1,0 +1,14 @@
+.DS_Store
+.metadata/
+bin/
+tmp/
+gen/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+
+!.gitignore
+
