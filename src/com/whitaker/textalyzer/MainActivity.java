@@ -42,7 +42,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 	private static HashMap<Integer, ContactHolder> contactMap;
 	private ContactsAdapter contactAdapter;
 	
-	public final int ONE_HOUR = 60 * 60 * 1000;
+	public static final int ONE_HOUR = 60 * 60 * 1000;
 	
 	
 	@Override
