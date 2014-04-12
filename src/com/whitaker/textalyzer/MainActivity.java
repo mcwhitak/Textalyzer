@@ -42,6 +42,9 @@ public class MainActivity extends Activity implements OnItemClickListener
 	private static HashMap<Integer, ContactHolder> contactMap;
 	private ContactsAdapter contactAdapter;
 	
+	public final int ONE_HOUR = 60 * 60 * 1000;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
@@ -64,7 +67,11 @@ public class MainActivity extends Activity implements OnItemClickListener
 				holder.personId = personCode;
 				
 				String body = cursor.getString(13);
-				holder.textReceived += body.length();
+				holder.textReceivedLength += body.length(); 
+				
+				setWordFrequency(body, Directions.INBOUND, holder);
+				
+				holder.incomingTextCount++;
 				
 				String address = cursor.getString(3);
 				address = addressClipper(address);
@@ -95,7 +102,10 @@ public class MainActivity extends Activity implements OnItemClickListener
 			{
 				ContactHolder holder = contactMap.get(personCode);
 				String body = cursor.getString(13);
-				holder.textReceived += body.length();
+				setWordFrequency(body, Directions.INBOUND, holder);
+				holder.textReceivedLength += body.length(); 
+				//holder.
+				holder.incomingTextCount++;
 				TextMessage message = new TextMessage(Directions.INBOUND, body, cursor.getInt(5));
 				holder.textMessages.add(message);
 			}
@@ -118,7 +128,9 @@ public class MainActivity extends Activity implements OnItemClickListener
 				if(holder.phoneNumber.equals(address))
 				{
 					String body = cursor.getString(13);
-					holder.textSent += body.length();
+					setWordFrequency(body, Directions.OUTBOUND, holder);
+					holder.textSentLength += body.length(); 
+					holder.outgoingTextCount++;
 					TextMessage message = new TextMessage(Directions.OUTBOUND, body, cursor.getInt(5));
 					holder.textMessages.add(message);
 					break;
@@ -127,12 +139,52 @@ public class MainActivity extends Activity implements OnItemClickListener
 		}while(cursor.moveToNext());
 		cursor.close();
 		
+		
 		grabAllViews();
+		
+		//create a runnable thread that starts before grab all views
+		
 		
 		contactAdapter = new ContactsAdapter();
 		contactListView.setAdapter(contactAdapter);
 		contactListView.setOnItemClickListener(this);
 
+	}
+	
+	public void setWordFrequency (String body, Directions direction, ContactHolder holder)
+	{
+		String [] words = body.replaceAll("[!?,]", "").split("\\s+"); //remove punctuation and split by whitespace(s)
+		if (direction == Directions.OUTBOUND)
+		{
+			for (String word: words)
+			{
+		        Integer frequency = holder.outgoingWordFrequency.get(word); //Must use wrapper to utilize null below
+		        if (frequency == null)
+		        {
+		        	holder.outgoingWordFrequency.put(word,1);	
+		        } 
+		        else 
+		        {
+		        	holder.outgoingWordFrequency.put(word,frequency.intValue() + 1);
+		        }
+			}
+		} 
+		else if(direction == Directions.INBOUND)
+		{
+			for (String word: words)
+			{
+		        Integer frequency = holder.incomingWordFrequency.get(word); //Must use wrapper to utilize null below
+		        if (frequency == null)
+		        {
+		        	holder.incomingWordFrequency.put(word,1);	
+		        } 
+		        else 
+		        {
+		        	holder.incomingWordFrequency.put(word,frequency.intValue() + 1);
+		        }
+			}
+			
+		}
 	}
 	
 	private void grabAllViews()
@@ -144,17 +196,69 @@ public class MainActivity extends Activity implements OnItemClickListener
 	public class ContactHolder
 	{
 		public int personId;
-		public int textReceived;
-		public int textSent;
+		public int textReceivedLength;
+		public int textSentLength;
 		public String personName;
 		public String phoneNumber;
 		public ArrayList<TextMessage> textMessages;
+		public HashMap<String,Integer> incomingWordFrequency;
+		public HashMap<String,Integer> outgoingWordFrequency;
+		
+		public int incomingTextCount;
+		public int outgoingTextCount;
+		
+		public int incomingTextAverage;
+		public int outgoingTextAverage;
+		
+		public long timeOfFirstText;
+		
+		public long totalIncomingDelay;
+		public long totalOutgoingDelay;
+		
 		
 		public ContactHolder()
 		{
 			textMessages = new ArrayList<TextMessage>();
-			textReceived = 0;
-			textSent = 0;
+			incomingWordFrequency = new HashMap<String,Integer> ();
+			outgoingWordFrequency = new HashMap<String,Integer> ();
+			
+			textReceivedLength = 0;
+			textSentLength = 0;
+			incomingTextCount = 0;
+			outgoingTextCount = 0;
+			incomingTextAverage = 0;
+			outgoingTextAverage = 0;
+		}
+		
+		public void analyze() 
+		{
+			incomingTextAverage = textReceivedLength / incomingTextCount;
+			outgoingTextAverage = textReceivedLength / incomingTextCount;
+			//TODO Calculate most common words, filter out articles, pronouns, etc
+			timeOfFirstText = textMessages.get(0).timeCreated;
+			Directions currentDirection = textMessages.get(0).direction;
+			for (int i = 1; i < textMessages.size(); i++) //maybe size - 1
+			{
+				currentDirection = textMessages.get(i).direction;
+				if (currentDirection != textMessages.get(i).direction) //Ignore times of double texts
+				{
+					long delay = textMessages.get(i).timeCreated - textMessages.get(i - 1).timeCreated;
+					//if (delay < ONE_HOUR) //conversation part of a convo
+					//{	
+						if (currentDirection == Directions.INBOUND)
+						{
+							totalIncomingDelay += delay;
+						}
+						else 
+						{
+							totalOutgoingDelay += delay;
+						}
+					//}
+				}
+			}
+			
+				
+					
 		}
 	}
 	
