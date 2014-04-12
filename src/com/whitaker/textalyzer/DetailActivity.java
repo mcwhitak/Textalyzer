@@ -1,9 +1,11 @@
 package com.whitaker.textalyzer;
 
+import com.whitaker.textalyzer.ContactHolder.InstructionHolder;
 import com.whitaker.textalyzer.TextMessage.Directions;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -17,6 +19,8 @@ public class DetailActivity extends Activity
 	private TextView contactNameTextView;
 	private ListView informationListView;
 	private int FIELDS = 10;
+	private ContactHolder contactHolder;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -28,13 +32,13 @@ public class DetailActivity extends Activity
 		Integer id = b.getInt("id");
 		grabAllViews();
 		
-		ContactHolder holder = MainActivity.getContactHolder(id);
+		contactHolder = MainActivity.getContactHolder(id);
 		
 		Integer outgoing = 0;
 		Integer incoming = 0;
-		for(int i=0; i<holder.textMessages.size(); i++)
+		for(int i=0; i<contactHolder.textMessages.size(); i++)
 		{
-			if(holder.textMessages.get(i).direction == Directions.INBOUND)
+			if(contactHolder.textMessages.get(i).direction == Directions.INBOUND)
 			{
 				incoming++;
 			}
@@ -43,7 +47,7 @@ public class DetailActivity extends Activity
 				outgoing++;
 			}
 		}
-		contactNameTextView.setText(holder.personName);
+		contactNameTextView.setText(contactHolder.personName);
 	}
 	
 	private void grabAllViews()
@@ -60,27 +64,59 @@ public class DetailActivity extends Activity
 		@Override
 		public int getCount() 
 		{
-			return FIELDS;
+			return contactHolder.instructions.size();
 		}
 
 		@Override
 		public Object getItem(int position)
 		{
-			return null;
+			return contactHolder.instructions.get(position);
 		}
 
 		@Override
 		public long getItemId(int position) 
 		{
-			return -1;
+			return position;
 		}
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) 
 		{
-			// TODO Auto-generated method stub
-			return null;
+			View itemView = convertView;
+			if(convertView == null)
+			{
+				LayoutInflater li = getCtx().getLayoutInflater();
+				itemView = li.inflate(R.layout.result_item, null);
+			}
+			
+			TextView catText = (TextView)itemView.findViewById(R.id.result_item_category);
+			TextView val1Text = (TextView)itemView.findViewById(R.id.result_item_value1);
+			TextView val2Text = (TextView)itemView.findViewById(R.id.result_item_value2);
+			
+			if(position < contactHolder.instructions.size())
+			{
+				InstructionHolder iHolder = contactHolder.instructions.get(position);
+				
+				catText.setText(iHolder.instruction);
+				val1Text.setText(iHolder.value1);
+				if(iHolder.value2 != null)
+				{
+					val2Text.setText(iHolder.value2);
+					val2Text.setVisibility(View.VISIBLE);
+				}
+				else
+				{
+					val2Text.setVisibility(View.GONE);
+				}
+			}
+			
+			
+			return itemView;
 		}
-		
+	}
+	
+	private Activity getCtx()
+	{
+		return this;
 	}
 }

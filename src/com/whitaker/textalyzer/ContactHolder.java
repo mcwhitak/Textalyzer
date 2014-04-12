@@ -13,6 +13,7 @@ public class ContactHolder
 	public String personName;
 	public String phoneNumber;
 	public ArrayList<TextMessage> textMessages;
+	
 	public HashMap<String,Integer> incomingWordFrequency;
 	public HashMap<String,Integer> outgoingWordFrequency;
 	
@@ -27,10 +28,12 @@ public class ContactHolder
 	public long totalIncomingDelay;
 	public long totalOutgoingDelay;
 	
+	public ArrayList<InstructionHolder> instructions;
 	
 	public ContactHolder()
 	{
 		textMessages = new ArrayList<TextMessage>();
+		instructions = new ArrayList<InstructionHolder>();
 		incomingWordFrequency = new HashMap<String,Integer> ();
 		outgoingWordFrequency = new HashMap<String,Integer> ();
 		
@@ -40,6 +43,40 @@ public class ContactHolder
 		outgoingTextCount = 0;
 		incomingTextAverage = 0;
 		outgoingTextAverage = 0;
+	}
+	
+	public class InstructionHolder
+	{
+		String instruction;
+		String value1;
+		String value2;
+	}
+	
+	public void addInstruction(String instruction, String value1, String value2)
+	{
+		if(instruction != null && value1 != null)
+		{
+			boolean found = false;
+			for(int i=0; i<instructions.size(); i++)
+			{
+				if(instructions.get(i).instruction.equals(instruction))
+				{
+					instructions.get(i).value1 = value1;
+					instructions.get(i).value2 = value2;
+					found = true;
+					break;
+				}
+			}
+			
+			if(!found)
+			{
+				InstructionHolder holder = new InstructionHolder();
+				holder.instruction = instruction;
+				holder.value1 = value1;
+				holder.value2 = value2;
+				instructions.add(holder);
+			}
+		}
 	}
 	
 	public void analyze() 
@@ -67,9 +104,6 @@ public class ContactHolder
 					}
 				//}
 			}
-		}
-		
-			
-				
+		}	
 	}
 }
