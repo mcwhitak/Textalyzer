@@ -129,8 +129,21 @@ public class ContactHolder
 				}	
 			}
 		}	
-		averageIncomingDelay = ((int)(((totalIncomingDelay / incomingTextCount) / 1000) * 10)) / 10; //take average delay,convert to seconds, round to one digit
-		averageOutgoingDelay = ((int)(((totalOutgoingDelay / outgoingTextCount) / 1000) * 10)) / 10; //take average delay,convert to seconds, round to one digit
+		averageIncomingDelay = 0;
+		averageOutgoingDelay = 0;
+		
+		if(incomingTextCount != 0)
+		{
+			averageIncomingDelay = ((int)(((totalIncomingDelay / incomingTextCount) / 1000) * 10)) / 10; //take average delay,convert to seconds, round to one digit
+			addInstruction("Average Delay", "Incoming: " + averageIncomingDelay, null);
+		
+		}
+		
+		if(outgoingTextCount != 0)
+		{
+			averageOutgoingDelay = ((int)(((totalOutgoingDelay / outgoingTextCount) / 1000) * 10)) / 10; //take average delay,convert to seconds, round to one digit
+			addInstruction("Average Delay", null, "Outcoming: " + averageOutgoingDelay);
+		}
 
 	}
 }

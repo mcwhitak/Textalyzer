@@ -141,6 +141,13 @@ public class MainActivity extends Activity implements OnItemClickListener
 		}while(cursor.moveToNext());
 		cursor.close();
 		
+		Iterator it = contactMap.entrySet().iterator();
+		while(it.hasNext())
+		{
+			Map.Entry pairs = (Map.Entry)it.next();
+			ContactHolder holder = (ContactHolder)pairs.getValue();
+			holder.analyze();
+		}
 		
 		grabAllViews();
 		
