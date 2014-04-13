@@ -133,7 +133,6 @@ public class ContactHolder
 			
 			if (currentDirection != textMessages.get(i - 1).direction) //Ignore times of double texts
 			{
-				Log.d("Royyy","checking: " + delay + " < " + MainActivity.ONE_HOUR + " ");
 				if (delay < MainActivity.ONE_HOUR) //conversation part of a convo 3,600,000
 				{	
 					if (currentDirection == Directions.INBOUND)
@@ -179,7 +178,7 @@ public class ContactHolder
 			addInstruction("Average Delay", null, "Outcoming: " + averageOutgoingDelay);
 		}
 		
-		int max = 0;
+		int max = 0;//TODO change the iterator thing ew
 		String word = "";
 		Iterator it = incomingWordFrequency.entrySet().iterator();
 		while(it.hasNext())

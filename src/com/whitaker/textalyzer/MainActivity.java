@@ -1,7 +1,9 @@
 package com.whitaker.textalyzer;
 
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -173,15 +175,19 @@ public class MainActivity extends Activity implements OnItemClickListener
 		{
 			for (String word: words)
 			{
-		        Integer frequency = holder.outgoingWordFrequency.get(word); //Must use wrapper to utilize null below
-		        if (frequency == null)
-		        {
-		        	holder.outgoingWordFrequency.put(word,1);	
-		        } 
-		        else 
-		        {
-		        	holder.outgoingWordFrequency.put(word,frequency.intValue() + 1);
-		        }
+				//TODO if word not in articles
+				if (!Arrays.asList(boringWords).contains(word))
+				{
+			        Integer frequency = holder.outgoingWordFrequency.get(word); //Must use wrapper to utilize null below
+			        if (frequency == null)
+			        {
+			        	holder.outgoingWordFrequency.put(word,1);	
+			        } 
+			        else 
+			        {
+			        	holder.outgoingWordFrequency.put(word,frequency.intValue() + 1);
+			        }
+				}
 			}
 		} 
 		else if(direction == Directions.INBOUND)
@@ -311,4 +317,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 			}
 		}
 	}
+	
+	public String [] boringWords = {"the","be","and","of","a","in","to","have","to","it","I","that","for","you","he","with","on","do","say","this","they","at","but","we","his","from","that","not","n't","n't","by","she","or","as","what","go","their","can","who","get","if","would","her","all","my","make","about","know","will","as","up","one","there","year","so","think","when","which","them","some","me","people","take","out","into","just","see","him","your","come","could","now","than","like","other","how","then","its","our","two","more","these","want","way","look","first","also","new","because","day","more","use","no","find","here","thing","give","many"};
+	
 }
