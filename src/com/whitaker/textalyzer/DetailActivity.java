@@ -17,7 +17,6 @@ public class DetailActivity extends Activity
 {
 	private TextView scoreHeaderTextView;
 	private TextView scoreValueTextView;
-	private TextView contactNameTextView;
 	private ListView informationListView;
 	private ContactHolder contactHolder;
 	
@@ -46,7 +45,7 @@ public class DetailActivity extends Activity
 				outgoing++;
 			}
 		}
-		contactNameTextView.setText(contactHolder.personName);
+		scoreHeaderTextView.setText("Friend Score: " + contactHolder.personName);
 		informationListView.setAdapter(new InformationAdapter());
 	}
 	
@@ -54,7 +53,6 @@ public class DetailActivity extends Activity
 	{
 		scoreHeaderTextView = (TextView)findViewById(R.id.score_header);
 		scoreValueTextView = (TextView)findViewById(R.id.score_value);
-		contactNameTextView = (TextView)findViewById(R.id.contact_name);
 		informationListView = (ListView)findViewById(R.id.list_information);
 	}
 	
