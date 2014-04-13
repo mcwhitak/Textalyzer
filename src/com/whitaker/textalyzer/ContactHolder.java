@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.whitaker.textalyzer.TextMessage.Directions;
 
@@ -24,25 +23,28 @@ public class ContactHolder
 	public HashMap<String,Integer> incomingWordFrequency;
 	public HashMap<String,Integer> outgoingWordFrequency;
 	
-	public int incomingTextCount; //present DONE
-	public int outgoingTextCount; //present
+	public int incomingTextCount; 
+	public int outgoingTextCount; 
 	
-	public int incomingTextAverage; //present DONE
-	public int outgoingTextAverage; //present
+	public int incomingTextAverage; 
+	public int outgoingTextAverage; 
 	
 	public long timeOfFirstText;
 	
 	public long totalIncomingDelay;
 	public long totalOutgoingDelay;
 	
-	public double averageIncomingDelay; //present DONE
-	public double averageOutgoingDelay; //present
+	public int averageIncomingDelay; //idgaf about fractions of a second.
+	public int averageOutgoingDelay; 
 	
-	public int outgoingConversationsStarted; //present MESSED UP
-	public int incomingConversationsStarted; //present
+	public int outgoingConversationsStarted; 
+	public int incomingConversationsStarted; 
 	
-	public String incomingMostCommon;	//present
-	public String outgoingMostCommon;
+	public String [] incomingMostCommon = {"","",""};	
+	public String [] outgoingMostCommon = {"","",""};
+	
+	public int incomingEmoticonsCount;
+	public int outgoingEmoticonsCount;
 	
 	public ArrayList<InstructionHolder> instructions;
 	
@@ -62,6 +64,8 @@ public class ContactHolder
 		
 		incomingConversationsStarted = 0; 
 		outgoingConversationsStarted = 0;
+		incomingEmoticonsCount = 0;
+		outgoingEmoticonsCount = 0;
 	}
 	
 	public class InstructionHolder
@@ -124,10 +128,8 @@ public class ContactHolder
 	        }
 	    });
 		
-		//TODO Calculate most common words, filter out articles, pronouns, etc
-		timeOfFirstText = textMessages.get(0).timeCreated;
 		Directions currentDirection = textMessages.get(0).direction;
-		for (int i = 1; i < textMessages.size(); i++) //maybe size - 1
+		for (int i = 1; i < textMessages.size(); i++)
 		{
 			currentDirection = textMessages.get(i).direction;
 			long delay = textMessages.get(i).timeCreated - textMessages.get(i - 1).timeCreated;
@@ -147,7 +149,7 @@ public class ContactHolder
 				}
 			}
 			
-			if (delay > MainActivity.ONE_HOUR * 9) //Started a conversation
+			if (delay > MainActivity.ONE_HOUR * 9) //Started a new conversation
 			{
 				if (currentDirection == Directions.INBOUND)
 				{
@@ -158,6 +160,29 @@ public class ContactHolder
 					outgoingConversationsStarted++;
 				}	
 			}
+	        
+
+			if (currentDirection == Directions.INBOUND)
+			{
+				for (String e: emoticons)
+				{
+					if (textMessages.get(i).body.contains(e))
+					{
+						incomingEmoticonsCount++;
+					}
+			
+				}					
+			}
+			else 
+			{
+				for (String e: emoticons)
+				{
+					if (textMessages.get(i).body.contains(e))
+					{
+						outgoingEmoticonsCount++;
+					}
+				}
+			}
 		}	
 		
 		addInstruction(ctx.getString(R.string.info_pre_common), ctx.getString(R.string.info_pre_in)+ incomingConversationsStarted, ctx.getString(R.string.info_pre_out) + outgoingConversationsStarted);
@@ -167,45 +192,122 @@ public class ContactHolder
 
 		if(incomingTextCount != 0)
 		{
-			averageIncomingDelay = ((int)(((totalIncomingDelay / incomingTextCount) / 1000) * 10)) / 10; //take average delay,convert to seconds, round to one digit
+			averageIncomingDelay = (int)(((totalIncomingDelay / incomingTextCount) / 1000)); //take average delay,convert to seconds, round to one digit
 			addInstruction(ctx.getString(R.string.info_pre_delay), ctx.getString(R.string.info_pre_in) + averageIncomingDelay, null); 
 		}
 		
 		if(outgoingTextCount != 0)
 		{
-			averageOutgoingDelay = ((int)(((totalOutgoingDelay / outgoingTextCount) / 1000) * 10)) / 10; //take average delay,convert to seconds, round to one digit
+			averageOutgoingDelay = (int)(((totalOutgoingDelay / outgoingTextCount) / 1000)); //take average delay,convert to seconds, round to one digit
 			addInstruction(ctx.getString(R.string.info_pre_delay), null, ctx.getString(R.string.info_pre_out) + averageOutgoingDelay);
 		}
 		
-		int max = 0;//TODO change the iterator thing ew
-		String word = "";
+		int [] maxes = {0,0,0};
+		String [] words = {"","",""}; 
 		Iterator it = incomingWordFrequency.entrySet().iterator();
-		while(it.hasNext())
+		if (incomingWordFrequency.keySet().size() >= 3)
 		{
-			Map.Entry pairs = (Map.Entry)it.next();
-			int value = (Integer)pairs.getValue();
-			if(value > max)
+			while(it.hasNext())
 			{
-				word = (String)pairs.getKey();
-				max = value;
+				Map.Entry pairs = (Map.Entry)it.next();
+				int value = (Integer)pairs.getValue();
+				String word = (String)pairs.getKey();
+				
+				for (int i = 0; i < 3; i++)
+				{
+					if (maxes[i] < value)
+					{
+						int iSmallest = 0;
+						for (int j = 0; j < 3; j++)
+						{
+							if (maxes[j] < maxes[iSmallest])
+							{
+								iSmallest = j;
+							}
+							
+						}
+						maxes[iSmallest] = value;
+						words[iSmallest] = word;
+						break;					
+					}
+				}
 			}
+			incomingMostCommon[0] = words[0];
+			incomingMostCommon[1] = words[1];
+			incomingMostCommon[2] = words[2];
 		}
-		incomingMostCommon = word;
+		else if (incomingWordFrequency.keySet().size() == 2)
+		{
+			incomingMostCommon[0] = (String) incomingWordFrequency.keySet().toArray()[0];
+			incomingMostCommon[1] = (String) incomingWordFrequency.keySet().toArray()[1];	
+		}
+		else if (incomingWordFrequency.keySet().size() == 1)
+		{
+			incomingMostCommon[0] = (String) incomingWordFrequency.keySet().toArray()[0];
+		}
+
 		
-		max = 0;
+		//Do it again for outgoing
+		maxes[0] = 0; maxes[1] = 0; maxes[2] = 0;
+		words[0] = words[1] = words[2] = "";
 		it = outgoingWordFrequency.entrySet().iterator();
-		while(it.hasNext())
+		if (outgoingWordFrequency.keySet().size() >= 3)
 		{
-			Map.Entry pairs = (Map.Entry)it.next();
-			int value = (Integer)pairs.getValue();
-			if(value > max)
+			while(it.hasNext())
 			{
-				word = (String)pairs.getKey();
-				max = value;
+				Map.Entry pairs = (Map.Entry)it.next();
+				int value = (Integer)pairs.getValue();
+				String word = (String)pairs.getKey();
+				
+				for (int i = 0; i < 3; i++)
+				{
+					if (maxes[i] < value)
+					{
+						int iSmallest = 0;
+						for (int j = 0; j < 3; j++)
+						{
+							if (maxes[j] < maxes[iSmallest])
+							{
+								iSmallest = j;
+							}
+							
+						}
+						maxes[iSmallest] = value;
+						words[iSmallest] = word;
+						break;					
+					}
+				}
 			}
+			outgoingMostCommon[0] = words[0];
+			outgoingMostCommon[1] = words[1];
+			outgoingMostCommon[2] = words[2];
 		}
-		outgoingMostCommon = word;
+		else if (incomingWordFrequency.keySet().size() == 2)
+		{
+			outgoingMostCommon[0] = (String) outgoingWordFrequency.keySet().toArray()[0];
+			outgoingMostCommon[1] = (String) outgoingWordFrequency.keySet().toArray()[1];	
+		}
+		else if (outgoingWordFrequency.keySet().size() == 1)
+		{
+			outgoingMostCommon[0] = (String) outgoingWordFrequency.keySet().toArray()[0];
+		}
 		
+		
+		//TODO add top 3 most common words to tip panel
 		addInstruction(ctx.getString(R.string.info_pre_common), ctx.getString(R.string.info_pre_in) + incomingMostCommon, ctx.getString(R.string.info_pre_out) + outgoingMostCommon);
+
+		//TODO add emoticon to panel
+
 	}
+
+	String [] emoticons = {":-)",":)",":o)",":]",":3",":c)",":>","=]","8)","=)",":}",":^)",":-D",":D","8-D","8D","x-D","xD",
+			"X-D","XD","=-D","=D","=-3","=3","B^D",":-))",">:[",":-(",":(",":-c",":c",":-<",":<",":-[",":[",":{",";(",":-||",
+			":@",">:(",":\'-(",":\'(",":\'-)",":\')","D:<","D:","D8","D;","D=","DX","v.v","D-\':",">:O",":-O",":O",":-o",":o",
+			"8-0","O_O","o-o","O_o","o_O","o_o","O-O",":*",":^*","(\'}{\')",";-)",";)",";-]",";]",";D",";^)",":-,",">:P",
+			":-P",":P","X-P","x-p","xp","XP",":-p",":p","=p",":-b",":b","d:",">:\\",">:/",":-/",":-.",":/",
+			":\\","=/","=\\",":L","=L",":S",">.<",":|",":-|",":$",":-X",":X",":-#",":#","O:-)","0:-3","0:3","0:-)","0:)","0;^)",
+			">:)",">;)",">:-)","}:-)","}:)","3:-)","3:)","o/\\o",">_>^","^<_<","|;-)","|-O",":-&",":&","#-)","%-)",":-###..",
+			":###..","<:-|","<*)))-{","><(((*>","\\o/","*\0/*","@}-;-\'---","@>-->--","~(_8^(I)","5:-)","~:-\\","//0-0\\",
+			"*<|:-)","=:o]",",:-)","<3","</3"};
+
 }
