@@ -176,6 +176,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 			for (String word: words)
 			{
 				//TODO if word not in articles
+				
 				if (!Arrays.asList(boringWords).contains(word))
 				{
 			        Integer frequency = holder.outgoingWordFrequency.get(word); //Must use wrapper to utilize null below
@@ -194,15 +195,18 @@ public class MainActivity extends Activity implements OnItemClickListener
 		{
 			for (String word: words)
 			{
-		        Integer frequency = holder.incomingWordFrequency.get(word); //Must use wrapper to utilize null below
-		        if (frequency == null)
-		        {
-		        	holder.incomingWordFrequency.put(word,1);	
-		        } 
-		        else 
-		        {
-		        	holder.incomingWordFrequency.put(word,frequency.intValue() + 1);
-		        }
+				if (!Arrays.asList(boringWords).contains(word))
+				{
+			        Integer frequency = holder.incomingWordFrequency.get(word); //Must use wrapper to utilize null below
+			        if (frequency == null)
+			        {
+			        	holder.incomingWordFrequency.put(word,1);	
+			        } 
+			        else 
+			        {
+			        	holder.incomingWordFrequency.put(word,frequency.intValue() + 1);
+			        }
+				}
 			}
 			
 		}
@@ -234,7 +238,8 @@ public class MainActivity extends Activity implements OnItemClickListener
 				{
 					return pairs.getValue();
 				}
-				i++;
+				
+				i++; 
 			}
 			return null;
 		}
@@ -318,6 +323,20 @@ public class MainActivity extends Activity implements OnItemClickListener
 		}
 	}
 	
-	public String [] boringWords = {"the","be","and","of","a","in","to","have","to","it","I","that","for","you","he","with","on","do","say","this","they","at","but","we","his","from","that","not","n't","n't","by","she","or","as","what","go","their","can","who","get","if","would","her","all","my","make","about","know","will","as","up","one","there","year","so","think","when","which","them","some","me","people","take","out","into","just","see","him","your","come","could","now","than","like","other","how","then","its","our","two","more","these","want","way","look","first","also","new","because","day","more","use","no","find","here","thing","give","many"};
+	public String [] boringWords = {"the","be","and","of","a","in","to","have","to","it","I","I'll","Ok","that","for","you","he","with","on","do","say",
+			"this","they","at","but","we","his","from","that","not","n't","n't","by","she","or","as","what","go","their","can","who","get","is","IS","Is",
+			"if","would","her","all","my","make","about","know","will","as","up","one","there","year","so","think","when","which","them","did","Did","DID",
+			"some","me","people","take","out","into","just","see","him","your","come","could","now","than","like","other","how","then","its",
+			"our","two","more","these","want","way","look","first","also","new","because","day","more","use","no","find","here","thing","give",
+			"many","The","are","ARE","Be","And","Of","A","In","To","Have","To","It","I","That","For","You","He","With","On","Do","Say","This","They","At",
+			"But","We","His","From","That","Not","N't","N't","By","She","Or","As","What","Go","Their","Can","Who","Get","If","Would","Her",
+			"All","My","Make","About","Know","Will","As","Up","One","There","Year","So","Think","When","Which","Them","Some","Me","People",
+			"Take","Out","Into","Just","See","Him","Your","Come","Could","Now","Than","Like","Other","How","Then","Its","Our","Two","More",
+			"These","Want","Way","Look","First","Also","New","Because","Day","More","Use","No","Find","Here","Thing","Give","Many","THE",
+			"BE","AND","OF","A","IN","TO","HAVE","TO","IT","I","THAT","FOR","YOU","HE","WITH","ON","DO","SAY","THIS","THEY","AT","BUT","WE",
+			"HIS","FROM","THAT","NOT","N'T","N'T","BY","SHE","OR","AS","WHAT","GO","THEIR","CAN","WHO","GET","IF","WOULD","HER","ALL","MY",
+			"MAKE","ABOUT","KNOW","WILL","AS","UP","ONE","THERE","YEAR","SO","THINK","WHEN","WHICH","THEM","SOME","ME","PEOPLE","TAKE","OUT",
+			"INTO","JUST","SEE","HIM","YOUR","COME","COULD","NOW","THAN","LIKE","OTHER","HOW","THEN","ITS","OUR","TWO","MORE","THESE","WANT",
+			"WAY","LOOK","FIRST","ALSO","NEW","BECAUSE","DAY","MORE","USE","NO","FIND","HERE","THING","GIVE","MANY"};
 	
 }
