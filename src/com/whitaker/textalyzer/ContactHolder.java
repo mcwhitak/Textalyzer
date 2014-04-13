@@ -1,7 +1,12 @@
 package com.whitaker.textalyzer;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+
+import android.util.Log;
+
 import com.whitaker.textalyzer.TextMessage.Directions;
 
 public class ContactHolder
@@ -106,6 +111,13 @@ public class ContactHolder
 			addInstruction("Average Length", null, "Outgoing: " + outgoingTextAverage);
 		}
 		
+		Collections.sort(textMessages, new Comparator<TextMessage>() {
+	        @Override
+	        public int compare(TextMessage o1, TextMessage o2) {
+	            return Double.compare(o1.timeCreated, o2.timeCreated);
+	        }
+	    });
+		
 		//TODO Calculate most common words, filter out articles, pronouns, etc
 		timeOfFirstText = textMessages.get(0).timeCreated;
 		Directions currentDirection = textMessages.get(0).direction;
@@ -113,6 +125,10 @@ public class ContactHolder
 		{
 			currentDirection = textMessages.get(i).direction;
 			long delay = textMessages.get(i).timeCreated - textMessages.get(i - 1).timeCreated;
+			Log.d("Royyy",personName + "direction: " + textMessages.get(i).direction + " delay:" + (delay));
+			
+		   
+			
 			
 			if (currentDirection != textMessages.get(i).direction) //Ignore times of double texts
 			{
@@ -129,7 +145,7 @@ public class ContactHolder
 				}
 			}
 			
-			if (delay > MainActivity.ONE_HOUR * 12) //Started a conversation
+			if (delay > MainActivity.ONE_HOUR * 9) //Started a conversation
 			{
 				if (currentDirection == Directions.INBOUND)
 				{
@@ -146,14 +162,17 @@ public class ContactHolder
 		
 		
 		
-		averageIncomingDelay = 0;
+		averageIncomingDelay = 0; 
 		averageOutgoingDelay = 0;
+
+		
 		
 		if(incomingTextCount != 0)
 		{
 			averageIncomingDelay = ((int)(((totalIncomingDelay / incomingTextCount) / 1000) * 10)) / 10; //take average delay,convert to seconds, round to one digit
+			//Log.d("Royyy",personName + " " + (this.totalIncomingDelay));
 			addInstruction("Average Delay", "Incoming: " + averageIncomingDelay, null);
-		
+			 
 		}
 		
 		if(outgoingTextCount != 0)
