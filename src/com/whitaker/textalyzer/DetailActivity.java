@@ -97,12 +97,26 @@ public class DetailActivity extends Activity implements OnItemClickListener
 			TextView catText = (TextView)itemView.findViewById(R.id.result_item_category);
 			TextView val1Text = (TextView)itemView.findViewById(R.id.result_item_value1);
 			TextView val2Text = (TextView)itemView.findViewById(R.id.result_item_value2);
+			TextView hintText = (TextView)itemView.findViewById(R.id.result_tips);
 			
 			if(position < contactHolder.instructions.size())
 			{
 				InstructionHolder iHolder = contactHolder.instructions.get(position);
 				
 				catText.setText(iHolder.instruction);
+				if(iHolder.instruction.equals(getString(R.string.info_pre_delay)))
+					hintText.setText(getString(R.string.tip_delay));
+				else if(iHolder.instruction.equals(getString(R.string.info_pre_count)))
+					hintText.setText(getString(R.string.tip_count));
+				else if(iHolder.instruction.equals(getString(R.string.info_pre_length)))
+					hintText.setText(getString(R.string.tip_length));
+				else if(iHolder.instruction.equals(getString(R.string.info_pre_convo)))
+					hintText.setText(getString(R.string.tip_convo));
+				else if(iHolder.instruction.equals(getString(R.string.info_pre_common)))
+				{
+					hintText.setText("2nd: Penis, 3rd: Vagina");
+				}
+				
 				val1Text.setText(iHolder.value1);
 				if(iHolder.value2 != null)
 				{
