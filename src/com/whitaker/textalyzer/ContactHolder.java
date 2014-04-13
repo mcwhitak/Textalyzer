@@ -186,8 +186,9 @@ public class ContactHolder
 			}
 		}	
 		
-		addInstruction(ctx.getString(R.string.info_pre_common), ctx.getString(R.string.info_pre_in)+ incomingConversationsStarted, ctx.getString(R.string.info_pre_out) + outgoingConversationsStarted);
 
+		addInstruction(ctx.getString(R.string.info_pre_convo), ctx.getString(R.string.info_pre_in)+ incomingConversationsStarted, ctx.getString(R.string.info_pre_out) + outgoingConversationsStarted);
+		
 		if(incomingTextCount != 0) //TODO
 		{
 			averageIncomingDelay = ((int)(((((double)totalIncomingDelay / (double)incomingTextCount) / 60000.0)) * 10.0  ))/10.0; //take average delay,convert to seconds, round to one digit

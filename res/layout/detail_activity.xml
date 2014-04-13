@@ -35,6 +35,32 @@
 		    android:text="96"
 		/>
 		
+		<TextView
+		    android:id="@+id/hide_header"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_centerHorizontal="true"
+		    android:layout_alignParentTop="true"
+		    android:paddingTop="5dp"
+		    android:textSize="15sp"
+		    android:textColor="#FFFFFF"
+		    android:text="@string/tip_friend"
+		    android:visibility="invisible"
+		/>
+		
+		<TextView
+		    android:id="@+id/hide_sub"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_centerHorizontal="true"
+		    android:layout_alignParentBottom="true"
+		    android:paddingTop="5dp"
+		    android:textSize="20sp"
+		    android:textColor="#FFFFFF"
+		    android:text="@string/placeholder"
+		    android:visibility="invisible"
+		/>
+		
 	</RelativeLayout>
 	
 	<View
