@@ -15,6 +15,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcel;
@@ -67,6 +68,10 @@ public class MainActivity extends Activity implements OnItemClickListener
 				holder.personId = personCode;
 				
 				String body = cursor.getString(13);
+				if(body == null)
+					continue;
+				
+				Log.d("ERICNELSON", body);
 				holder.textReceivedLength += body.length(); 
 				
 				determineWordFrequency(body, Directions.INBOUND, holder);
@@ -119,6 +124,8 @@ public class MainActivity extends Activity implements OnItemClickListener
 		do
 		{
 			String address = cursor.getString(3);
+			if(address == null)
+				continue;
 			address = addressClipper(address);
 			
 			Iterator it = contactMap.entrySet().iterator();
@@ -148,6 +155,8 @@ public class MainActivity extends Activity implements OnItemClickListener
 			ContactHolder holder = (ContactHolder)pairs.getValue();
 			holder.analyze();
 		}
+		
+		Log.d("ERICNELSON", "SIZE: " + contactMap.size());
 		
 		grabAllViews();
 		
@@ -308,5 +317,4 @@ public class MainActivity extends Activity implements OnItemClickListener
 			}
 		}
 	}
-	
 }

@@ -6,6 +6,7 @@ import com.whitaker.textalyzer.TextMessage.Directions;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -118,4 +119,23 @@ public class DetailActivity extends Activity
 	{
 		return this;
 	}
+	
+	public void setContentView(int res)
+	{
+		super.setContentView(res);
+		getActionBar().setHomeButtonEnabled(true);
+	}
+	
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // Handle your other action bar items...
+        switch(item.getItemId())
+        {
+        	case android.R.id.home:
+        		super.onBackPressed();
+        		break;	
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
