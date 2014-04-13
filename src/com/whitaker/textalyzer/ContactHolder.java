@@ -6,6 +6,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.util.Log;
 
@@ -43,6 +45,10 @@ public class ContactHolder
 	public String incomingMostCommon;	//present
 	public String outgoingMostCommon;
 	
+	public int incomingEmoticonsCount;
+	public int outgoingEmoticonsCount;
+	
+	
 	public ArrayList<InstructionHolder> instructions;
 	
 	public ContactHolder()
@@ -61,6 +67,8 @@ public class ContactHolder
 		
 		incomingConversationsStarted = 0; 
 		outgoingConversationsStarted = 0;
+		incomingEmoticonsCount = 0;
+		outgoingEmoticonsCount = 0;
 	}
 	
 	public class InstructionHolder
@@ -126,6 +134,7 @@ public class ContactHolder
 		//TODO Calculate most common words, filter out articles, pronouns, etc
 		timeOfFirstText = textMessages.get(0).timeCreated;
 		Directions currentDirection = textMessages.get(0).direction;
+		
 		for (int i = 1; i < textMessages.size(); i++) //maybe size - 1
 		{
 			currentDirection = textMessages.get(i).direction;
@@ -157,6 +166,20 @@ public class ContactHolder
 					outgoingConversationsStarted++;
 				}	
 			}
+	        
+	        for (String e: emoticons) 
+	        {
+	        	
+	        	if(incomingWordFrequency.get(e) != null)
+		        {
+	        		Log.d("Royyy","" + personName + " " + incomingEmoticonsCount + " : " + outgoingEmoticonsCount); 
+		        	incomingEmoticonsCount++;
+		        }
+		        if(outgoingWordFrequency.get(e) != null)
+		        {
+		            outgoingEmoticonsCount++;
+		        }	
+	        }
 		}	
 		
 		addInstruction("Coversations Started", "Them: " + incomingConversationsStarted, "You: " + outgoingConversationsStarted);
@@ -210,4 +233,15 @@ public class ContactHolder
 		
 		addInstruction("Most Common Word", "Them: " + incomingMostCommon, "You: " + outgoingMostCommon);
 	}
+
+	String [] emoticons = {":-)",":)",":o)",":]",":3",":c)",":>","=]","8)","=)",":}",":^)",":-D",":D","8-D","8D","x-D","xD",
+			"X-D","XD","=-D","=D","=-3","=3","B^D",":-))",">:[",":-(",":(",":-c",":c",":-<",":<",":-[",":[",":{",";(",":-||",
+			":@",">:(",":\'-(",":\'(",":\'-)",":\')","D:<","D:","D8","D;","D=","DX","v.v","D-\':",">:O",":-O",":O",":-o",":o",
+			"8-0","O_O","o-o","O_o","o_O","o_o","O-O",":*",":^*","(\'}{\')",";-)",";)",";-]",";]",";D",";^)",":-,",">:P",
+			":-P",":P","X-P","x-p","xp","XP",":-p",":p","=p",":-b",":b","d:",">:\\",">:/",":-/",":-.",":/",
+			":\\","=/","=\\",":L","=L",":S",">.<",":|",":-|",":$",":-X",":X",":-#",":#","O:-)","0:-3","0:3","0:-)","0:)","0;^)",
+			">:)",">;)",">:-)","}:-)","}:)","3:-)","3:)","o/\\o",">_>^","^<_<","|;-)","|-O",":-&",":&","#-)","%-)",":-###..",
+			":###..","<:-|","<*)))-{","><(((*>","\\o/","*\0/*","@}-;-\'---","@>-->--","~(_8^(I)","5:-)","~:-\\","//0-0\\",
+			"*<|:-)","=:o]",",:-)","<3","</3"};
+
 }

@@ -323,7 +323,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 		}
 	}
 	
-	public String [] boringWords = {"the","be","and","of","a","in","to","have","to","it","I","I'll","Ok","that","for","you","he","with","on","do","say",
+	public String [] boringWords = {"the","be","and","of","a","in","to","have","to","it","I","I'm","im","I'll","Ok","that","for","you","he","with","on","do","say",
 			"this","they","at","but","we","his","from","that","not","n't","n't","by","she","or","as","what","go","their","can","who","get","is","IS","Is",
 			"if","would","her","all","my","make","about","know","will","as","up","one","there","year","so","think","when","which","them","did","Did","DID",
 			"some","me","people","take","out","into","just","see","him","your","come","could","now","than","like","other","how","then","its",
