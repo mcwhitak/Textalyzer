@@ -9,16 +9,22 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class DetailActivity extends Activity
+public class DetailActivity extends Activity implements OnItemClickListener
 {
 	private TextView scoreHeaderTextView;
 	private TextView scoreValueTextView;
 	private ListView informationListView;
 	private ContactHolder contactHolder;
+	private InformationAdapter infoAdapter;
+	private int tipIndex = -1;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -46,7 +52,9 @@ public class DetailActivity extends Activity
 			}
 		}
 		scoreHeaderTextView.setText("Friend Score: " + contactHolder.personName);
-		informationListView.setAdapter(new InformationAdapter());
+		infoAdapter = new InformationAdapter();
+		informationListView.setAdapter(infoAdapter);
+		informationListView.setOnItemClickListener(this);
 	}
 	
 	private void grabAllViews()
@@ -120,12 +128,12 @@ public class DetailActivity extends Activity
 	{
 		super.setContentView(res);
 		getActionBar().setHomeButtonEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 	
 	@Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        // Handle your other action bar items...
         switch(item.getItemId())
         {
         	case android.R.id.home:
@@ -134,4 +142,33 @@ public class DetailActivity extends Activity
         }
         return super.onOptionsItemSelected(item);
     }
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) 
+	{
+		RelativeLayout main = (RelativeLayout)view.findViewById(R.id.result_initial);
+		if(tipIndex == position)
+		{
+			parent.getChildAt(position).findViewById(R.id.result_initial).setVisibility(View.VISIBLE);
+			parent.getChildAt(position).findViewById(R.id.result_initial).startAnimation(AnimationUtils.loadAnimation(this, R.anim.push_right_in));
+			parent.getChildAt(position).findViewById(R.id.result_tips).setVisibility(View.INVISIBLE);
+			parent.getChildAt(position).findViewById(R.id.result_tips).startAnimation(AnimationUtils.loadAnimation(this, R.anim.push_right_out));
+			tipIndex = -1;
+		}
+		else
+		{
+			parent.getChildAt(position).findViewById(R.id.result_initial).setVisibility(View.INVISIBLE);
+			parent.getChildAt(position).findViewById(R.id.result_initial).startAnimation(AnimationUtils.loadAnimation(this, R.anim.push_left_out));
+			parent.getChildAt(position).findViewById(R.id.result_tips).setVisibility(View.VISIBLE);
+			parent.getChildAt(position).findViewById(R.id.result_tips).startAnimation(AnimationUtils.loadAnimation(this, R.anim.push_left_in));
+			if(tipIndex != -1)
+			{
+				parent.getChildAt(tipIndex).findViewById(R.id.result_initial).setVisibility(View.VISIBLE);
+				parent.getChildAt(tipIndex).findViewById(R.id.result_initial).startAnimation(AnimationUtils.loadAnimation(this, R.anim.push_right_in));
+				parent.getChildAt(tipIndex).findViewById(R.id.result_tips).setVisibility(View.INVISIBLE);
+				parent.getChildAt(tipIndex).findViewById(R.id.result_tips).startAnimation(AnimationUtils.loadAnimation(this, R.anim.push_right_out));
+			}
+			tipIndex = position;
+		}
+	}
 }
