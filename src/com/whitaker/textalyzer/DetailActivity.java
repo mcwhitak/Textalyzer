@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,7 +64,11 @@ public class DetailActivity extends Activity implements OnItemClickListener, OnC
 			}
 		}
 		scoreHeaderTextView.setText("Friend Score: " + contactHolder.personName);
-		scoreValueTextView.setText(contactHolder.getFriendshipRatio() + "'");
+		int ratioLeft = (int)(contactHolder.getFriendshipRatio() * 100);
+		int ratioRight = 100 - ratioLeft;
+		String ratio = ratioLeft + ":" + ratioRight;
+		
+		scoreValueTextView.setText(ratio);
 		
 		
 		if (contactHolder.getFriendshipRatio() < 0.40) 
@@ -138,14 +143,14 @@ public class DetailActivity extends Activity implements OnItemClickListener, OnC
 				
 				if(iHolder.instruction.equals(getString(R.string.info_pre_delay)))
 				{
-					if (contactHolder.getDelayRatio() < 0.40) 
+					if (0 <= contactHolder.getDelayRatio() && contactHolder.getDelayRatio() < 0.40) 
 					{
 						hintText.setText("Someone seems to likes you!");
 					}
 					else if (contactHolder.getDelayRatio() > 0.60)
 					{
 						hintText.setText("Well this is awkward...");
-					}
+					} 
 					else
 					{
 						hintText.setText("Do you set a timer to remind you when to reply?");
@@ -154,7 +159,7 @@ public class DetailActivity extends Activity implements OnItemClickListener, OnC
 					
 				else if(iHolder.instruction.equals(getString(R.string.info_pre_count)))
 				{
-					if (contactHolder.getTextCountRatio() < 0.40) 
+					if (contactHolder.getTextCountRatio() < 0.40 && contactHolder.getTextCountRatio() >= 0) 
 					{
 						hintText.setText("Are you giving " + contactHolder.personName + " the cold shoulder? Rude!");
 					}
@@ -162,6 +167,7 @@ public class DetailActivity extends Activity implements OnItemClickListener, OnC
 					{
 						hintText.setText(contactHolder.personName + " has a sticky enter button.");
 					}
+
 					else
 					{
 						hintText.setText("How polite, a one to one relationship. ");
@@ -171,7 +177,7 @@ public class DetailActivity extends Activity implements OnItemClickListener, OnC
 					
 				else if(iHolder.instruction.equals(getString(R.string.info_pre_length))) //average length
 				{
-					if (contactHolder.getTextAverageRatio() < 0.40) 
+					if (contactHolder.getTextAverageRatio() < 0.40 && contactHolder.getTextAverageRatio() >= 0) 
 					{
 						hintText.setText("C\'mon, beef up those texts with a few more characters.");
 					}
@@ -186,13 +192,14 @@ public class DetailActivity extends Activity implements OnItemClickListener, OnC
 				}
 				else if(iHolder.instruction.equals(getString(R.string.info_pre_convo)))
 				{
-					if (contactHolder.getConversationsStartedRatio() < 0.40) 
+					if (contactHolder.getConversationsStartedRatio() < 0.40 && contactHolder.getConversationsStartedRatio() >= 0) 
 					{
 						hintText.setText("Maybe you should start the conversation one in a while.");
 					}
 					else if (contactHolder.getConversationsStartedRatio() > 0.60)
 					{
-						hintText.setText("Let " + contactHolder.personName + " start the conversation.");
+						//Log.d("Royyy", "rtio: " + contactHolder.getConversationsStartedRatio());
+						hintText.setText("Let " + contactHolder.personName + " start the conversation for once.");
 					}
 					else
 					{
@@ -206,7 +213,7 @@ public class DetailActivity extends Activity implements OnItemClickListener, OnC
 				}
 				else if(iHolder.instruction.equals(getString(R.string.info_pre_emote)))
 				{
-					if (contactHolder.getEmoticonsCountRatio() < 0.40) 
+					if (contactHolder.getEmoticonsCountRatio() < 0.40 && contactHolder.getEmoticonsCountRatio() >= 0) 
 					{
 						hintText.setText("Spice up this convo with a winkie face.");
 					}

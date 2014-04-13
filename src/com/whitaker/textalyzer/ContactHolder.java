@@ -86,52 +86,76 @@ public class ContactHolder
 		String value2;
 	}
 	
-	public double getTextCountRatio() 
+	public double getTextCountRatio() //TODO put the check before!
 	{
 		int total = incomingTextCount + outgoingTextCount;
-		textCountRatio = incomingTextCount / total;
+		textCountRatio = (double) outgoingTextCount / (double) total;
+		if (total == 0) textCountRatio = -1;
+		
 		return textCountRatio;
 	}
 	
 	public double getTextAverageRatio() 
 	{
 		int total = incomingTextAverage + outgoingTextAverage;
-		textAverageRatio = incomingTextAverage / total;
+		textAverageRatio = (double) outgoingTextAverage / (double) total;
+		if (total == 0) textAverageRatio = -1;
+		
+		Log.d("Royyy", "FUCK: " + incomingTextAverage + " " +  outgoingTextAverage + " " + total + " " + textAverageRatio);
+		
 		return textAverageRatio;
 	}
 	
 	public double getDelayRatio() 
 	{
 		double total = averageIncomingDelay + averageOutgoingDelay;
-		delayRatio = averageIncomingDelay / total;
+		delayRatio = (double) averageOutgoingDelay / (double) total;
+		if (total == 0) delayRatio = -1;
 		return delayRatio;
 	}
 	
 	public double getConversationsStartedRatio() 
 	{
 		double total = incomingConversationsStarted + outgoingConversationsStarted;
-		conversationsStartedRatio = incomingConversationsStarted / total;
+		conversationsStartedRatio = (double) outgoingConversationsStarted / (double) total;
+		if (total == 0) conversationsStartedRatio = -1;
+		
 		return conversationsStartedRatio;
 	}
 	
 	public double getEmoticonsCountRatio() 
 	{
 		double total = incomingEmoticonsCount + outgoingEmoticonsCount;
-		emoticonsCountRatio = incomingEmoticonsCount / total;
+		emoticonsCountRatio = (double) outgoingEmoticonsCount / (double) total;
+		if (total == 0) emoticonsCountRatio = -1;
 		return emoticonsCountRatio;
 	}
 	
 	public double getFriendshipRatio()  //TODO Normalized to 50%, push it to 0 or 100????
 	{
-		friendshipRatio = (getTextCountRatio() + getTextAverageRatio() + getDelayRatio() + getConversationsStartedRatio() + getEmoticonsCountRatio()) / 5.0;
-		Log.d("Royyy",textCountRatio + " " + textAverageRatio + " " + delayRatio + " " + conversationsStartedRatio + " " + emoticonsCountRatio);
-		Log.d("Royyy",getTextCountRatio() + " " + getTextAverageRatio() + " " + getDelayRatio() + " " + getConversationsStartedRatio() + " " + getEmoticonsCountRatio());
+		friendshipRatio = 0;
+		
+		if (getTextCountRatio() != -1)
+			friendshipRatio += getTextCountRatio();
+		if (getTextAverageRatio() != -1)
+			friendshipRatio += getTextAverageRatio();
+		if (getDelayRatio() != -1)
+			friendshipRatio += getDelayRatio();
+		if (getConversationsStartedRatio() != -1)
+			friendshipRatio += getConversationsStartedRatio();
+		if (getEmoticonsCountRatio() != -1)
+			friendshipRatio += getEmoticonsCountRatio();
+		
+		friendshipRatio /= 5;
+		//Log.d("Royyy",textCountRatio + " " + textAverageRatio + " " + delayRatio + " " + conversationsStartedRatio + " " + emoticonsCountRatio);
+		//Log.d("Royyy",getTextCountRatio() + " " + getTextAverageRatio() + " " + getDelayRatio() + " " + getConversationsStartedRatio() + " " + getEmoticonsCountRatio());
 		
 		return friendshipRatio;
 	}
 	
 	public void addInstruction(String instruction, String value1, String value2)
 	{
+		
 		if(instruction != null)
 		{
 			boolean found = false;
