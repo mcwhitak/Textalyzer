@@ -5,12 +5,56 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     tools:context="com.whitaker.textalyzer.MainActivity$PlaceholderFragment" >
-   	
+    
+    <RelativeLayout
+        android:id="@+id/general_relative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="#FF6600"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+    >
+        <TextView
+            android:id="@+id/general_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="30sp"
+            android:text="General Stats"
+            android:textColor="#FFFFFF"
+       	/>
+            
+    </RelativeLayout>
+    
+    <TextView
+	    android:id="@+id/breaktext"
+	    android:layout_height="wrap_content"
+	    android:layout_width="wrap_content"
+	    android:textSize="10sp"
+	    android:textColor="#B2B2CC"
+	    android:layout_alignParentLeft="true"
+	    android:text="CONTACTS"
+	    android:paddingLeft="10dp"
+	    android:layout_marginTop="10dp"
+	    android:layout_below="@id/general_relative"
+	/>
+    
+    <View
+        android:id="@+id/breakmain"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+	    android:background="#B2B2CC"
+	    android:layout_marginLeft="10dp"
+	    android:layout_marginRight="10dp"
+	    android:layout_below="@id/breaktext"
+	/>
+       	
     <ListView
         android:id="@+id/contacts_list"
         android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_alignParentTop="true"
+		android:layout_below="@id/breakmain"
 	/>
 
 
