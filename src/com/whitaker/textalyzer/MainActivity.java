@@ -285,10 +285,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 		
 		if(address.contains(" ") || address.contains("(") || address.contains(")"))
 		{
-			address = address.replace(" ", "");
-			address = address.replace("(", "");
-			address = address.replace(")", "");
-			address = address.replace("-", "");
+			address = address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
 		}
 		return address;
 	}

@@ -162,8 +162,6 @@ public class ContactHolder
 		averageIncomingDelay = 0; 
 		averageOutgoingDelay = 0;
 
-		
-		
 		if(incomingTextCount != 0)
 		{
 			averageIncomingDelay = ((int)(((totalIncomingDelay / incomingTextCount) / 1000) * 10)) / 10; //take average delay,convert to seconds, round to one digit
