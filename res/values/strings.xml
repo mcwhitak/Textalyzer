@@ -12,9 +12,10 @@
     <string name="info_pre_convo">Conversations Started</string>
     <string name="info_pre_length">Average Length</string>
     <string name="info_pre_count">Text Count</string>
+    <string name="info_pre_emote">Emoticons</string>
     <string name="tip_count">A count of texts sent to or from your friend</string>
     <string name="tip_length">The average number of characters per text</string>
   	<string name="tip_delay">Average number of seconds between texts</string>
   	<string name="tip_convo">Number of times you or your friend has initiated the conversation</string>
-
+	
 </resources>

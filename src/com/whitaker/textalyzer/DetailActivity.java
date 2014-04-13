@@ -114,7 +114,15 @@ public class DetailActivity extends Activity implements OnItemClickListener
 					hintText.setText(getString(R.string.tip_convo));
 				else if(iHolder.instruction.equals(getString(R.string.info_pre_common)))
 				{
-					hintText.setText("2nd: Penis, 3rd: Vagina");
+					hintText.setText("Your other favorite words: " + contactHolder.outgoingMostCommon[1] + " and " + contactHolder.outgoingMostCommon[2]
+							+ "\nFriend\'s favorite words: " +contactHolder.outgoingMostCommon[1] + ", " +contactHolder.outgoingMostCommon[2]);
+				}
+				else if(iHolder.instruction.equals(getString(R.string.info_pre_emote)))
+				{
+					if (contactHolder.outgoingEmoticonsCount > 3) //TODO ratio
+						hintText.setText("Slow it down buddy...");
+					else
+						hintText.setText("Spice up this convo with a winkie face.");
 				}
 				
 				val1Text.setText(iHolder.value1);

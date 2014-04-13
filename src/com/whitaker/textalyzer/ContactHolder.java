@@ -23,27 +23,25 @@ public class ContactHolder
 	public HashMap<String,Integer> incomingWordFrequency;
 	public HashMap<String,Integer> outgoingWordFrequency;
 	
-	public int incomingTextCount; 
+	public int incomingTextCount; //print
 	public int outgoingTextCount; 
 	
-	public int incomingTextAverage; 
+	public int incomingTextAverage; //print
 	public int outgoingTextAverage; 
-	
-	public long timeOfFirstText;
 	
 	public long totalIncomingDelay;
 	public long totalOutgoingDelay;
 	
-	public int averageIncomingDelay; //idgaf about fractions of a second.
-	public int averageOutgoingDelay; 
+	public double averageIncomingDelay; //print
+	public double averageOutgoingDelay; 
 	
-	public int outgoingConversationsStarted; 
+	public int outgoingConversationsStarted; //print
 	public int incomingConversationsStarted; 
 	
 	public String [] incomingMostCommon = {"","",""};	
 	public String [] outgoingMostCommon = {"","",""};
 	
-	public int incomingEmoticonsCount;
+	public int incomingEmoticonsCount; //print
 	public int outgoingEmoticonsCount;
 	
 	public ArrayList<InstructionHolder> instructions;
@@ -66,6 +64,9 @@ public class ContactHolder
 		outgoingConversationsStarted = 0;
 		incomingEmoticonsCount = 0;
 		outgoingEmoticonsCount = 0;
+		
+		averageIncomingDelay = 0;
+		averageOutgoingDelay = 0;
 	}
 	
 	public class InstructionHolder
@@ -186,20 +187,17 @@ public class ContactHolder
 		}	
 		
 		addInstruction(ctx.getString(R.string.info_pre_common), ctx.getString(R.string.info_pre_in)+ incomingConversationsStarted, ctx.getString(R.string.info_pre_out) + outgoingConversationsStarted);
-		
-		averageIncomingDelay = 0; 
-		averageOutgoingDelay = 0;
 
-		if(incomingTextCount != 0)
+		if(incomingTextCount != 0) //TODO
 		{
-			averageIncomingDelay = (int)(((totalIncomingDelay / incomingTextCount) / 1000)); //take average delay,convert to seconds, round to one digit
-			addInstruction(ctx.getString(R.string.info_pre_delay), ctx.getString(R.string.info_pre_in) + averageIncomingDelay, null); 
+			averageIncomingDelay = ((int)(((((double)totalIncomingDelay / (double)incomingTextCount) / 60000.0)) * 10.0  ))/10.0; //take average delay,convert to seconds, round to one digit
+			addInstruction(ctx.getString(R.string.info_pre_delay), ctx.getString(R.string.info_pre_in) + averageIncomingDelay + " min", null); 
 		}
 		
 		if(outgoingTextCount != 0)
 		{
-			averageOutgoingDelay = (int)(((totalOutgoingDelay / outgoingTextCount) / 1000)); //take average delay,convert to seconds, round to one digit
-			addInstruction(ctx.getString(R.string.info_pre_delay), null, ctx.getString(R.string.info_pre_out) + averageOutgoingDelay);
+			averageOutgoingDelay = ((int)(((((double)totalOutgoingDelay / (double)outgoingTextCount) / 60000.0)) * 10.0 ))/10.0; //take average delay,convert to seconds, round to one digit
+			addInstruction(ctx.getString(R.string.info_pre_delay), null, ctx.getString(R.string.info_pre_out) + averageOutgoingDelay + " min");
 		}
 		
 		int [] maxes = {0,0,0};
@@ -292,12 +290,11 @@ public class ContactHolder
 			outgoingMostCommon[0] = (String) outgoingWordFrequency.keySet().toArray()[0];
 		}
 		
-		
 		//TODO add top 3 most common words to tip panel
-		addInstruction(ctx.getString(R.string.info_pre_common), ctx.getString(R.string.info_pre_in) + incomingMostCommon, ctx.getString(R.string.info_pre_out) + outgoingMostCommon);
+		addInstruction(ctx.getString(R.string.info_pre_common), ctx.getString(R.string.info_pre_in) + incomingMostCommon[0], ctx.getString(R.string.info_pre_out) + outgoingMostCommon[0] + " add the others behind fgt");
 
 		//TODO add emoticon to panel
-
+		addInstruction(ctx.getString(R.string.info_pre_emote), ctx.getString(R.string.info_pre_in) + incomingEmoticonsCount, ctx.getString(R.string.info_pre_out) + outgoingEmoticonsCount);
 	}
 
 	String [] emoticons = {":-)",":)",":o)",":]",":3",":c)",":>","=]","8)","=)",":}",":^)",":-D",":D","8-D","8D","x-D","xD",
