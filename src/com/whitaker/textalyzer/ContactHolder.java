@@ -25,24 +25,33 @@ public class ContactHolder
 	
 	public int incomingTextCount; //print
 	public int outgoingTextCount; 
+	private double textCountRatio;
 	
 	public int incomingTextAverage; //print
 	public int outgoingTextAverage; 
+	private double textAverageRatio;
+	
 	
 	public long totalIncomingDelay;
 	public long totalOutgoingDelay;
 	
 	public double averageIncomingDelay; //print
 	public double averageOutgoingDelay; 
+	private double delayRatio;
+	
 	
 	public int outgoingConversationsStarted; //print
 	public int incomingConversationsStarted; 
+	private double conversationsStartedRatio;
 	
 	public String [] incomingMostCommon = {"","",""};	
 	public String [] outgoingMostCommon = {"","",""};
 	
 	public int incomingEmoticonsCount; //print
 	public int outgoingEmoticonsCount;
+	private double emoticonsCountRatio;
+	
+	private double friendshipRatio;
 	
 	public ArrayList<InstructionHolder> instructions;
 	
@@ -74,6 +83,47 @@ public class ContactHolder
 		String instruction;
 		String value1;
 		String value2;
+	}
+	
+	public double getTextCountRatio() 
+	{
+		int total = incomingTextCount + outgoingTextCount;
+		textCountRatio = incomingTextCount / total;
+		return textCountRatio;
+	}
+	
+	public double getTextAverageRatio() 
+	{
+		int total = incomingTextAverage + outgoingTextAverage;
+		textAverageRatio = incomingTextAverage / total;
+		return textAverageRatio;
+	}
+	
+	public double getDelayRatio() 
+	{
+		double total = averageIncomingDelay + averageOutgoingDelay;
+		delayRatio = averageIncomingDelay / total;
+		return delayRatio;
+	}
+	
+	public double getConversationsStartedRatio() 
+	{
+		double total = incomingConversationsStarted + outgoingConversationsStarted;
+		conversationsStartedRatio = incomingConversationsStarted / total;
+		return conversationsStartedRatio;
+	}
+	
+	public double getEmoticonsCountRatio() 
+	{
+		double total = incomingEmoticonsCount + outgoingEmoticonsCount;
+		emoticonsCountRatio = incomingEmoticonsCount / total;
+		return emoticonsCountRatio;
+	}
+	
+	public double getFriendshipRatio()  //TODO Normalized to 50%, push it to 0 or 100????
+	{
+		friendshipRatio = (textCountRatio + textAverageRatio + delayRatio + conversationsStartedRatio + emoticonsCountRatio) / 5.0;
+		return friendshipRatio;
 	}
 	
 	public void addInstruction(String instruction, String value1, String value2)
