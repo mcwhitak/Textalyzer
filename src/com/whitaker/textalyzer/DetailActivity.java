@@ -210,16 +210,25 @@ public class DetailActivity extends Activity implements OnItemClickListener, OnC
 			if(scoreHeaderTextView.getVisibility() == View.VISIBLE)
 			{
 				scoreHeaderTextView.setVisibility(View.INVISIBLE);
+				scoreHeaderTextView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out_short));
 				scoreValueTextView.setVisibility(View.INVISIBLE);
+				scoreValueTextView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out_short));
 				hideHeaderTextView.setVisibility(View.VISIBLE);
+				hideHeaderTextView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in_short));
 				hideSubTextView.setVisibility(View.VISIBLE);
+				hideSubTextView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in_short));
 			}
 			else
 			{
 				scoreHeaderTextView.setVisibility(View.VISIBLE);
+				scoreHeaderTextView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in_short));
 				scoreValueTextView.setVisibility(View.VISIBLE);
+				scoreValueTextView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in_short));
 				hideHeaderTextView.setVisibility(View.INVISIBLE);
+				hideHeaderTextView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out_short));
 				hideSubTextView.setVisibility(View.INVISIBLE);
+				hideSubTextView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out_short));
+
 			}
 		}
 	}
