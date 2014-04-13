@@ -6,11 +6,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import android.content.Context;
-import android.util.Log;
 
 import com.whitaker.textalyzer.TextMessage.Directions;
 
@@ -26,29 +22,28 @@ public class ContactHolder
 	public HashMap<String,Integer> incomingWordFrequency;
 	public HashMap<String,Integer> outgoingWordFrequency;
 	
-	public int incomingTextCount; //present DONE
-	public int outgoingTextCount; //present
+	public int incomingTextCount; 
+	public int outgoingTextCount; 
 	
-	public int incomingTextAverage; //present DONE
-	public int outgoingTextAverage; //present
+	public int incomingTextAverage; 
+	public int outgoingTextAverage; 
 	
 	public long timeOfFirstText;
 	
 	public long totalIncomingDelay;
 	public long totalOutgoingDelay;
 	
-	public double averageIncomingDelay; //present DONE
-	public double averageOutgoingDelay; //present
+	public int averageIncomingDelay; //idgaf about fractions of a second.
+	public int averageOutgoingDelay; 
 	
-	public int outgoingConversationsStarted; //present MESSED UP
-	public int incomingConversationsStarted; //present
+	public int outgoingConversationsStarted; 
+	public int incomingConversationsStarted; 
 	
-	public String incomingMostCommon;	//present
+	public String incomingMostCommon;	
 	public String outgoingMostCommon;
 	
 	public int incomingEmoticonsCount;
 	public int outgoingEmoticonsCount;
-	
 	
 	public ArrayList<InstructionHolder> instructions;
 	
@@ -132,11 +127,8 @@ public class ContactHolder
 	        }
 	    });
 		
-		//TODO Calculate most common words, filter out articles, pronouns, etc
-		timeOfFirstText = textMessages.get(0).timeCreated;
 		Directions currentDirection = textMessages.get(0).direction;
-		
-		for (int i = 1; i < textMessages.size(); i++) //maybe size - 1
+		for (int i = 1; i < textMessages.size(); i++)
 		{
 			currentDirection = textMessages.get(i).direction;
 			long delay = textMessages.get(i).timeCreated - textMessages.get(i - 1).timeCreated;
@@ -156,7 +148,7 @@ public class ContactHolder
 				}
 			}
 			
-			if (delay > MainActivity.ONE_HOUR * 9) //Started a conversation
+			if (delay > MainActivity.ONE_HOUR * 9) //Started a new conversation
 			{
 				if (currentDirection == Directions.INBOUND)
 				{
@@ -168,19 +160,28 @@ public class ContactHolder
 				}	
 			}
 	        
-	        for (String e: emoticons) 
-	        {
-	        	
-	        	if(incomingWordFrequency.get(e) != null)
-		        {
-	        		Log.d("Royyy","" + personName + " " + incomingEmoticonsCount + " : " + outgoingEmoticonsCount); 
-		        	incomingEmoticonsCount++;
-		        }
-		        if(outgoingWordFrequency.get(e) != null)
-		        {
-		            outgoingEmoticonsCount++;
-		        }	
-	        }
+
+			if (currentDirection == Directions.INBOUND)
+			{
+				for (String e: emoticons)
+				{
+					if (textMessages.get(i).body.contains(e))
+					{
+						incomingEmoticonsCount++;
+					}
+			
+				}					
+			}
+			else 
+			{
+				for (String e: emoticons)
+				{
+					if (textMessages.get(i).body.contains(e))
+					{
+						outgoingEmoticonsCount++;
+					}
+				}
+			}
 		}	
 		
 		addInstruction(ctx.getString(R.string.info_pre_common), ctx.getString(R.string.info_pre_in)+ incomingConversationsStarted, ctx.getString(R.string.info_pre_out) + outgoingConversationsStarted);
@@ -190,17 +191,17 @@ public class ContactHolder
 
 		if(incomingTextCount != 0)
 		{
-			averageIncomingDelay = ((int)(((totalIncomingDelay / incomingTextCount) / 1000) * 10)) / 10; //take average delay,convert to seconds, round to one digit
+			averageIncomingDelay = (int)(((totalIncomingDelay / incomingTextCount) / 1000)); //take average delay,convert to seconds, round to one digit
 			addInstruction(ctx.getString(R.string.info_pre_delay), ctx.getString(R.string.info_pre_in) + averageIncomingDelay, null); 
 		}
 		
 		if(outgoingTextCount != 0)
 		{
-			averageOutgoingDelay = ((int)(((totalOutgoingDelay / outgoingTextCount) / 1000) * 10)) / 10; //take average delay,convert to seconds, round to one digit
+			averageOutgoingDelay = (int)(((totalOutgoingDelay / outgoingTextCount) / 1000)); //take average delay,convert to seconds, round to one digit
 			addInstruction(ctx.getString(R.string.info_pre_delay), null, ctx.getString(R.string.info_pre_out) + averageOutgoingDelay);
 		}
 		
-		int max = 0;//TODO change the iterator thing ew
+		int max = 0;
 		String word = "";
 		Iterator it = incomingWordFrequency.entrySet().iterator();
 		while(it.hasNext())
@@ -230,6 +231,9 @@ public class ContactHolder
 		outgoingMostCommon = word;
 		
 		addInstruction(ctx.getString(R.string.info_pre_common), ctx.getString(R.string.info_pre_in) + incomingMostCommon, ctx.getString(R.string.info_pre_out) + outgoingMostCommon);
+
+		//TODO add emoticon to panel
+
 	}
 
 	String [] emoticons = {":-)",":)",":o)",":]",":3",":c)",":>","=]","8)","=)",":}",":^)",":-D",":D","8-D","8D","x-D","xD",

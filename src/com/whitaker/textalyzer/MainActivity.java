@@ -175,8 +175,6 @@ public class MainActivity extends Activity implements OnItemClickListener
 		{
 			for (String word: words)
 			{
-				//TODO if word not in articles
-				
 				if (!Arrays.asList(boringWords).contains(word))
 				{
 			        Integer frequency = holder.outgoingWordFrequency.get(word); //Must use wrapper to utilize null below
@@ -338,5 +336,4 @@ public class MainActivity extends Activity implements OnItemClickListener
 			"MAKE","ABOUT","KNOW","WILL","AS","UP","ONE","THERE","YEAR","SO","THINK","WHEN","WHICH","THEM","SOME","ME","PEOPLE","TAKE","OUT",
 			"INTO","JUST","SEE","HIM","YOUR","COME","COULD","NOW","THAN","LIKE","OTHER","HOW","THEN","ITS","OUR","TWO","MORE","THESE","WANT",
 			"WAY","LOOK","FIRST","ALSO","NEW","BECAUSE","DAY","MORE","USE","NO","FIND","HERE","THING","GIVE","MANY"};
-	
 }
