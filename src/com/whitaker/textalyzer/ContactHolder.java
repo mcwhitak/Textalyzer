@@ -125,14 +125,11 @@ public class ContactHolder
 		{
 			currentDirection = textMessages.get(i).direction;
 			long delay = textMessages.get(i).timeCreated - textMessages.get(i - 1).timeCreated;
-			Log.d("Royyy",personName + "direction: " + textMessages.get(i).direction + " delay:" + (delay));
 			
-		   
-			
-			
-			if (currentDirection != textMessages.get(i).direction) //Ignore times of double texts
+			if (currentDirection != textMessages.get(i - 1).direction) //Ignore times of double texts
 			{
-				if (delay < MainActivity.ONE_HOUR) //conversation part of a convo
+				Log.d("Royyy","checking: " + delay + " < " + MainActivity.ONE_HOUR + " ");
+				if (delay < MainActivity.ONE_HOUR) //conversation part of a convo 3,600,000
 				{	
 					if (currentDirection == Directions.INBOUND)
 					{
@@ -161,7 +158,7 @@ public class ContactHolder
 		addInstruction("Coversations Started", "Them: " + incomingConversationsStarted, "You: " + outgoingConversationsStarted);
 		
 		
-		
+	
 		averageIncomingDelay = 0; 
 		averageOutgoingDelay = 0;
 
@@ -170,9 +167,7 @@ public class ContactHolder
 		if(incomingTextCount != 0)
 		{
 			averageIncomingDelay = ((int)(((totalIncomingDelay / incomingTextCount) / 1000) * 10)) / 10; //take average delay,convert to seconds, round to one digit
-			//Log.d("Royyy",personName + " " + (this.totalIncomingDelay));
-			addInstruction("Average Delay", "Incoming: " + averageIncomingDelay, null);
-			 
+			addInstruction("Average Delay", "Incoming: " + averageIncomingDelay, null); 
 		}
 		
 		if(outgoingTextCount != 0)
