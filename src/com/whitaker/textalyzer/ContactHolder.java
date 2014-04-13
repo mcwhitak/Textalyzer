@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import android.util.Log;
 
@@ -37,6 +39,9 @@ public class ContactHolder
 	
 	public int outgoingConversationsStarted; //present MESSED UP
 	public int incomingConversationsStarted; //present
+	
+	public String incomingMostCommon;	//present
+	public String outgoingMostCommon;
 	
 	public ArrayList<InstructionHolder> instructions;
 	
@@ -175,6 +180,37 @@ public class ContactHolder
 			averageOutgoingDelay = ((int)(((totalOutgoingDelay / outgoingTextCount) / 1000) * 10)) / 10; //take average delay,convert to seconds, round to one digit
 			addInstruction("Average Delay", null, "Outcoming: " + averageOutgoingDelay);
 		}
-
+		
+		int max = 0;
+		String word = "";
+		Iterator it = incomingWordFrequency.entrySet().iterator();
+		while(it.hasNext())
+		{
+			Map.Entry pairs = (Map.Entry)it.next();
+			int value = (Integer)pairs.getValue();
+			if(value > max)
+			{
+				word = (String)pairs.getKey();
+				Log.d("ERICNELSON", word);
+				max = value;
+			}
+		}
+		incomingMostCommon = word;
+		
+		max = 0;
+		it = outgoingWordFrequency.entrySet().iterator();
+		while(it.hasNext())
+		{
+			Map.Entry pairs = (Map.Entry)it.next();
+			int value = (Integer)pairs.getValue();
+			if(value > max)
+			{
+				word = (String)pairs.getKey();
+				max = value;
+			}
+		}
+		outgoingMostCommon = word;
+		
+		addInstruction("Most Common Word", "Them: " + incomingMostCommon, "You: " + outgoingMostCommon);
 	}
 }

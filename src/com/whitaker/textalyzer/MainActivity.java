@@ -71,7 +71,6 @@ public class MainActivity extends Activity implements OnItemClickListener
 				if(body == null)
 					continue;
 				
-				Log.d("ERICNELSON", body);
 				holder.textReceivedLength += body.length(); 
 				
 				determineWordFrequency(body, Directions.INBOUND, holder);
@@ -155,9 +154,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 			ContactHolder holder = (ContactHolder)pairs.getValue();
 			holder.analyze();
 		}
-		
-		Log.d("ERICNELSON", "SIZE: " + contactMap.size());
-		
+				
 		grabAllViews();
 		
 		//create a runnable thread that starts before grab all views
