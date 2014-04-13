@@ -56,6 +56,22 @@ public class DetailActivity extends Activity implements OnItemClickListener, OnC
 			}
 		}
 		scoreHeaderTextView.setText("Friend Score: " + contactHolder.personName);
+		scoreValueTextView.setText(contactHolder.getFriendshipRatio() + "'");
+		
+		
+		if (contactHolder.getFriendshipRatio() < 0.40) 
+		{
+			hideSubTextView.setText("\"Friendship requires great communication.\" - Saint Francis de Sales");
+		}
+		else if (contactHolder.getFriendshipRatio() > 0.60)
+		{
+			hideSubTextView.setText("\"Many attempts to communicate are nullified by saying too much.\" - Robert Greenleaf");
+		}
+		else
+		{
+			hideSubTextView.setText("Hold a true friend and don't let go, for a true friend comes once in a lifetime.");
+		}
+		
 		infoAdapter = new InformationAdapter();
 		informationListView.setAdapter(infoAdapter);
 		informationListView.setOnItemClickListener(this);
@@ -112,25 +128,89 @@ public class DetailActivity extends Activity implements OnItemClickListener, OnC
 				InstructionHolder iHolder = contactHolder.instructions.get(position);
 				
 				catText.setText(iHolder.instruction);
+				
 				if(iHolder.instruction.equals(getString(R.string.info_pre_delay)))
-					hintText.setText(getString(R.string.tip_delay));
+				{
+					if (contactHolder.getDelayRatio() < 0.40) 
+					{
+						hintText.setText("Someone seems to likes you!");
+					}
+					else if (contactHolder.getDelayRatio() > 0.60)
+					{
+						hintText.setText("Well this is awkward...");
+					}
+					else
+					{
+						hintText.setText("Do you set a timer to remind you when to reply?");
+					}
+				}
+					
 				else if(iHolder.instruction.equals(getString(R.string.info_pre_count)))
-					hintText.setText(getString(R.string.tip_count));
-				else if(iHolder.instruction.equals(getString(R.string.info_pre_length)))
-					hintText.setText(getString(R.string.tip_length));
+				{
+					if (contactHolder.getTextCountRatio() < 0.40) 
+					{
+						hintText.setText("Are you giving " + contactHolder.personName + " the cold shoulder? Rude!");
+					}
+					else if (contactHolder.getTextCountRatio() > 0.60)
+					{
+						hintText.setText(contactHolder.personName + " has a sticky enter button.");
+					}
+					else
+					{
+						hintText.setText("How polite, a one to one relationship. ");
+					}
+					
+				}
+					
+				else if(iHolder.instruction.equals(getString(R.string.info_pre_length))) //average length
+				{
+					if (contactHolder.getTextAverageRatio() < 0.40) 
+					{
+						hintText.setText("C\'mon, beef up those texts with a few more characters.");
+					}
+					else if (contactHolder.getTextAverageRatio() > 0.60)
+					{
+						hintText.setText(contactHolder.personName + " sure is a fast typer...");
+					}
+					else
+					{
+						hintText.setText("Are you two purposefully matching each other in length? I'm onto you...");
+					}
+				}
 				else if(iHolder.instruction.equals(getString(R.string.info_pre_convo)))
-					hintText.setText(getString(R.string.tip_convo));
+				{
+					if (contactHolder.getConversationsStartedRatio() < 0.40) 
+					{
+						hintText.setText("Maybe you should start the conversation one in a while.");
+					}
+					else if (contactHolder.getConversationsStartedRatio() > 0.60)
+					{
+						hintText.setText("Let " + contactHolder.personName + " start the conversation.");
+					}
+					else
+					{
+						hintText.setText("You two are a chatty bunch.");
+					}
+				}					
 				else if(iHolder.instruction.equals(getString(R.string.info_pre_common)))
 				{
-					hintText.setText("Your other favorite words: " + contactHolder.outgoingMostCommon[1] + " and " + contactHolder.outgoingMostCommon[2]
-							+ "\nFriend\'s favorite words: " +contactHolder.outgoingMostCommon[1] + ", " +contactHolder.outgoingMostCommon[2]);
+					hintText.setText("Your other favorite words: \"" + contactHolder.outgoingMostCommon[1] + "\" and \"" + contactHolder.outgoingMostCommon[2]
+							+ "\"\n" + contactHolder.personName + "\'s other favorite words: \"" +contactHolder.incomingMostCommon[1] + "\" and \"" +contactHolder.incomingMostCommon[2] + "\"");
 				}
 				else if(iHolder.instruction.equals(getString(R.string.info_pre_emote)))
 				{
-					if (contactHolder.outgoingEmoticonsCount > 3) //TODO ratio
-						hintText.setText("Slow it down buddy...");
-					else
+					if (contactHolder.getEmoticonsCountRatio() < 0.40) 
+					{
 						hintText.setText("Spice up this convo with a winkie face.");
+					}
+					else if (contactHolder.getEmoticonsCountRatio() > 0.60)
+					{
+						hintText.setText("Slow it down buddy...");
+					}
+					else
+					{
+						hintText.setText("You are a true professional.");
+					}
 				}
 				
 				val1Text.setText(iHolder.value1);

@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.whitaker.textalyzer.TextMessage.Directions;
 
@@ -44,7 +45,7 @@ public class ContactHolder
 	public int incomingConversationsStarted; 
 	private double conversationsStartedRatio;
 	
-	public String [] incomingMostCommon = {"","",""};	
+	public String [] incomingMostCommon = {"","",""}; //print
 	public String [] outgoingMostCommon = {"","",""};
 	
 	public int incomingEmoticonsCount; //print
@@ -122,7 +123,10 @@ public class ContactHolder
 	
 	public double getFriendshipRatio()  //TODO Normalized to 50%, push it to 0 or 100????
 	{
-		friendshipRatio = (textCountRatio + textAverageRatio + delayRatio + conversationsStartedRatio + emoticonsCountRatio) / 5.0;
+		friendshipRatio = (getTextCountRatio() + getTextAverageRatio() + getDelayRatio() + getConversationsStartedRatio() + getEmoticonsCountRatio()) / 5.0;
+		Log.d("Royyy",textCountRatio + " " + textAverageRatio + " " + delayRatio + " " + conversationsStartedRatio + " " + emoticonsCountRatio);
+		Log.d("Royyy",getTextCountRatio() + " " + getTextAverageRatio() + " " + getDelayRatio() + " " + getConversationsStartedRatio() + " " + getEmoticonsCountRatio());
+		
 		return friendshipRatio;
 	}
 	
@@ -341,10 +345,8 @@ public class ContactHolder
 			outgoingMostCommon[0] = (String) outgoingWordFrequency.keySet().toArray()[0];
 		}
 		
-		//TODO add top 3 most common words to tip panel
-		addInstruction(ctx.getString(R.string.info_pre_common), ctx.getString(R.string.info_pre_in) + incomingMostCommon[0], ctx.getString(R.string.info_pre_out) + outgoingMostCommon[0] + " add the others behind fgt");
+		addInstruction(ctx.getString(R.string.info_pre_common), ctx.getString(R.string.info_pre_in) + incomingMostCommon[0], ctx.getString(R.string.info_pre_out) + outgoingMostCommon[0]);
 
-		//TODO add emoticon to panel
 		addInstruction(ctx.getString(R.string.info_pre_emote), ctx.getString(R.string.info_pre_in) + incomingEmoticonsCount, ctx.getString(R.string.info_pre_out) + outgoingEmoticonsCount);
 	}
 
