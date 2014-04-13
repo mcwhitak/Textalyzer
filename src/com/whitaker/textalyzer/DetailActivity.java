@@ -4,6 +4,8 @@ import com.whitaker.textalyzer.ContactHolder.InstructionHolder;
 import com.whitaker.textalyzer.TextMessage.Directions;
 
 import android.app.Activity;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -35,6 +37,11 @@ public class DetailActivity extends Activity implements OnItemClickListener, OnC
 	{
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.detail_activity);
+		
+		int titleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
+		TextView abTV = (TextView)findViewById(titleId);
+		abTV.setTextColor(Color.WHITE);
+
 		
 		Bundle b = getIntent().getExtras();
 		Integer id = b.getInt("id");

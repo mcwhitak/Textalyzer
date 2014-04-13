@@ -16,7 +16,9 @@ import android.app.Fragment;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -53,6 +55,10 @@ public class MainActivity extends Activity implements OnItemClickListener
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		int titleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
+		TextView abTV = (TextView)findViewById(titleId);
+		abTV.setTextColor(Color.WHITE);
 		
 		personList = new ArrayList<ContactHolder>();
 		contactMap = new HashMap<Integer, ContactHolder>();
