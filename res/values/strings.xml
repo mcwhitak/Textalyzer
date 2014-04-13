@@ -4,5 +4,13 @@
     <string name="app_name">Textalyzer</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="detail_header">Friend Score:&#160;</string>
+    <string name="info_pre_in">Friend:&#160;</string>
+    <string name="info_pre_out">You:&#160;</string>
+    <string name="info_pre_common">Most Common Word</string>
+    <string name="info_pre_delay">Average Delay</string>
+    <string name="info_pre_convo">Conversations Started</string>
+    <string name="info_pre_length">Average Length</string>
+    <string name="info_pre_count">Text Count</string>
 
 </resources>

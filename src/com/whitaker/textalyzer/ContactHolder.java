@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.whitaker.textalyzer.TextMessage.Directions;
@@ -100,20 +101,20 @@ public class ContactHolder
 		}
 	}
 	
-	public void analyze() 
+	public void analyze(Context ctx) 
 	{
 		incomingTextAverage = 0;
 		if(incomingTextCount != 0)
 		{
 			incomingTextAverage = textReceivedLength / incomingTextCount;
-			addInstruction("Average Length", "Incoming: " + incomingTextAverage, null);
+			addInstruction(ctx.getString(R.string.info_pre_length), ctx.getString(R.string.info_pre_in)+ incomingTextAverage, null);
 		}
 		
 		outgoingTextAverage = 0;
 		if(outgoingTextCount != 0)
 		{
 			outgoingTextAverage = textSentLength / outgoingTextCount;
-			addInstruction("Average Length", null, "Outgoing: " + outgoingTextAverage);
+			addInstruction(ctx.getString(R.string.info_pre_length), null, ctx.getString(R.string.info_pre_out) + outgoingTextAverage);
 		}
 		
 		Collections.sort(textMessages, new Comparator<TextMessage>() {
@@ -160,25 +161,21 @@ public class ContactHolder
 			}
 		}	
 		
-		addInstruction("Coversations Started", "Them: " + incomingConversationsStarted, "You: " + outgoingConversationsStarted);
+		addInstruction(ctx.getString(R.string.info_pre_common), ctx.getString(R.string.info_pre_in)+ incomingConversationsStarted, ctx.getString(R.string.info_pre_out) + outgoingConversationsStarted);
 		
-		
-	
 		averageIncomingDelay = 0; 
 		averageOutgoingDelay = 0;
 
-		
-		
 		if(incomingTextCount != 0)
 		{
 			averageIncomingDelay = ((int)(((totalIncomingDelay / incomingTextCount) / 1000) * 10)) / 10; //take average delay,convert to seconds, round to one digit
-			addInstruction("Average Delay", "Incoming: " + averageIncomingDelay, null); 
+			addInstruction(ctx.getString(R.string.info_pre_delay), ctx.getString(R.string.info_pre_in) + averageIncomingDelay, null); 
 		}
 		
 		if(outgoingTextCount != 0)
 		{
 			averageOutgoingDelay = ((int)(((totalOutgoingDelay / outgoingTextCount) / 1000) * 10)) / 10; //take average delay,convert to seconds, round to one digit
-			addInstruction("Average Delay", null, "Outcoming: " + averageOutgoingDelay);
+			addInstruction(ctx.getString(R.string.info_pre_delay), null, ctx.getString(R.string.info_pre_out) + averageOutgoingDelay);
 		}
 		
 		int max = 0;
@@ -191,7 +188,6 @@ public class ContactHolder
 			if(value > max)
 			{
 				word = (String)pairs.getKey();
-				Log.d("ERICNELSON", word);
 				max = value;
 			}
 		}
@@ -211,6 +207,6 @@ public class ContactHolder
 		}
 		outgoingMostCommon = word;
 		
-		addInstruction("Most Common Word", "Them: " + incomingMostCommon, "You: " + outgoingMostCommon);
+		addInstruction(ctx.getString(R.string.info_pre_common), ctx.getString(R.string.info_pre_in) + incomingMostCommon, ctx.getString(R.string.info_pre_out) + outgoingMostCommon);
 	}
 }

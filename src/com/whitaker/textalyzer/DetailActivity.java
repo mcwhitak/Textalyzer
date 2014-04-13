@@ -120,12 +120,12 @@ public class DetailActivity extends Activity
 	{
 		super.setContentView(res);
 		getActionBar().setHomeButtonEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 	
 	@Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        // Handle your other action bar items...
         switch(item.getItemId())
         {
         	case android.R.id.home:

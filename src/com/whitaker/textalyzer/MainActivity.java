@@ -76,7 +76,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 				determineWordFrequency(body, Directions.INBOUND, holder);
 				
 				holder.incomingTextCount++;
-				holder.addInstruction("Text Count:", "Incoming: " + holder.incomingTextCount, null);
+				holder.addInstruction(this.getString(R.string.info_pre_count), getString(R.string.info_pre_in) + holder.incomingTextCount, null);
 				
 				String address = cursor.getString(3);
 				address = addressClipper(address);
@@ -110,7 +110,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 				determineWordFrequency(body, Directions.INBOUND, holder);
 				holder.textReceivedLength += body.length(); 
 				holder.incomingTextCount++;
-				holder.addInstruction("Text Count:", "Incoming: " + holder.incomingTextCount, null);
+				holder.addInstruction(getString(R.string.info_pre_count), getString(R.string.info_pre_in) + holder.incomingTextCount, null);
 				TextMessage message = new TextMessage(Directions.INBOUND, body, cursor.getInt(5));
 				holder.textMessages.add(message);
 			}
@@ -138,7 +138,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 					determineWordFrequency(body, Directions.OUTBOUND, holder);
 					holder.textSentLength += body.length(); 
 					holder.outgoingTextCount++;
-					holder.addInstruction("Text Count:", null, "Outgoing: " + holder.outgoingTextCount);
+					holder.addInstruction(getString(R.string.info_pre_count), null, getString(R.string.info_pre_out) + holder.outgoingTextCount);
 					TextMessage message = new TextMessage(Directions.OUTBOUND, body, cursor.getInt(5));
 					holder.textMessages.add(message);
 					break;
@@ -152,7 +152,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 		{
 			Map.Entry pairs = (Map.Entry)it.next();
 			ContactHolder holder = (ContactHolder)pairs.getValue();
-			holder.analyze();
+			holder.analyze(getCtx());
 		}
 				
 		grabAllViews();
