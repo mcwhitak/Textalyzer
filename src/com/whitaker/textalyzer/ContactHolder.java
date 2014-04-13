@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
 import android.content.Context;
 
 import com.whitaker.textalyzer.TextMessage.Directions;
@@ -39,8 +40,8 @@ public class ContactHolder
 	public int outgoingConversationsStarted; 
 	public int incomingConversationsStarted; 
 	
-	public String incomingMostCommon;	
-	public String outgoingMostCommon;
+	public String [] incomingMostCommon = {"","",""};	
+	public String [] outgoingMostCommon = {"","",""};
 	
 	public int incomingEmoticonsCount;
 	public int outgoingEmoticonsCount;
@@ -201,35 +202,98 @@ public class ContactHolder
 			addInstruction(ctx.getString(R.string.info_pre_delay), null, ctx.getString(R.string.info_pre_out) + averageOutgoingDelay);
 		}
 		
-		int max = 0;
-		String word = "";
+		int [] maxes = {0,0,0};
+		String [] words = {"","",""}; 
 		Iterator it = incomingWordFrequency.entrySet().iterator();
-		while(it.hasNext())
+		if (incomingWordFrequency.keySet().size() >= 3)
 		{
-			Map.Entry pairs = (Map.Entry)it.next();
-			int value = (Integer)pairs.getValue();
-			if(value > max)
+			while(it.hasNext())
 			{
-				word = (String)pairs.getKey();
-				max = value;
+				Map.Entry pairs = (Map.Entry)it.next();
+				int value = (Integer)pairs.getValue();
+				String word = (String)pairs.getKey();
+				
+				for (int i = 0; i < 3; i++)
+				{
+					if (maxes[i] < value)
+					{
+						int iSmallest = 0;
+						for (int j = 0; j < 3; j++)
+						{
+							if (maxes[j] < maxes[iSmallest])
+							{
+								iSmallest = j;
+							}
+							
+						}
+						maxes[iSmallest] = value;
+						words[iSmallest] = word;
+						break;					
+					}
+				}
 			}
+			incomingMostCommon[0] = words[0];
+			incomingMostCommon[1] = words[1];
+			incomingMostCommon[2] = words[2];
 		}
-		incomingMostCommon = word;
+		else if (incomingWordFrequency.keySet().size() == 2)
+		{
+			incomingMostCommon[0] = (String) incomingWordFrequency.keySet().toArray()[0];
+			incomingMostCommon[1] = (String) incomingWordFrequency.keySet().toArray()[1];	
+		}
+		else if (incomingWordFrequency.keySet().size() == 1)
+		{
+			incomingMostCommon[0] = (String) incomingWordFrequency.keySet().toArray()[0];
+		}
+
 		
-		max = 0;
+		//Do it again for outgoing
+		maxes[0] = 0; maxes[1] = 0; maxes[2] = 0;
+		words[0] = words[1] = words[2] = "";
 		it = outgoingWordFrequency.entrySet().iterator();
-		while(it.hasNext())
+		if (outgoingWordFrequency.keySet().size() >= 3)
 		{
-			Map.Entry pairs = (Map.Entry)it.next();
-			int value = (Integer)pairs.getValue();
-			if(value > max)
+			while(it.hasNext())
 			{
-				word = (String)pairs.getKey();
-				max = value;
+				Map.Entry pairs = (Map.Entry)it.next();
+				int value = (Integer)pairs.getValue();
+				String word = (String)pairs.getKey();
+				
+				for (int i = 0; i < 3; i++)
+				{
+					if (maxes[i] < value)
+					{
+						int iSmallest = 0;
+						for (int j = 0; j < 3; j++)
+						{
+							if (maxes[j] < maxes[iSmallest])
+							{
+								iSmallest = j;
+							}
+							
+						}
+						maxes[iSmallest] = value;
+						words[iSmallest] = word;
+						break;					
+					}
+				}
 			}
+			outgoingMostCommon[0] = words[0];
+			outgoingMostCommon[1] = words[1];
+			outgoingMostCommon[2] = words[2];
 		}
-		outgoingMostCommon = word;
+		else if (incomingWordFrequency.keySet().size() == 2)
+		{
+			outgoingMostCommon[0] = (String) outgoingWordFrequency.keySet().toArray()[0];
+			outgoingMostCommon[1] = (String) outgoingWordFrequency.keySet().toArray()[1];	
+		}
+		else if (outgoingWordFrequency.keySet().size() == 1)
+		{
+			outgoingMostCommon[0] = (String) outgoingWordFrequency.keySet().toArray()[0];
+		}
 		
+		
+		//TODO add top 3 most common words to tip panel
 		addInstruction(ctx.getString(R.string.info_pre_common), ctx.getString(R.string.info_pre_in) + incomingMostCommon, ctx.getString(R.string.info_pre_out) + outgoingMostCommon);
 
 		//TODO add emoticon to panel
