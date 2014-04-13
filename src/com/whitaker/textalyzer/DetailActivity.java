@@ -19,9 +19,7 @@ public class DetailActivity extends Activity
 	private TextView scoreValueTextView;
 	private TextView contactNameTextView;
 	private ListView informationListView;
-	private int FIELDS = 10;
 	private ContactHolder contactHolder;
-	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
