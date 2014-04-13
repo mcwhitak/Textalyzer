@@ -185,7 +185,8 @@ public class ContactHolder
 			}
 		}	
 		
-		addInstruction(ctx.getString(R.string.info_pre_common), ctx.getString(R.string.info_pre_in)+ incomingConversationsStarted, ctx.getString(R.string.info_pre_out) + outgoingConversationsStarted);
+		
+		addInstruction(ctx.getString(R.string.info_pre_convo), ctx.getString(R.string.info_pre_in)+ incomingConversationsStarted, ctx.getString(R.string.info_pre_out) + outgoingConversationsStarted);
 		
 		averageIncomingDelay = 0; 
 		averageOutgoingDelay = 0;

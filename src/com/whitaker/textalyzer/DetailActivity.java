@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -17,11 +18,14 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class DetailActivity extends Activity implements OnItemClickListener
+public class DetailActivity extends Activity implements OnItemClickListener, OnClickListener
 {
 	private TextView scoreHeaderTextView;
 	private TextView scoreValueTextView;
+	private TextView hideHeaderTextView;
+	private TextView hideSubTextView;
 	private ListView informationListView;
+	private RelativeLayout headerRelativeView;
 	private ContactHolder contactHolder;
 	private InformationAdapter infoAdapter;
 	private int tipIndex = -1;
@@ -55,13 +59,17 @@ public class DetailActivity extends Activity implements OnItemClickListener
 		infoAdapter = new InformationAdapter();
 		informationListView.setAdapter(infoAdapter);
 		informationListView.setOnItemClickListener(this);
+		headerRelativeView.setOnClickListener(this);
 	}
 	
 	private void grabAllViews()
 	{
 		scoreHeaderTextView = (TextView)findViewById(R.id.score_header);
 		scoreValueTextView = (TextView)findViewById(R.id.score_value);
+		hideHeaderTextView = (TextView)findViewById(R.id.hide_header);
+		hideSubTextView = (TextView)findViewById(R.id.hide_sub);
 		informationListView = (ListView)findViewById(R.id.list_information);
+		headerRelativeView = (RelativeLayout)findViewById(R.id.relative_header);
 	}
 	
 	private class InformationAdapter extends BaseAdapter
@@ -183,6 +191,28 @@ public class DetailActivity extends Activity implements OnItemClickListener
 				parent.getChildAt(tipIndex).findViewById(R.id.result_tips).startAnimation(AnimationUtils.loadAnimation(this, R.anim.push_right_out));
 			}
 			tipIndex = position;
+		}
+	}
+
+	@Override
+	public void onClick(View v) 
+	{
+		if(v == headerRelativeView)
+		{
+			if(scoreHeaderTextView.getVisibility() == View.VISIBLE)
+			{
+				scoreHeaderTextView.setVisibility(View.INVISIBLE);
+				scoreValueTextView.setVisibility(View.INVISIBLE);
+				hideHeaderTextView.setVisibility(View.VISIBLE);
+				hideSubTextView.setVisibility(View.VISIBLE);
+			}
+			else
+			{
+				scoreHeaderTextView.setVisibility(View.VISIBLE);
+				scoreValueTextView.setVisibility(View.VISIBLE);
+				hideHeaderTextView.setVisibility(View.INVISIBLE);
+				hideSubTextView.setVisibility(View.INVISIBLE);
+			}
 		}
 	}
 }
