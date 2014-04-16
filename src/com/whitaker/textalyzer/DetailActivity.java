@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,7 +42,6 @@ public class DetailActivity extends Activity implements OnItemClickListener, OnC
 		TextView abTV = (TextView)findViewById(titleId);
 		abTV.setTextColor(Color.WHITE);
 
-		
 		Bundle b = getIntent().getExtras();
 		String address = b.getString("address");
 		grabAllViews();
@@ -69,8 +67,7 @@ public class DetailActivity extends Activity implements OnItemClickListener, OnC
 		String ratio = ratioLeft + ":" + ratioRight;
 		
 		scoreValueTextView.setText(ratio);
-		
-		
+				
 		if (contactHolder.getFriendshipRatio() < 0.40) 
 		{
 			hideSubTextView.setText("\"Friendship requires great communication.\" - Saint Francis de Sales");
@@ -87,7 +84,7 @@ public class DetailActivity extends Activity implements OnItemClickListener, OnC
 		infoAdapter = new InformationAdapter();
 		informationListView.setAdapter(infoAdapter);
 		informationListView.setOnItemClickListener(this);
-		headerRelativeView.setOnClickListener(this);
+		headerRelativeView.setOnClickListener(this);	
 	}
 	
 	private void grabAllViews()
@@ -198,7 +195,6 @@ public class DetailActivity extends Activity implements OnItemClickListener, OnC
 					}
 					else if (contactHolder.getConversationsStartedRatio() > 0.60)
 					{
-						//Log.d("Royyy", "rtio: " + contactHolder.getConversationsStartedRatio());
 						hintText.setText("Let " + contactHolder.personName + " start the conversation for once.");
 					}
 					else

@@ -6,9 +6,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
 import android.content.Context;
-import android.util.Log;
 
 import com.whitaker.textalyzer.TextMessage.Directions;
 
@@ -32,14 +30,12 @@ public class ContactHolder
 	public int outgoingTextAverage; 
 	private double textAverageRatio;
 	
-	
 	public long totalIncomingDelay;
 	public long totalOutgoingDelay;
 	
 	public double averageIncomingDelay; //print
 	public double averageOutgoingDelay; 
 	private double delayRatio;
-	
 	
 	public int outgoingConversationsStarted; //print
 	public int incomingConversationsStarted; 
@@ -86,52 +82,57 @@ public class ContactHolder
 		String value2;
 	}
 	
-	public double getTextCountRatio() //TODO put the check before!
+	public double getTextCountRatio()
 	{
 		int total = incomingTextCount + outgoingTextCount;
-		textCountRatio = (double) outgoingTextCount / (double) total;
-		if (total == 0) textCountRatio = -1;
-		
+		if (total == 0)
+		{
+			textCountRatio = -1;
+		}
+		else
+		{
+			textCountRatio = (double) outgoingTextCount / (double) total;
+		}
 		return textCountRatio;
 	}
 	
 	public double getTextAverageRatio() 
 	{
 		int total = incomingTextAverage + outgoingTextAverage;
-		textAverageRatio = (double) outgoingTextAverage / (double) total;
 		if (total == 0) textAverageRatio = -1;
-		
-		Log.d("Royyy", "FUCK: " + incomingTextAverage + " " +  outgoingTextAverage + " " + total + " " + textAverageRatio);
-		
+		else
+			textAverageRatio = (double) outgoingTextAverage / (double) total;
 		return textAverageRatio;
 	}
 	
 	public double getDelayRatio() 
 	{
 		double total = averageIncomingDelay + averageOutgoingDelay;
-		delayRatio = (double) averageOutgoingDelay / (double) total;
 		if (total == 0) delayRatio = -1;
+		else
+			delayRatio = (double) averageOutgoingDelay / (double) total;
 		return delayRatio;
 	}
 	
 	public double getConversationsStartedRatio() 
 	{
 		double total = incomingConversationsStarted + outgoingConversationsStarted;
-		conversationsStartedRatio = (double) outgoingConversationsStarted / (double) total;
 		if (total == 0) conversationsStartedRatio = -1;
-		
+		else 
+			conversationsStartedRatio = (double) outgoingConversationsStarted / (double) total;
 		return conversationsStartedRatio;
 	}
 	
 	public double getEmoticonsCountRatio() 
 	{
 		double total = incomingEmoticonsCount + outgoingEmoticonsCount;
-		emoticonsCountRatio = (double) outgoingEmoticonsCount / (double) total;
 		if (total == 0) emoticonsCountRatio = -1;
+		else
+			emoticonsCountRatio = (double) outgoingEmoticonsCount / (double) total;
 		return emoticonsCountRatio;
 	}
 	
-	public double getFriendshipRatio()  //TODO Normalized to 50%, push it to 0 or 100????
+	public double getFriendshipRatio()  
 	{
 		friendshipRatio = 0;
 		
@@ -147,15 +148,11 @@ public class ContactHolder
 			friendshipRatio += getEmoticonsCountRatio();
 		
 		friendshipRatio /= 5;
-		//Log.d("Royyy",textCountRatio + " " + textAverageRatio + " " + delayRatio + " " + conversationsStartedRatio + " " + emoticonsCountRatio);
-		//Log.d("Royyy",getTextCountRatio() + " " + getTextAverageRatio() + " " + getDelayRatio() + " " + getConversationsStartedRatio() + " " + getEmoticonsCountRatio());
-		
 		return friendshipRatio;
 	}
 	
 	public void addInstruction(String instruction, String value1, String value2)
 	{
-		
 		if(instruction != null)
 		{
 			boolean found = false;
@@ -240,7 +237,6 @@ public class ContactHolder
 				}	
 			}
 	        
-
 			if (currentDirection == Directions.INBOUND)
 			{
 				for (String e: emoticons)
@@ -249,7 +245,6 @@ public class ContactHolder
 					{
 						incomingEmoticonsCount++;
 					}
-			
 				}					
 			}
 			else 
@@ -264,7 +259,6 @@ public class ContactHolder
 			}
 		}	
 		
-
 		addInstruction(ctx.getString(R.string.info_pre_convo), ctx.getString(R.string.info_pre_in)+ incomingConversationsStarted, ctx.getString(R.string.info_pre_out) + outgoingConversationsStarted);
 		
 		if(incomingTextCount != 0) //TODO
@@ -323,7 +317,6 @@ public class ContactHolder
 			incomingMostCommon[0] = (String) incomingWordFrequency.keySet().toArray()[0];
 		}
 
-		
 		//Do it again for outgoing
 		maxes[0] = 0; maxes[1] = 0; maxes[2] = 0;
 		words[0] = words[1] = words[2] = "";
@@ -370,7 +363,6 @@ public class ContactHolder
 		}
 		
 		addInstruction(ctx.getString(R.string.info_pre_common), ctx.getString(R.string.info_pre_in) + incomingMostCommon[0], ctx.getString(R.string.info_pre_out) + outgoingMostCommon[0]);
-
 		addInstruction(ctx.getString(R.string.info_pre_emote), ctx.getString(R.string.info_pre_in) + incomingEmoticonsCount, ctx.getString(R.string.info_pre_out) + outgoingEmoticonsCount);
 	}
 
@@ -383,5 +375,4 @@ public class ContactHolder
 			">:)",">;)",">:-)","}:-)","}:)","3:-)","3:)","o/\\o",">_>^","^<_<","|;-)","|-O",":-&",":&","#-)","%-)",":-###..",
 			":###..","<:-|","<*)))-{","><(((*>","\\o/","*\0/*","@}-;-\'---","@>-->--","~(_8^(I)","5:-)","~:-\\","//0-0\\",
 			"*<|:-)","=:o]",",:-)","<3","</3"};
-
 }
