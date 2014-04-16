@@ -42,7 +42,6 @@ public class DetailActivity extends Activity implements OnItemClickListener, OnC
 		TextView abTV = (TextView)findViewById(titleId);
 		abTV.setTextColor(Color.WHITE);
 
-		
 		Bundle b = getIntent().getExtras();
 		Integer id = b.getInt("id");
 		grabAllViews();
@@ -68,8 +67,7 @@ public class DetailActivity extends Activity implements OnItemClickListener, OnC
 		String ratio = ratioLeft + ":" + ratioRight;
 		
 		scoreValueTextView.setText(ratio);
-		
-		
+				
 		if (contactHolder.getFriendshipRatio() < 0.40) 
 		{
 			hideSubTextView.setText("\"Friendship requires great communication.\" - Saint Francis de Sales");
@@ -86,10 +84,7 @@ public class DetailActivity extends Activity implements OnItemClickListener, OnC
 		infoAdapter = new InformationAdapter();
 		informationListView.setAdapter(infoAdapter);
 		informationListView.setOnItemClickListener(this);
-		headerRelativeView.setOnClickListener(this);
-		
-		
-		
+		headerRelativeView.setOnClickListener(this);	
 	}
 	
 	private void grabAllViews()

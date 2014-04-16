@@ -1,8 +1,5 @@
 package com.whitaker.textalyzer;
 
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -11,22 +8,14 @@ import java.util.Map;
 import com.whitaker.textalyzer.TextMessage.Directions;
 
 import android.app.Activity;
-import android.app.ActionBar;
-import android.app.Fragment;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -34,20 +23,16 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.os.Build;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Data;
 
 public class MainActivity extends Activity implements OnItemClickListener
 {
-	private TextView titleText;
 	private ListView contactListView;
-	private ArrayList<ContactHolder> personList;
 	private static HashMap<Integer, ContactHolder> contactMap;
 	private ContactsAdapter contactAdapter;
 	
 	public static final int ONE_HOUR = 60 * 60 * 1000;
-	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -59,7 +44,6 @@ public class MainActivity extends Activity implements OnItemClickListener
 		TextView abTV = (TextView)findViewById(titleId);
 		abTV.setTextColor(Color.WHITE);
 		
-		personList = new ArrayList<ContactHolder>();
 		contactMap = new HashMap<Integer, ContactHolder>();
 		
 		Cursor cursor = getContentResolver().query(Uri.parse("content://sms/inbox"), null, null, null, null);
@@ -164,9 +148,6 @@ public class MainActivity extends Activity implements OnItemClickListener
 				
 		grabAllViews();
 		
-		//create a runnable thread that starts before grab all views
-		
-		
 		contactAdapter = new ContactsAdapter();
 		contactListView.setAdapter(contactAdapter);
 		contactListView.setOnItemClickListener(this);
@@ -218,7 +199,6 @@ public class MainActivity extends Activity implements OnItemClickListener
 	private void grabAllViews()
 	{
 		contactListView = (ListView)findViewById(R.id.contacts_list);
-		
 	}
 	
 	private class ContactsAdapter extends BaseAdapter
@@ -284,7 +264,6 @@ public class MainActivity extends Activity implements OnItemClickListener
 			}
 			return itemView;
 		}
-		
 	}
 	
 	private String addressClipper(String address)
@@ -293,11 +272,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 		{
 			address = address.substring(2);
 		}
-		
-		if(address.contains(" ") || address.contains("(") || address.contains(")"))
-		{
-			address = address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
-		}
+		address = address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
 		return address;
 	}
 	

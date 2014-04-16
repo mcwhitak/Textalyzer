@@ -6,9 +6,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
 import android.content.Context;
-import android.util.Log;
 
 import com.whitaker.textalyzer.TextMessage.Directions;
 
@@ -32,14 +30,12 @@ public class ContactHolder
 	public int outgoingTextAverage; 
 	private double textAverageRatio;
 	
-	
 	public long totalIncomingDelay;
 	public long totalOutgoingDelay;
 	
 	public double averageIncomingDelay; //print
 	public double averageOutgoingDelay; 
 	private double delayRatio;
-	
 	
 	public int outgoingConversationsStarted; //print
 	public int incomingConversationsStarted; 
@@ -89,9 +85,14 @@ public class ContactHolder
 	public double getTextCountRatio()
 	{
 		int total = incomingTextCount + outgoingTextCount;
-		if (total == 0) textCountRatio = -1;
-		else 
+		if (total == 0)
+		{
+			textCountRatio = -1;
+		}
+		else
+		{
 			textCountRatio = (double) outgoingTextCount / (double) total;
+		}
 		return textCountRatio;
 	}
 	
@@ -152,7 +153,6 @@ public class ContactHolder
 	
 	public void addInstruction(String instruction, String value1, String value2)
 	{
-		
 		if(instruction != null)
 		{
 			boolean found = false;
@@ -237,7 +237,6 @@ public class ContactHolder
 				}	
 			}
 	        
-
 			if (currentDirection == Directions.INBOUND)
 			{
 				for (String e: emoticons)
@@ -246,7 +245,6 @@ public class ContactHolder
 					{
 						incomingEmoticonsCount++;
 					}
-			
 				}					
 			}
 			else 
@@ -261,7 +259,6 @@ public class ContactHolder
 			}
 		}	
 		
-
 		addInstruction(ctx.getString(R.string.info_pre_convo), ctx.getString(R.string.info_pre_in)+ incomingConversationsStarted, ctx.getString(R.string.info_pre_out) + outgoingConversationsStarted);
 		
 		if(incomingTextCount != 0) //TODO
@@ -366,7 +363,6 @@ public class ContactHolder
 		}
 		
 		addInstruction(ctx.getString(R.string.info_pre_common), ctx.getString(R.string.info_pre_in) + incomingMostCommon[0], ctx.getString(R.string.info_pre_out) + outgoingMostCommon[0]);
-
 		addInstruction(ctx.getString(R.string.info_pre_emote), ctx.getString(R.string.info_pre_in) + incomingEmoticonsCount, ctx.getString(R.string.info_pre_out) + outgoingEmoticonsCount);
 	}
 
@@ -379,5 +375,4 @@ public class ContactHolder
 			">:)",">;)",">:-)","}:-)","}:)","3:-)","3:)","o/\\o",">_>^","^<_<","|;-)","|-O",":-&",":&","#-)","%-)",":-###..",
 			":###..","<:-|","<*)))-{","><(((*>","\\o/","*\0/*","@}-;-\'---","@>-->--","~(_8^(I)","5:-)","~:-\\","//0-0\\",
 			"*<|:-)","=:o]",",:-)","<3","</3"};
-
 }
