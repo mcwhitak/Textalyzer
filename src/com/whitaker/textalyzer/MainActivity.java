@@ -161,13 +161,9 @@ public class MainActivity extends Activity implements OnItemClickListener
 				
 		grabAllViews();
 		
-		//create a runnable thread that starts before grab all views
-		
-		
 		contactAdapter = new ContactsAdapter();
 		contactListView.setAdapter(contactAdapter);
 		contactListView.setOnItemClickListener(this);//
-
 	}
 	
 	public void determineWordFrequency (String body, Directions direction, ContactHolder holder)
@@ -273,11 +269,13 @@ public class MainActivity extends Activity implements OnItemClickListener
 			}
 			
 			TextView nameText = (TextView)itemView.findViewById(R.id.contact_item_name);
+			TextView countText = (TextView)itemView.findViewById(R.id.contact_item_total);
 			
 			if(position < contactMap.size())
 			{
 				ContactHolder holder = (ContactHolder)this.getItem(position);
 				nameText.setText(holder.personName);
+				countText.setText((holder.outgoingTextCount + holder.incomingTextCount) + " Texts");
 			}
 			return itemView;
 		}
