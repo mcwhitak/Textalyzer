@@ -43,10 +43,10 @@ public class DetailActivity extends Activity implements OnItemClickListener, OnC
 		abTV.setTextColor(Color.WHITE);
 
 		Bundle b = getIntent().getExtras();
-		Integer id = b.getInt("id");
+		String address = b.getString("address");
 		grabAllViews();
 		
-		contactHolder = MainActivity.getContactHolder(id);
+		contactHolder = MainActivity.getContactHolder(address);
 		
 		Integer outgoing = 0;
 		Integer incoming = 0;

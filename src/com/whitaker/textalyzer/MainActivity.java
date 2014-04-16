@@ -1,5 +1,6 @@
 package com.whitaker.textalyzer;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -15,6 +16,9 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +33,8 @@ import android.provider.ContactsContract.Data;
 public class MainActivity extends Activity implements OnItemClickListener
 {
 	private ListView contactListView;
-	private static HashMap<Integer, ContactHolder> contactMap;
+	private ArrayList<ContactHolder> personList;
+	private static HashMap<String, ContactHolder> contactMap;
 	private ContactsAdapter contactAdapter;
 	
 	public static final int ONE_HOUR = 60 * 60 * 1000;
@@ -44,24 +49,31 @@ public class MainActivity extends Activity implements OnItemClickListener
 		TextView abTV = (TextView)findViewById(titleId);
 		abTV.setTextColor(Color.WHITE);
 		
-		contactMap = new HashMap<Integer, ContactHolder>();
+		personList = new ArrayList<ContactHolder>();
+		contactMap = new HashMap<String, ContactHolder>();
 		
 		Cursor cursor = getContentResolver().query(Uri.parse("content://sms/inbox"), null, null, null, null);
 		cursor.moveToFirst();
 		do
 		{
-			//Each message is a separate while loop call
-			Integer personCode = cursor.getInt(4);
+			if(cursor.getCount() == 0)
+				continue;
 			
-			if(contactMap.get(personCode) == null && personCode != 0)
+			//Each message is a separate while loop call
+			String address = cursor.getString(3);
+			if(address == null)
+				continue;
+			address = addressClipper(address);
+			
+			if(contactMap.get(address) == null)
 			{
 				ContactHolder holder = new ContactHolder();
-				holder.personId = personCode;
-				
+				holder.phoneNumber = address;
+
 				String body = cursor.getString(13);
 				if(body == null)
 					continue;
-				
+
 				holder.textReceivedLength += body.length(); 
 				
 				determineWordFrequency(body, Directions.INBOUND, holder);
@@ -69,34 +81,26 @@ public class MainActivity extends Activity implements OnItemClickListener
 				holder.incomingTextCount++;
 				holder.addInstruction(this.getString(R.string.info_pre_count), getString(R.string.info_pre_in) + holder.incomingTextCount, null);
 				
-				String address = cursor.getString(3);
-				address = addressClipper(address);
-				holder.phoneNumber = address;
-				
-				ContentResolver content = this.getContentResolver();
-				String[] projection = {Data.MIMETYPE,
-						ContactsContract.Contacts._ID,
-						ContactsContract.Contacts.DISPLAY_NAME,
-						ContactsContract.CommonDataKinds.Phone.NUMBER,
-						ContactsContract.CommonDataKinds.Email.ADDRESS
-				};
-						
-				String selection = ContactsContract.Data.RAW_CONTACT_ID + "=?";
-				String sortOrder = Data.LOOKUP_KEY;
-				String[] args = {personCode+""};
-				Cursor conCursor = content.query(Data.CONTENT_URI, projection, selection, args, sortOrder);
-				conCursor.moveToFirst();
-				String displayName = conCursor.getString(2);
-				holder.personName = displayName;
-				contactMap.put(personCode, holder);
-				conCursor.close();
-				
-				TextMessage message = new TextMessage(Directions.INBOUND, body, cursor.getInt(5));
-				holder.textMessages.add(message);
+				Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null,null, null);
+				while (phones.moveToNext())
+				{
+				  String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+				  phoneNumber = addressClipper(phoneNumber);
+				  if(phoneNumber.equals(address))
+				  {
+					  String name=phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+					  holder.personName = name;
+					  contactMap.put(address, holder);
+					  TextMessage message = new TextMessage(Directions.INBOUND, body, cursor.getInt(5));
+					  holder.textMessages.add(message);
+					  break;
+				  }
+				}
+				phones.close();
 			}
-			else if(personCode != 0)
+			else
 			{
-				ContactHolder holder = contactMap.get(personCode);
+				ContactHolder holder = contactMap.get(address);
 				String body = cursor.getString(13);
 				determineWordFrequency(body, Directions.INBOUND, holder);
 				holder.textReceivedLength += body.length(); 
@@ -113,28 +117,26 @@ public class MainActivity extends Activity implements OnItemClickListener
 		cursor.moveToFirst();
 		do
 		{
+			if(cursor.getCount() == 0)
+				continue;
+			
 			String address = cursor.getString(3);
 			if(address == null)
 				continue;
 			address = addressClipper(address);
-			
-			Iterator it = contactMap.entrySet().iterator();
-			while(it.hasNext())
+
+			ContactHolder holder = contactMap.get(address);
+			if(holder != null)
 			{
-				Map.Entry pairs = (Map.Entry)it.next();
-				ContactHolder holder = (ContactHolder)pairs.getValue();
-				if(holder.phoneNumber.equals(address))
-				{
-					String body = cursor.getString(13);
-					determineWordFrequency(body, Directions.OUTBOUND, holder);
-					holder.textSentLength += body.length(); 
-					holder.outgoingTextCount++;
-					holder.addInstruction(getString(R.string.info_pre_count), null, getString(R.string.info_pre_out) + holder.outgoingTextCount);
-					TextMessage message = new TextMessage(Directions.OUTBOUND, body, cursor.getInt(5));
-					holder.textMessages.add(message);
-					break;
-				}
+				String body = cursor.getString(13);
+				determineWordFrequency(body, Directions.OUTBOUND, holder);
+				holder.textSentLength += body.length(); 
+				holder.outgoingTextCount++;
+				holder.addInstruction(getString(R.string.info_pre_count), null, getString(R.string.info_pre_out) + holder.outgoingTextCount);
+				TextMessage message = new TextMessage(Directions.OUTBOUND, body, cursor.getInt(5));
+				holder.textMessages.add(message);
 			}
+			
 		}while(cursor.moveToNext());
 		cursor.close();
 		
@@ -150,7 +152,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 		
 		contactAdapter = new ContactsAdapter();
 		contactListView.setAdapter(contactAdapter);
-		contactListView.setOnItemClickListener(this);
+		contactListView.setOnItemClickListener(this);//
 
 	}
 	
@@ -281,9 +283,9 @@ public class MainActivity extends Activity implements OnItemClickListener
 		return this;
 	}
 	
-	public static ContactHolder getContactHolder(int id)
+	public static ContactHolder getContactHolder(String address)
 	{
-		return contactMap.get(id);
+		return contactMap.get(address);
 	}
 
 	@Override
@@ -295,7 +297,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 			{				
 				ContactHolder contact = (ContactHolder)contactListView.getAdapter().getItem(position);
 				Intent intent = new Intent(getCtx(), DetailActivity.class);
-				intent.putExtra("id", contact.personId);
+				intent.putExtra("address", contact.phoneNumber);
 				startActivity(intent);
 			}
 		}
