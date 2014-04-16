@@ -35,6 +35,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 	private ListView contactListView;
 	private ArrayList<ContactHolder> personList;
 	private static HashMap<String, ContactHolder> contactMap;
+	private HashMap<String, String> nameMap;
 	private ContactsAdapter contactAdapter;
 	
 	public static final int ONE_HOUR = 60 * 60 * 1000;
@@ -51,6 +52,17 @@ public class MainActivity extends Activity implements OnItemClickListener
 		
 		personList = new ArrayList<ContactHolder>();
 		contactMap = new HashMap<String, ContactHolder>();
+		nameMap = new HashMap<String, String>();
+		
+		Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null,null, null);
+		while (phones.moveToNext())
+		{
+			String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+			phoneNumber = addressClipper(phoneNumber);
+			String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+			nameMap.put(phoneNumber, name);
+		}
+		phones.close();
 		
 		Cursor cursor = getContentResolver().query(Uri.parse("content://sms/inbox"), null, null, null, null);
 		cursor.moveToFirst();
@@ -67,7 +79,12 @@ public class MainActivity extends Activity implements OnItemClickListener
 			
 			if(contactMap.get(address) == null)
 			{
+				String name = nameMap.get(address);
+				if(name == null)
+					continue;
+				
 				ContactHolder holder = new ContactHolder();
+				holder.personName = name;
 				holder.phoneNumber = address;
 
 				String body = cursor.getString(13);
@@ -81,22 +98,9 @@ public class MainActivity extends Activity implements OnItemClickListener
 				holder.incomingTextCount++;
 				holder.addInstruction(this.getString(R.string.info_pre_count), getString(R.string.info_pre_in) + holder.incomingTextCount, null);
 				
-				Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null,null, null);
-				while (phones.moveToNext())
-				{
-				  String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-				  phoneNumber = addressClipper(phoneNumber);
-				  if(phoneNumber.equals(address))
-				  {
-					  String name=phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-					  holder.personName = name;
-					  contactMap.put(address, holder);
-					  TextMessage message = new TextMessage(Directions.INBOUND, body, cursor.getInt(5));
-					  holder.textMessages.add(message);
-					  break;
-				  }
-				}
-				phones.close();
+				contactMap.put(address, holder);
+				TextMessage message = new TextMessage(Directions.INBOUND, body, cursor.getInt(5));
+				holder.textMessages.add(message);
 			}
 			else
 			{
