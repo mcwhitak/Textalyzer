@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -88,6 +87,9 @@ public class DetailActivity extends Activity implements OnItemClickListener, OnC
 		informationListView.setAdapter(infoAdapter);
 		informationListView.setOnItemClickListener(this);
 		headerRelativeView.setOnClickListener(this);
+		
+		
+		
 	}
 	
 	private void grabAllViews()
@@ -198,7 +200,6 @@ public class DetailActivity extends Activity implements OnItemClickListener, OnC
 					}
 					else if (contactHolder.getConversationsStartedRatio() > 0.60)
 					{
-						//Log.d("Royyy", "rtio: " + contactHolder.getConversationsStartedRatio());
 						hintText.setText("Let " + contactHolder.personName + " start the conversation for once.");
 					}
 					else

@@ -86,52 +86,52 @@ public class ContactHolder
 		String value2;
 	}
 	
-	public double getTextCountRatio() //TODO put the check before!
+	public double getTextCountRatio()
 	{
 		int total = incomingTextCount + outgoingTextCount;
-		textCountRatio = (double) outgoingTextCount / (double) total;
 		if (total == 0) textCountRatio = -1;
-		
+		else 
+			textCountRatio = (double) outgoingTextCount / (double) total;
 		return textCountRatio;
 	}
 	
 	public double getTextAverageRatio() 
 	{
 		int total = incomingTextAverage + outgoingTextAverage;
-		textAverageRatio = (double) outgoingTextAverage / (double) total;
 		if (total == 0) textAverageRatio = -1;
-		
-		Log.d("Royyy", "FUCK: " + incomingTextAverage + " " +  outgoingTextAverage + " " + total + " " + textAverageRatio);
-		
+		else
+			textAverageRatio = (double) outgoingTextAverage / (double) total;
 		return textAverageRatio;
 	}
 	
 	public double getDelayRatio() 
 	{
 		double total = averageIncomingDelay + averageOutgoingDelay;
-		delayRatio = (double) averageOutgoingDelay / (double) total;
 		if (total == 0) delayRatio = -1;
+		else
+			delayRatio = (double) averageOutgoingDelay / (double) total;
 		return delayRatio;
 	}
 	
 	public double getConversationsStartedRatio() 
 	{
 		double total = incomingConversationsStarted + outgoingConversationsStarted;
-		conversationsStartedRatio = (double) outgoingConversationsStarted / (double) total;
 		if (total == 0) conversationsStartedRatio = -1;
-		
+		else 
+			conversationsStartedRatio = (double) outgoingConversationsStarted / (double) total;
 		return conversationsStartedRatio;
 	}
 	
 	public double getEmoticonsCountRatio() 
 	{
 		double total = incomingEmoticonsCount + outgoingEmoticonsCount;
-		emoticonsCountRatio = (double) outgoingEmoticonsCount / (double) total;
 		if (total == 0) emoticonsCountRatio = -1;
+		else
+			emoticonsCountRatio = (double) outgoingEmoticonsCount / (double) total;
 		return emoticonsCountRatio;
 	}
 	
-	public double getFriendshipRatio()  //TODO Normalized to 50%, push it to 0 or 100????
+	public double getFriendshipRatio()  
 	{
 		friendshipRatio = 0;
 		
@@ -147,9 +147,6 @@ public class ContactHolder
 			friendshipRatio += getEmoticonsCountRatio();
 		
 		friendshipRatio /= 5;
-		//Log.d("Royyy",textCountRatio + " " + textAverageRatio + " " + delayRatio + " " + conversationsStartedRatio + " " + emoticonsCountRatio);
-		//Log.d("Royyy",getTextCountRatio() + " " + getTextAverageRatio() + " " + getDelayRatio() + " " + getConversationsStartedRatio() + " " + getEmoticonsCountRatio());
-		
 		return friendshipRatio;
 	}
 	
@@ -323,7 +320,6 @@ public class ContactHolder
 			incomingMostCommon[0] = (String) incomingWordFrequency.keySet().toArray()[0];
 		}
 
-		
 		//Do it again for outgoing
 		maxes[0] = 0; maxes[1] = 0; maxes[2] = 0;
 		words[0] = words[1] = words[2] = "";
