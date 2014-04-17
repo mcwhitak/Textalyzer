@@ -312,19 +312,11 @@ public class MainActivity extends Activity implements OnItemClickListener
 		}
 	}
 	
-	public String [] boringWords = {"the","be","and","of","a","in","to","have","to","it","I","I'm","im","I'll","Ok","that","for","you","he","with","on","do","say",
-			"this","they","at","but","we","his","from","that","not","n't","n't","by","she","or","as","what","go","their","can","who","get","is","IS","Is",
-			"if","would","her","all","my","make","about","know","will","as","up","one","there","year","so","think","when","which","them","did","Did","DID",
+	
+	public String [] boringWords = {"the","be","and","of","a","in","to","have","it","i","i'm","im","ok","for","you","he","with","on","do","say",
+			"this","they","at","but","we","his","from","that","not","n't","by","she","or","what","go","their","can","who","get","is",
+			"if","would","her","all","my","make","about","know","will","as","up","one","there","year","so","think","when","which","them","did",
 			"some","me","people","take","out","into","just","see","him","your","come","could","now","than","like","other","how","then","its",
-			"our","two","more","these","want","way","look","first","also","new","because","day","more","use","no","find","here","thing","give",
-			"many","The","are","ARE","Be","And","Of","A","In","To","Have","To","It","I","That","For","You","He","With","On","Do","Say","This","They","At",
-			"But","We","His","From","That","Not","N't","N't","By","She","Or","As","What","Go","Their","Can","Who","Get","If","Would","Her",
-			"All","My","Make","About","Know","Will","As","Up","One","There","Year","So","Think","When","Which","Them","Some","Me","People",
-			"Take","Out","Into","Just","See","Him","Your","Come","Could","Now","Than","Like","Other","How","Then","Its","Our","Two","More",
-			"These","Want","Way","Look","First","Also","New","Because","Day","More","Use","No","Find","Here","Thing","Give","Many","THE",
-			"BE","AND","OF","A","IN","TO","HAVE","TO","IT","I","THAT","FOR","YOU","HE","WITH","ON","DO","SAY","THIS","THEY","AT","BUT","WE",
-			"HIS","FROM","THAT","NOT","N'T","N'T","BY","SHE","OR","AS","WHAT","GO","THEIR","CAN","WHO","GET","IF","WOULD","HER","ALL","MY",
-			"MAKE","ABOUT","KNOW","WILL","AS","UP","ONE","THERE","YEAR","SO","THINK","WHEN","WHICH","THEM","SOME","ME","PEOPLE","TAKE","OUT",
-			"INTO","JUST","SEE","HIM","YOUR","COME","COULD","NOW","THAN","LIKE","OTHER","HOW","THEN","ITS","OUR","TWO","MORE","THESE","WANT",
-			"WAY","LOOK","FIRST","ALSO","NEW","BECAUSE","DAY","MORE","USE","NO","FIND","HERE","THING","GIVE","MANY"};
+			"our","two","these","want","way","look","first","also","new","because","day","more","use","no","find","here","thing","give",
+			"many","are","a","e","o","u","b","c","d"};
 }
