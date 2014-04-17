@@ -8,7 +8,7 @@ public class TextMessage
 	
 	public long timeCreated; 
 
-	public TextMessage(Directions direction, String body, int timeCreated) 
+	public TextMessage(Directions direction, String body, long timeCreated) 
 	{
 		this.direction = direction;
 		this.body = body;
