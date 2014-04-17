@@ -77,7 +77,6 @@ public class MainActivity extends Activity implements OnItemClickListener
 				continue;
 			
 			address = addressClipper(address);
-			Log.d("ADDRESS", address);
 			
 			if(contactMap.get(address) == null)
 			{
