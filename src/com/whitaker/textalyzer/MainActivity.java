@@ -89,7 +89,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 				holder.personName = name;
 				holder.phoneNumber = address;
 
-				String body = cursor.getString(cursor.getColumnIndex("body"));
+				String body = cursor.getString(cursor.getColumnIndex("body")).toLowerCase();
 				
 				if(body == null)
 					continue;
@@ -108,7 +108,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 			else
 			{
 				ContactHolder holder = contactMap.get(address);
-				String body = cursor.getString(cursor.getColumnIndex("body"));
+				String body = cursor.getString(cursor.getColumnIndex("body")).toLowerCase();
 				
 				determineWordFrequency(body, Directions.INBOUND, holder);
 				holder.textReceivedLength += body.length(); 
