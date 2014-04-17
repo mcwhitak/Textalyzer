@@ -37,6 +37,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 	private static HashMap<String, ContactHolder> contactMap;
 	private HashMap<String, String> nameMap;
 	private ContactsAdapter contactAdapter;
+	private int offset = 0;
 	
 	public static final int ONE_HOUR = 60 * 60 * 1000;
 	
@@ -72,10 +73,18 @@ public class MainActivity extends Activity implements OnItemClickListener
 				continue;
 			
 			//Each message is a separate while loop call
-			String address = cursor.getString(3);
+			String address = cursor.getString(2);
 			if(address == null)
 				continue;
+			
+			if(address.length() == 1)
+			{
+				address = cursor.getString(3);
+				offset = 1;
+			}
+			
 			address = addressClipper(address);
+			Log.d("ADDRESS", address);
 			
 			if(contactMap.get(address) == null)
 			{
@@ -87,7 +96,8 @@ public class MainActivity extends Activity implements OnItemClickListener
 				holder.personName = name;
 				holder.phoneNumber = address;
 
-				String body = cursor.getString(13);
+				String body = cursor.getString(12 + offset);
+				
 				if(body == null)
 					continue;
 
@@ -105,7 +115,8 @@ public class MainActivity extends Activity implements OnItemClickListener
 			else
 			{
 				ContactHolder holder = contactMap.get(address);
-				String body = cursor.getString(13);
+				String body = cursor.getString(12 + offset);
+				
 				determineWordFrequency(body, Directions.INBOUND, holder);
 				holder.textReceivedLength += body.length(); 
 				holder.incomingTextCount++;
@@ -124,7 +135,8 @@ public class MainActivity extends Activity implements OnItemClickListener
 			if(cursor.getCount() == 0)
 				continue;
 			
-			String address = cursor.getString(3);
+			String address = cursor.getString(2 + offset);
+			
 			if(address == null)
 				continue;
 			address = addressClipper(address);
@@ -132,7 +144,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 			ContactHolder holder = contactMap.get(address);
 			if(holder != null)
 			{
-				String body = cursor.getString(13);
+				String body = cursor.getString(12 + offset);
 				determineWordFrequency(body, Directions.OUTBOUND, holder);
 				holder.textSentLength += body.length(); 
 				holder.outgoingTextCount++;
