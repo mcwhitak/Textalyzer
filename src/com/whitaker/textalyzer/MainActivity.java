@@ -1,6 +1,6 @@
 package com.whitaker.textalyzer;
 
-import java.util.ArrayList;
+import java.util.ArrayList; //TODO can we delete this unused imports?
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -34,7 +34,6 @@ import android.provider.ContactsContract.Data;
 public class MainActivity extends Activity implements OnItemClickListener
 {
 	private BounceListView contactListView;
-	private ArrayList<ContactHolder> personList;
 	private static HashMap<String, ContactHolder> contactMap;
 	private HashMap<String, String> nameMap;
 	private ContactsAdapter contactAdapter;
@@ -51,7 +50,6 @@ public class MainActivity extends Activity implements OnItemClickListener
 		TextView abTV = (TextView)findViewById(titleId);
 		abTV.setTextColor(Color.WHITE);
 		
-		personList = new ArrayList<ContactHolder>();
 		contactMap = new HashMap<String, ContactHolder>();
 		nameMap = new HashMap<String, String>();
 		
@@ -146,17 +144,17 @@ public class MainActivity extends Activity implements OnItemClickListener
 				holder.textMessages.add(message);
 			}
 			
-		}while(cursor.moveToNext());
+		} while(cursor.moveToNext());
 		cursor.close();
 		
-		Iterator it = contactMap.entrySet().iterator();
-		while(it.hasNext())
+		long startTime = System.nanoTime(); //TODO: Remove
+		for (String contactString: contactMap.keySet())
 		{
-			Map.Entry pairs = (Map.Entry)it.next();
-			ContactHolder holder = (ContactHolder)pairs.getValue();
-			holder.analyze(getCtx());
+			contactMap.get(contactString).analyze(getCtx());
 		}
-				
+		double c = ((double)(System.nanoTime() - startTime))/1000000000.0;
+		Log.d("Royyy","All analysis: " +c);
+		
 		grabAllViews();
 		
 		contactAdapter = new ContactsAdapter();
@@ -224,9 +222,10 @@ public class MainActivity extends Activity implements OnItemClickListener
 		{
 			Iterator it = contactMap.entrySet().iterator();
 			int i=0;
+			
 			while(it.hasNext())
 			{
-				Map.Entry pairs = (Map.Entry)it.next();
+				Map.Entry pairs = (Map.Entry)it.next(); //TODO WHAT THE FUCK IS THIS?!?!?!? How do you trust the map to print in any order?
 				if(i == position)
 				{
 					return pairs.getValue();
@@ -312,7 +311,6 @@ public class MainActivity extends Activity implements OnItemClickListener
 			}
 		}
 	}
-	
 	
 	public String [] boringWords = {"the","be","and","of","a","in","to","have","it","i","i'm","im","ok","for","you","he","with","on","do","say",
 			"this","they","at","but","we","his","from","that","not","n't","by","she","or","what","go","their","can","who","get","is",

@@ -6,7 +6,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
 import android.content.Context;
+import android.util.Log;
 
 import com.whitaker.textalyzer.TextMessage.Directions;
 
@@ -132,7 +134,7 @@ public class ContactHolder
 		return emoticonsCountRatio;
 	}
 	
-	public double getFriendshipRatio()  
+	public double getFriendshipRatio()   //TODO shouldn't recalculate these thangs
 	{
 		friendshipRatio = 0;
 		
@@ -183,6 +185,7 @@ public class ContactHolder
 	
 	public void analyze(Context ctx) 
 	{
+		//Calculate Average Text Length
 		incomingTextAverage = 0;
 		if(incomingTextCount != 0)
 		{
@@ -210,6 +213,7 @@ public class ContactHolder
 			currentDirection = textMessages.get(i).direction;
 			long delay = textMessages.get(i).timeCreated - textMessages.get(i - 1).timeCreated;
 			
+			//Count delay
 			if (currentDirection != textMessages.get(i - 1).direction) //Ignore times of double texts
 			{
 				if (delay < MainActivity.ONE_HOUR) //conversation part of a convo 3,600,000
@@ -218,25 +222,27 @@ public class ContactHolder
 					{
 						totalIncomingDelay += delay;
 					}
-					else 
+					else if (currentDirection == Directions.OUTBOUND) 
 					{
 						totalOutgoingDelay += delay;
 					}
 				}
 			}
 			
-			if (delay > MainActivity.ONE_HOUR * 9) //Started a new conversation
+			//Count conversations
+			if (delay > MainActivity.ONE_HOUR * 6) //Started a new conversation
 			{
 				if (currentDirection == Directions.INBOUND)
 				{
 					incomingConversationsStarted++;
 				}
-				else 
+				else if (currentDirection == Directions.OUTBOUND)
 				{
 					outgoingConversationsStarted++;
 				}	
 			}
 	        
+			//Count emoticons
 			if (currentDirection == Directions.INBOUND)
 			{
 				for (String e: emoticons)
@@ -247,7 +253,7 @@ public class ContactHolder
 					}
 				}					
 			}
-			else 
+			else if (currentDirection == Directions.OUTBOUND) 
 			{
 				for (String e: emoticons)
 				{
@@ -258,10 +264,10 @@ public class ContactHolder
 				}
 			}
 		}	
-		
+				
 		addInstruction(ctx.getString(R.string.info_pre_convo), ctx.getString(R.string.info_pre_in)+ incomingConversationsStarted, ctx.getString(R.string.info_pre_out) + outgoingConversationsStarted);
 		
-		if(incomingTextCount != 0) //TODO
+		if(incomingTextCount != 0)
 		{
 			averageIncomingDelay = ((int)(((((double)totalIncomingDelay / (double)incomingTextCount) / 60000.0)) * 10.0  ))/10.0; //take average delay,convert to seconds, round to one digit
 			addInstruction(ctx.getString(R.string.info_pre_delay), ctx.getString(R.string.info_pre_in) + averageIncomingDelay + " min", null); 
@@ -273,16 +279,14 @@ public class ContactHolder
 			addInstruction(ctx.getString(R.string.info_pre_delay), null, ctx.getString(R.string.info_pre_out) + averageOutgoingDelay + " min");
 		}
 		
+		//Count most common words
 		int [] maxes = {0,0,0};
 		String [] words = {"","",""}; 
-		Iterator it = incomingWordFrequency.entrySet().iterator();
 		if (incomingWordFrequency.keySet().size() >= 3)
 		{
-			while(it.hasNext())
+			for (String word: incomingWordFrequency.keySet())
 			{
-				Map.Entry pairs = (Map.Entry)it.next();
-				int value = (Integer)pairs.getValue();
-				String word = (String)pairs.getKey();
+				int value = incomingWordFrequency.get(word);
 				
 				for (int i = 0; i < 3; i++)
 				{
@@ -295,7 +299,6 @@ public class ContactHolder
 							{
 								iSmallest = j;
 							}
-							
 						}
 						maxes[iSmallest] = value;
 						words[iSmallest] = word;
@@ -320,14 +323,12 @@ public class ContactHolder
 		//Do it again for outgoing
 		maxes[0] = 0; maxes[1] = 0; maxes[2] = 0;
 		words[0] = words[1] = words[2] = "";
-		it = outgoingWordFrequency.entrySet().iterator();
 		if (outgoingWordFrequency.keySet().size() >= 3)
 		{
-			while(it.hasNext())
+			//while(it.hasNext())
+			for (String word: outgoingWordFrequency.keySet())
 			{
-				Map.Entry pairs = (Map.Entry)it.next();
-				int value = (Integer)pairs.getValue();
-				String word = (String)pairs.getKey();
+				int value = outgoingWordFrequency.get(word);
 				
 				for (int i = 0; i < 3; i++)
 				{
@@ -340,7 +341,6 @@ public class ContactHolder
 							{
 								iSmallest = j;
 							}
-							
 						}
 						maxes[iSmallest] = value;
 						words[iSmallest] = word;
@@ -361,7 +361,7 @@ public class ContactHolder
 		{
 			outgoingMostCommon[0] = (String) outgoingWordFrequency.keySet().toArray()[0];
 		}
-		
+
 		addInstruction(ctx.getString(R.string.info_pre_common), ctx.getString(R.string.info_pre_in) + incomingMostCommon[0], ctx.getString(R.string.info_pre_out) + outgoingMostCommon[0]);
 		addInstruction(ctx.getString(R.string.info_pre_emote), ctx.getString(R.string.info_pre_in) + incomingEmoticonsCount, ctx.getString(R.string.info_pre_out) + outgoingEmoticonsCount);
 	}
