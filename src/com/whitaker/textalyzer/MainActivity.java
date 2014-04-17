@@ -1,7 +1,9 @@
 package com.whitaker.textalyzer;
 
+import java.io.IOException;
 import java.util.ArrayList; //TODO can we delete this unused imports?
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -31,12 +33,16 @@ import android.widget.TextView;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Data;
 
+
 public class MainActivity extends Activity implements OnItemClickListener
 {
 	private BounceListView contactListView;
 	private static HashMap<String, ContactHolder> contactMap;
 	private HashMap<String, String> nameMap;
 	private ContactsAdapter contactAdapter;
+	
+	public static ArrayList<Date> timesReceived = new ArrayList<Date> ();
+	public static ArrayList<Date> timesSent = new ArrayList<Date> ();
 	
 	public static final int ONE_HOUR = 60 * 60 * 1000;
 	
@@ -100,8 +106,10 @@ public class MainActivity extends Activity implements OnItemClickListener
 				holder.addInstruction(this.getString(R.string.info_pre_count), getString(R.string.info_pre_in) + holder.incomingTextCount, null);
 				
 				contactMap.put(address, holder);
-				TextMessage message = new TextMessage(Directions.INBOUND, body, cursor.getLong(cursor.getColumnIndex("date")));
+				long date = cursor.getLong(cursor.getColumnIndex("date"));
+				TextMessage message = new TextMessage(Directions.INBOUND, body, date);
 				holder.textMessages.add(message);
+				timesReceived.add(new Date(date));
 			}
 			else
 			{
@@ -112,8 +120,10 @@ public class MainActivity extends Activity implements OnItemClickListener
 				holder.textReceivedLength += body.length(); 
 				holder.incomingTextCount++;
 				holder.addInstruction(getString(R.string.info_pre_count), getString(R.string.info_pre_in) + holder.incomingTextCount, null);
-				TextMessage message = new TextMessage(Directions.INBOUND, body, cursor.getLong(cursor.getColumnIndex("date")));
+				long date = cursor.getLong(cursor.getColumnIndex("date"));
+				TextMessage message = new TextMessage(Directions.INBOUND, body, date);
 				holder.textMessages.add(message);
+				timesReceived.add(new Date(date));
 			}
 			
 		}while(cursor.moveToNext());
@@ -140,26 +150,50 @@ public class MainActivity extends Activity implements OnItemClickListener
 				holder.textSentLength += body.length(); 
 				holder.outgoingTextCount++;
 				holder.addInstruction(getString(R.string.info_pre_count), null, getString(R.string.info_pre_out) + holder.outgoingTextCount);
-				TextMessage message = new TextMessage(Directions.OUTBOUND, body, cursor.getLong(cursor.getColumnIndex("date")));
+				long date = cursor.getLong(cursor.getColumnIndex("date"));
+				TextMessage message = new TextMessage(Directions.OUTBOUND, body, date);
 				holder.textMessages.add(message);
+				timesSent.add(new Date(date));
 			}
 			
 		} while(cursor.moveToNext());
 		cursor.close();
 		
-		long startTime = System.nanoTime(); //TODO: Remove
 		for (String contactString: contactMap.keySet())
 		{
 			contactMap.get(contactString).analyze(getCtx());
 		}
-		double c = ((double)(System.nanoTime() - startTime))/1000000000.0;
-		Log.d("Royyy","All analysis: " +c);
+
+		/*
+		 * http://androidplot.com/docs/quickstart/
+		 
+		 SimpleDateFormat ft = new SimpleDateFormat ("kk:mm:ss");
+
+		    String formatted = ft.format(dNow);
+		 
+ 
+		  for (Date d: timeSent)
+		  {
+		    int time_in_seconds = 60 * 60 * Integer.parseInt(formatted.substring(0,2)) +
+		    60 * Integer.parseInt(formatted.substring(3,5)) +
+		    Integer.parseInt(formatted.substring(6,8));
+
+		  	chart.add(time_in_seconds);
+		 }
+		 
+		 
+ 
+		 */
+		
+		
 		
 		grabAllViews();
 		
 		contactAdapter = new ContactsAdapter();
 		contactListView.setAdapter(contactAdapter);
-		contactListView.setOnItemClickListener(this);//
+		contactListView.setOnItemClickListener(this);
+		
+		
 	}
 	
 	private void grabAllViews()
