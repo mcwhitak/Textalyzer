@@ -77,7 +77,6 @@ public class MainActivity extends Activity implements OnItemClickListener
 				continue;
 			
 			address = addressClipper(address);
-			Log.d("ADDRESS", address);
 			
 			if(contactMap.get(address) == null)
 			{
@@ -102,7 +101,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 				holder.addInstruction(this.getString(R.string.info_pre_count), getString(R.string.info_pre_in) + holder.incomingTextCount, null);
 				
 				contactMap.put(address, holder);
-				TextMessage message = new TextMessage(Directions.INBOUND, body, cursor.getInt(5));
+				TextMessage message = new TextMessage(Directions.INBOUND, body, cursor.getLong(cursor.getColumnIndex("date")));
 				holder.textMessages.add(message);
 			}
 			else
@@ -114,7 +113,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 				holder.textReceivedLength += body.length(); 
 				holder.incomingTextCount++;
 				holder.addInstruction(getString(R.string.info_pre_count), getString(R.string.info_pre_in) + holder.incomingTextCount, null);
-				TextMessage message = new TextMessage(Directions.INBOUND, body, cursor.getInt(5));
+				TextMessage message = new TextMessage(Directions.INBOUND, body, cursor.getLong(cursor.getColumnIndex("date")));
 				holder.textMessages.add(message);
 			}
 			
@@ -142,7 +141,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 				holder.textSentLength += body.length(); 
 				holder.outgoingTextCount++;
 				holder.addInstruction(getString(R.string.info_pre_count), null, getString(R.string.info_pre_out) + holder.outgoingTextCount);
-				TextMessage message = new TextMessage(Directions.OUTBOUND, body, cursor.getInt(5));
+				TextMessage message = new TextMessage(Directions.OUTBOUND, body, cursor.getLong(cursor.getColumnIndex("date")));
 				holder.textMessages.add(message);
 			}
 			
