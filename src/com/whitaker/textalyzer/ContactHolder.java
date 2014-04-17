@@ -365,6 +365,21 @@ public class ContactHolder
 		addInstruction(ctx.getString(R.string.info_pre_common), ctx.getString(R.string.info_pre_in) + incomingMostCommon[0], ctx.getString(R.string.info_pre_out) + outgoingMostCommon[0]);
 		addInstruction(ctx.getString(R.string.info_pre_emote), ctx.getString(R.string.info_pre_in) + incomingEmoticonsCount, ctx.getString(R.string.info_pre_out) + outgoingEmoticonsCount);
 	}
+	
+	public static class ContactComparator implements Comparator
+	{
+		@Override
+		public int compare(Object lhs, Object rhs) 
+		{
+			ContactHolder l = (ContactHolder)lhs;
+			ContactHolder r = (ContactHolder)rhs;
+			
+			Integer li = l.incomingTextCount + l.outgoingTextCount;
+			Integer ri = r.incomingTextCount + r.outgoingTextCount;
+			return ri.compareTo(li);
+		}
+		
+	}
 
 	String [] emoticons = {":-)",":)",":o)",":]",":3",":c)",":>","=]","8)","=)",":}",":^)",":-D",":D","8-D","8D","x-D","xD",
 			"X-D","XD","=-D","=D","=-3","=3","B^D",":-))",">:[",":-(",":(",":-c",":c",":-<",":<",":-[",":[",":{",";(",":-||",

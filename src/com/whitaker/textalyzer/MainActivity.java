@@ -2,6 +2,8 @@ package com.whitaker.textalyzer;
 
 import java.util.ArrayList; //TODO can we delete this unused imports?
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -135,7 +137,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 			ContactHolder holder = contactMap.get(address);
 			if(holder != null)
 			{
-				String body = cursor.getString(cursor.getColumnIndex("body"));
+				String body = cursor.getString(cursor.getColumnIndex("body")).toLowerCase();
 				determineWordFrequency(body, Directions.OUTBOUND, holder);
 				holder.textSentLength += body.length(); 
 				holder.outgoingTextCount++;
@@ -157,7 +159,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 		
 		grabAllViews();
 		
-		contactAdapter = new ContactsAdapter();
+		contactAdapter = new ContactsAdapter(contactMap);
 		contactListView.setAdapter(contactAdapter);
 		contactListView.setOnItemClickListener(this);//
 	}
@@ -211,6 +213,19 @@ public class MainActivity extends Activity implements OnItemClickListener
 	
 	private class ContactsAdapter extends BaseAdapter
 	{
+		private ArrayList<ContactHolder> contactList;
+		
+		@SuppressWarnings("unchecked")
+		public ContactsAdapter(HashMap<String, ContactHolder> map)
+		{
+			contactList = new ArrayList<ContactHolder>();
+			for (String contactString: contactMap.keySet())
+			{
+					contactList.add(contactMap.get(contactString));
+			}
+			Collections.sort(contactList, new ContactHolder.ContactComparator());
+		}
+		
 		@Override
 		public int getCount() 
 		{
@@ -220,38 +235,13 @@ public class MainActivity extends Activity implements OnItemClickListener
 		@Override
 		public Object getItem(int position) 
 		{
-			Iterator it = contactMap.entrySet().iterator();
-			int i=0;
-			
-			while(it.hasNext())
-			{
-				Map.Entry pairs = (Map.Entry)it.next(); //TODO WHAT THE FUCK IS THIS?!?!?!? How do you trust the map to print in any order?
-				if(i == position)
-				{
-					return pairs.getValue();
-				}
-				
-				i++; 
-			}
-			return null;
+			return contactList.get(position);
 		}
 
 		@Override
 		public long getItemId(int position)
 		{
-			Iterator it = contactMap.entrySet().iterator();
-			int i=0;
-			while(it.hasNext())
-			{
-				Map.Entry pairs = (Map.Entry)it.next();
-				if(i == position)
-				{
-					ContactHolder holder = (ContactHolder)pairs.getValue();
-					return holder.personId;
-				}
-				i++;
-			}
-			return -1;
+			return position;
 		}
 
 		@Override
@@ -312,9 +302,9 @@ public class MainActivity extends Activity implements OnItemClickListener
 		}
 	}
 	
-	public String [] boringWords = {"the","be","and","of","a","in","to","have","it","i","i'm","im","ok","for","you","he","with","on","do","say",
-			"this","they","at","but","we","his","from","that","not","n't","by","she","or","what","go","their","can","who","get","is",
-			"if","would","her","all","my","make","about","know","will","as","up","one","there","year","so","think","when","which","them","did",
+	public String [] boringWords = {"the","be","and","of","a","in","to","have","it","it's","i","i'm","im","ok","for","you","he","with","on","do","say",
+			"this","they","at","but","we","his","from","that","not","n't","by","she","or","what","was","go","their","can","who","get","is",
+			"if","would","her","all","my","make","about","know","will","as","up","one","there","year","so","think","when","which","them","that's","did",
 			"some","me","people","take","out","into","just","see","him","your","come","could","now","than","like","other","how","then","its",
 			"our","two","these","want","way","look","first","also","new","because","day","more","use","no","find","here","thing","give",
 			"many","are","a","e","o","u","b","c","d"};
