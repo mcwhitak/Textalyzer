@@ -71,11 +71,11 @@ public class DetailActivity extends Activity implements OnItemClickListener, OnC
 				
 		if (contactHolder.getFriendshipRatio() < 0.40) 
 		{
-			hideSubTextView.setText("\"Friendship requires great communication.\" - Saint Francis de Sales");
+			hideSubTextView.setText("\"Friendship requires great communication.\"\n - Saint Francis de Sales");
 		}
 		else if (contactHolder.getFriendshipRatio() > 0.60)
 		{
-			hideSubTextView.setText("\"Many attempts to communicate are nullified by saying too much.\" - Robert Greenleaf");
+			hideSubTextView.setText("\"Many attempts to communicate are nullified by saying too much.\"\n - Robert Greenleaf");
 		}
 		else
 		{
