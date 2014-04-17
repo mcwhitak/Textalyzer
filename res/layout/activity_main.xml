@@ -50,7 +50,7 @@
 	    android:layout_below="@id/breaktext"
 	/>
        	
-    <ListView
+    <com.whitaker.textalyzer.util.BounceListView
         android:id="@+id/contacts_list"
         android:layout_width="match_parent"
 		android:layout_height="match_parent"

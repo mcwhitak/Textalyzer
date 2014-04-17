@@ -2,6 +2,7 @@ package com.whitaker.textalyzer;
 
 import com.whitaker.textalyzer.ContactHolder.InstructionHolder;
 import com.whitaker.textalyzer.TextMessage.Directions;
+import com.whitaker.textalyzer.util.BounceListView;
 
 import android.app.Activity;
 import android.content.res.Resources;
@@ -26,7 +27,7 @@ public class DetailActivity extends Activity implements OnItemClickListener, OnC
 	private TextView scoreValueTextView;
 	private TextView hideHeaderTextView;
 	private TextView hideSubTextView;
-	private ListView informationListView;
+	private BounceListView informationListView;
 	private RelativeLayout headerRelativeView;
 	private ContactHolder contactHolder;
 	private InformationAdapter infoAdapter;
@@ -83,6 +84,7 @@ public class DetailActivity extends Activity implements OnItemClickListener, OnC
 		
 		infoAdapter = new InformationAdapter();
 		informationListView.setAdapter(infoAdapter);
+		informationListView.setOverScrollMode(0);
 		informationListView.setOnItemClickListener(this);
 		headerRelativeView.setOnClickListener(this);	
 	}
@@ -93,7 +95,7 @@ public class DetailActivity extends Activity implements OnItemClickListener, OnC
 		scoreValueTextView = (TextView)findViewById(R.id.score_value);
 		hideHeaderTextView = (TextView)findViewById(R.id.hide_header);
 		hideSubTextView = (TextView)findViewById(R.id.hide_sub);
-		informationListView = (ListView)findViewById(R.id.list_information);
+		informationListView = (BounceListView)findViewById(R.id.list_information);
 		headerRelativeView = (RelativeLayout)findViewById(R.id.relative_header);
 	}
 	

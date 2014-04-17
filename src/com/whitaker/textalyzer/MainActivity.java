@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import com.whitaker.textalyzer.TextMessage.Directions;
+import com.whitaker.textalyzer.util.BounceListView;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -32,7 +33,7 @@ import android.provider.ContactsContract.Data;
 
 public class MainActivity extends Activity implements OnItemClickListener
 {
-	private ListView contactListView;
+	private BounceListView contactListView;
 	private ArrayList<ContactHolder> personList;
 	private static HashMap<String, ContactHolder> contactMap;
 	private HashMap<String, String> nameMap;
@@ -163,6 +164,11 @@ public class MainActivity extends Activity implements OnItemClickListener
 		contactListView.setOnItemClickListener(this);//
 	}
 	
+	private void grabAllViews()
+	{
+		contactListView = (BounceListView)findViewById(R.id.contacts_list);
+	}
+	
 	public void determineWordFrequency (String body, Directions direction, ContactHolder holder)
 	{
 		String [] words = body.replaceAll("[!?,]", "").split("\\s+"); //remove punctuation and split by whitespace(s)
@@ -203,11 +209,6 @@ public class MainActivity extends Activity implements OnItemClickListener
 			}
 			
 		}
-	}
-	
-	private void grabAllViews()
-	{
-		contactListView = (ListView)findViewById(R.id.contacts_list);
 	}
 	
 	private class ContactsAdapter extends BaseAdapter
