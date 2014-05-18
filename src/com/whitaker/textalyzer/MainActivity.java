@@ -25,6 +25,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -183,6 +186,27 @@ public class MainActivity extends Activity implements OnItemClickListener, OnCli
 		generalLayout.setOnClickListener(this);
 		
 		
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.layout.actionbar_layout, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch(item.getItemId())
+		{
+			case R.id.menu_about:
+				Intent intent = new Intent(this, AboutActivity.class);
+				startActivity(intent);
+				break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 	
 	private void grabAllViews()
