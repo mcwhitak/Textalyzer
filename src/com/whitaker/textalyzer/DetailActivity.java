@@ -3,6 +3,7 @@ package com.whitaker.textalyzer;
 import com.whitaker.textalyzer.ContactHolder.InstructionHolder;
 import com.whitaker.textalyzer.TextMessage.Directions;
 import com.whitaker.textalyzer.util.BounceListView;
+import com.whitaker.textalyzer.util.TextalyzerActivity;
 
 import android.app.Activity;
 import android.content.res.Resources;
@@ -21,7 +22,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class DetailActivity extends Activity implements OnItemClickListener, OnClickListener
+public class DetailActivity extends TextalyzerActivity implements OnItemClickListener, OnClickListener
 {
 	private TextView scoreHeaderTextView;
 	private TextView scoreValueTextView;
@@ -38,10 +39,6 @@ public class DetailActivity extends Activity implements OnItemClickListener, OnC
 	{
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.detail_activity);
-		
-		int titleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
-		TextView abTV = (TextView)findViewById(titleId);
-		abTV.setTextColor(Color.WHITE);
 
 		Bundle b = getIntent().getExtras();
 		String address = b.getString("address");
@@ -245,25 +242,6 @@ public class DetailActivity extends Activity implements OnItemClickListener, OnC
 	{
 		return this;
 	}
-	
-	public void setContentView(int res)
-	{
-		super.setContentView(res);
-		getActionBar().setHomeButtonEnabled(true);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-	}
-	
-	@Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch(item.getItemId())
-        {
-        	case android.R.id.home:
-        		super.onBackPressed();
-        		break;	
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) 

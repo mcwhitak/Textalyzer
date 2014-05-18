@@ -1,8 +1,11 @@
 package com.whitaker.textalyzer;
 
 import com.whitaker.textalyzer.util.BounceListView;
+import com.whitaker.textalyzer.util.TextalyzerActivity;
 
 import android.app.Activity;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +15,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class GeneralActivity extends Activity
+public class GeneralActivity extends TextalyzerActivity
 {
 	private BounceListView itemListView;
 	
@@ -24,7 +27,7 @@ public class GeneralActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.general_stats);
-		
+
 		grabAllViews();
 		itemListView.setAdapter(new ItemAdapter());
 	}
