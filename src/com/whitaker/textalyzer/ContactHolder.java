@@ -352,7 +352,7 @@ public class ContactHolder
 			outgoingMostCommon[1] = words[1];
 			outgoingMostCommon[2] = words[2];
 		}
-		else if (incomingWordFrequency.keySet().size() == 2)
+		else if (outgoingWordFrequency.keySet().size() == 2)
 		{
 			outgoingMostCommon[0] = (String) outgoingWordFrequency.keySet().toArray()[0];
 			outgoingMostCommon[1] = (String) outgoingWordFrequency.keySet().toArray()[1];	
