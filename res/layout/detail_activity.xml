@@ -8,8 +8,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="140dp"
 		android:background="#FF6600"
-		android:layout_margin="20dp"
-	>
+		android:layout_margin="20dp">
 		<TextView
 		    android:id="@+id/score_header"
 		    android:layout_width="wrap_content"

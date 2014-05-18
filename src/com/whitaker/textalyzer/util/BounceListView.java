@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.widget.ListView;
 
-
 //CREDIT TO http://jasonfry.co.uk/blog/android-overscroll-revisited/
 //His sample code is being used temporarily until we create our own listview
 public class BounceListView extends ListView
@@ -49,5 +48,4 @@ public class BounceListView extends ListView
 	{ 
 		return super.overScrollBy(deltaX, deltaY, scrollX, scrollY, scrollRangeX, scrollRangeY, maxOverScrollX, mMaxYOverscrollDistance, isTouchEvent);  
 	}
-	
 }

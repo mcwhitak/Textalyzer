@@ -25,6 +25,9 @@
             android:name="com.whitaker.textalyzer.DetailActivity"
         />
         <activity
+            android:name="com.whitaker.textalyzer.GeneralActivity"
+        />
+        <activity
             android:name="com.whitaker.textalyzer.SplashScreenActivity"
             android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
             <intent-filter>

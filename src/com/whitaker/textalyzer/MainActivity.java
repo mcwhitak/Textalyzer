@@ -26,27 +26,36 @@ import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Data;
 
 
-public class MainActivity extends Activity implements OnItemClickListener
+public class MainActivity extends Activity implements OnItemClickListener, OnClickListener
 {
 	private BounceListView contactListView;
+	private RelativeLayout generalLayout;
 	private static HashMap<String, ContactHolder> contactMap;
 	private HashMap<String, String> nameMap;
 	private ContactsAdapter contactAdapter;
 	
-	public static ArrayList<Date> timesReceived = new ArrayList<Date> ();
-	public static ArrayList<Date> timesSent = new ArrayList<Date> ();
+	private static ArrayList<Date> timesReceived = new ArrayList<Date> ();
+	private static ArrayList<Date> timesSent = new ArrayList<Date> ();
 	
 	public static final int ONE_HOUR = 60 * 60 * 1000;
+	private final String [] boringWords = {"the","be","and","of","a","in","to","have","it","it's","i","i'm","im","ok","for","you","he","with","on","do","say",
+			"this","they","at","but","we","his","from","that","not","n't","by","she","or","what","was","go","their","can","who","get","is",
+			"if","would","her","all","my","make","about","know","will","as","up","one","there","year","so","think","when","which","them","that's","did",
+			"some","me","people","take","out","into","just","see","him","your","come","could","now","than","like","other","how","then","its",
+			"our","two","these","want","way","look","first","also","new","because","day","more","use","no","find","here","thing","give",
+			"many","are","a","e","o","u","b","c","d"};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -165,35 +174,13 @@ public class MainActivity extends Activity implements OnItemClickListener
 		{
 			contactMap.get(contactString).analyze(getCtx());
 		}
-
-		/*
-		 * http://androidplot.com/docs/quickstart/
-		 
-		 SimpleDateFormat ft = new SimpleDateFormat ("kk:mm:ss");
-
-		    String formatted = ft.format(dNow);
-		 
- 
-		  for (Date d: timeSent)
-		  {
-		    int time_in_seconds = 60 * 60 * Integer.parseInt(formatted.substring(0,2)) +
-		    60 * Integer.parseInt(formatted.substring(3,5)) +
-		    Integer.parseInt(formatted.substring(6,8));
-
-		  	chart.add(time_in_seconds);
-		 }
-		 
-		 
- 
-		 */
-		
-		
 		
 		grabAllViews();
 		
 		contactAdapter = new ContactsAdapter(contactMap);
 		contactListView.setAdapter(contactAdapter);
 		contactListView.setOnItemClickListener(this);
+		generalLayout.setOnClickListener(this);
 		
 		
 	}
@@ -201,6 +188,7 @@ public class MainActivity extends Activity implements OnItemClickListener
 	private void grabAllViews()
 	{
 		contactListView = (BounceListView)findViewById(R.id.contacts_list);
+		generalLayout = (RelativeLayout)findViewById(R.id.general_relative);
 	}
 	
 	public void determineWordFrequency (String body, Directions direction, ContactHolder holder)
@@ -336,10 +324,13 @@ public class MainActivity extends Activity implements OnItemClickListener
 		}
 	}
 	
-	public String [] boringWords = {"the","be","and","of","a","in","to","have","it","it's","i","i'm","im","ok","for","you","he","with","on","do","say",
-			"this","they","at","but","we","his","from","that","not","n't","by","she","or","what","was","go","their","can","who","get","is",
-			"if","would","her","all","my","make","about","know","will","as","up","one","there","year","so","think","when","which","them","that's","did",
-			"some","me","people","take","out","into","just","see","him","your","come","could","now","than","like","other","how","then","its",
-			"our","two","these","want","way","look","first","also","new","because","day","more","use","no","find","here","thing","give",
-			"many","are","a","e","o","u","b","c","d"};
+	@Override
+	public void onClick(View view) 
+	{
+		if(view == generalLayout)
+		{
+			Intent intent = new Intent(getCtx(), GeneralActivity.class);
+			startActivity(intent);
+		}
+	}
 }
