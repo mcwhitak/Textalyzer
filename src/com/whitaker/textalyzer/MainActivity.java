@@ -45,7 +45,7 @@ public class MainActivity extends Activity implements OnItemClickListener, OnCli
 {
 	private BounceListView contactListView;
 	private RelativeLayout generalLayout;
-	private static HashMap<String, ContactHolder> contactMap;
+	public static HashMap<String, ContactHolder> contactMap;
 	private HashMap<String, String> nameMap;
 	private ContactsAdapter contactAdapter;
 	
