@@ -90,7 +90,7 @@ public class GeneralActivity extends TextalyzerActivity
 			for (TextMessage t: c.textMessages)
 			{
 				textOGram[new Date(t.timeCreated).getHours()]++;
-				Log.d("Royyy",new Date(t.timeCreated).getHours() + ": " + textOGram[new Date(t.timeCreated).getHours()]);
+				//Log.d("Royyy",new Date(t.timeCreated).getHours() + ": " + textOGram[new Date(t.timeCreated).getHours()]);
 			}	
 		}
 
