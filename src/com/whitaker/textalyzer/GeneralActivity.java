@@ -11,7 +11,6 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,16 +44,14 @@ public class GeneralActivity extends TextalyzerActivity
 			0,0,0,0,0,0,
 			0,0,0,0,0,0};
 
-	private String[] categories = {"Total Incoming Texts", "Total Outgoing Texts","Most Likely to Start Conversations...", "With you", "You started",
-					"Least Likely to Start Conversations...","With", "With you","Frequency of texts by hour",
+	private String[] categories = {"Total Incoming Texts", "Total Outgoing Texts","Most Likely to Start Conversations:", "With you", "You started",
+					"Least Likely to Start Conversations:","With", "With you","Frequency of texts by hour",
 					"12 am","1 am","2 am","3 am","4 am","5 am","6 am","7 am","8 am","9 am","10 am","11 am",
 					"12 pm","1 pm","2 pm","3 pm","4 pm","5 pm","6 pm","7 pm","8 pm","9 pm","10 pm","11 pm"};
 	
 	private int[] type = {0, 0, 1, 0, 0, 1 ,0, 0, 1, 
 					0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 					0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-
-	
 	
 	@SuppressWarnings("deprecation")
 	@Override
@@ -115,14 +112,11 @@ public class GeneralActivity extends TextalyzerActivity
 		adapterInstructions.add(leastFavoriteContactForYou);
 		adapterInstructions.add(leastFavoriteContactForThem);
 		adapterInstructions.add("");
-		for(int i=9; i<24; i++)
+		for(int i=7; i<31; i++)
 		{
 			adapterInstructions.add(Integer.toString(textOGram[i-7]) + " texts, " + (double)Math.round((100*(double)textOGram[i-7]/(totalIncomingTexts+totalOutgoingTexts)) * 10) / 10 + "%");
 		}
-		
 		itemListView.setAdapter(new ItemAdapter());
-		 //by started conversations
-
 	}
 	
 	private void grabAllViews()
@@ -175,7 +169,7 @@ public class GeneralActivity extends TextalyzerActivity
 				TextView catText = (TextView)itemView.findViewById(R.id.general_item_name);
 				TextView resultText = (TextView)itemView.findViewById(R.id.general_item_result);
 			
-				if(position < categories.length)
+				if(position < categories.length )
 				{
 					catText.setText(categories[position]);
 					resultText.setText(adapterInstructions.get(position));
@@ -189,10 +183,8 @@ public class GeneralActivity extends TextalyzerActivity
 					breakText.setText(categories[position]);
 				}
 			}
-		
 			return itemView;
 		}
-		
 	}	
 	
 	private Activity getCtx()

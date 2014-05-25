@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.whitaker.textalyzer.TextMessage.Directions;
 
