@@ -1,0 +1,25 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/breaktext"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textSize="12sp"
+        android:layout_alignParentLeft="true"
+        android:text="PLACEHOLDER"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="10dp"
+   	/>
+    <View
+        android:id="@+id/breakmain"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#B2B2CC"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_below="@id/breaktext"
+  	/>
+</RelativeLayout>
