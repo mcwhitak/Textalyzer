@@ -9,7 +9,7 @@ gen/
 *~.nib
 local.properties
 .settings/
-
+src/TextalyzerKeyStore
 !.gitignore
 !bin/Textalyzer.apk
 

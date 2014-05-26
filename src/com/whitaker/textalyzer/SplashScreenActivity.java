@@ -1,5 +1,7 @@
 package com.whitaker.textalyzer;
 
+import com.whitaker_iacob.textalyzer.R;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

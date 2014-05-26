@@ -22,7 +22,7 @@
 	    android:layout_marginBottom="5dp"
 	    android:gravity="center"
 	    android:textSize="15sp"
-	    android:text="Developed by:&#10;Michael Whitaker&#10;Roy Iacob&#10;At LA Hacks (2014)"
+	    android:text="Developed by:&#10;Michael Whitaker,&#10;Roy Iacob&#10;At LA Hacks (2014)"
 	/>
 	<ImageView
 	    android:layout_width="96dp"
@@ -35,8 +35,8 @@
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_gravity="center"
-	    android:textSize="28sp"
-	    android:text="Are you in control?"
+	    android:textSize="16sp"
+	    android:text="No data from your phone is collected. All calculations are done locally without an internet connection."
 	/>
 	<Button
 	    android:id="@+id/open_source"

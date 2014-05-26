@@ -4,11 +4,13 @@ import com.whitaker.textalyzer.ContactHolder.InstructionHolder;
 import com.whitaker.textalyzer.TextMessage.Directions;
 import com.whitaker.textalyzer.util.BounceListView;
 import com.whitaker.textalyzer.util.TextalyzerActivity;
+import com.whitaker_iacob.textalyzer.R;
 
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -59,18 +61,19 @@ public class DetailActivity extends TextalyzerActivity implements OnItemClickLis
 				outgoing++;
 			}
 		}
-		scoreHeaderTextView.setText("Friend Score: " + contactHolder.personName);
+		scoreHeaderTextView.setText(contactHolder.personName);
 		int ratioLeft = (int)(contactHolder.getFriendshipRatio() * 100);
 		int ratioRight = 100 - ratioLeft;
 		String ratio = ratioLeft + ":" + ratioRight;
 		
-		scoreValueTextView.setText(ratio);
-				
-		if (contactHolder.getFriendshipRatio() < 0.40) 
+		//scoreValueTextView.setText(ratio);
+		scoreValueTextView.setText("");		
+		Log.d("Royyy",""+contactHolder.getFriendshipRatio());
+		if (contactHolder.getFriendshipRatio() < 0.44) 
 		{
 			hideSubTextView.setText("\"Friendship requires great communication.\"\n - Saint Francis de Sales");
 		}
-		else if (contactHolder.getFriendshipRatio() > 0.60)
+		else if (contactHolder.getFriendshipRatio() > 0.56)
 		{
 			hideSubTextView.setText("\"Many attempts to communicate are nullified by saying too much.\"\n - Robert Greenleaf");
 		}
@@ -190,7 +193,7 @@ public class DetailActivity extends TextalyzerActivity implements OnItemClickLis
 				{
 					if (contactHolder.getConversationsStartedRatio() < 0.40 && contactHolder.getConversationsStartedRatio() >= 0) 
 					{
-						hintText.setText("Maybe you should start the conversation one in a while.");
+						hintText.setText("Maybe you should start the conversation once in a while.");
 					}
 					else if (contactHolder.getConversationsStartedRatio() > 0.60)
 					{

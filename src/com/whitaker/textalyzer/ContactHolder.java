@@ -10,6 +10,7 @@ import java.util.Map;
 import android.content.Context;
 
 import com.whitaker.textalyzer.TextMessage.Directions;
+import com.whitaker_iacob.textalyzer.R;
 
 public class ContactHolder
 {

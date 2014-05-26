@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import com.whitaker.textalyzer.util.BounceListView;
 import com.whitaker.textalyzer.util.TextalyzerActivity;
+import com.whitaker_iacob.textalyzer.R;
 
 import android.app.Activity;
 import android.content.res.Resources;

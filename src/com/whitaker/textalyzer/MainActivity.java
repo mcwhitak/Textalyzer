@@ -12,6 +12,7 @@ import java.util.Map;
 
 import com.whitaker.textalyzer.TextMessage.Directions;
 import com.whitaker.textalyzer.util.BounceListView;
+import com.whitaker_iacob.textalyzer.R;
 
 import android.app.Activity;
 import android.content.ContentResolver;
