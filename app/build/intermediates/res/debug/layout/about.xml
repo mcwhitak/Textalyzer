@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="255dp"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:orientation="vertical"
+    android:background="#FFF3F3F3">
+	<TextView 
+	    android:id="@+id/appname"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center"
+	    android:textSize="40sp"
+	    android:text="Textalyzer"
+	/>
+	<TextView
+	    android:id="@+id/version"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginBottom="5dp"
+	    android:gravity="center"
+	    android:textSize="15sp"
+	    android:text="Developed by:&#10;Michael Whitaker,&#10;Roy Iacob&#10;At LA Hacks (2014)"
+	/>
+	<ImageView
+	    android:layout_width="96dp"
+	    android:layout_height="96dp"
+	    android:layout_gravity="center"
+	    android:src="@drawable/ic_launcher"
+	/>
+	<TextView
+	    android:id="@+id/tagline"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center"
+	    android:textSize="16sp"
+	    android:text="No data from your phone is collected. All calculations are done locally without an internet connection."
+	/>
+	<Button
+	    android:id="@+id/open_source"
+	    android:layout_width="match_parent"
+	    android:layout_height="72dp"
+	    android:gravity="center"
+	    android:text="Open Source&#10;Licenses"
+	    android:textSize="24sp"
+	    style="?android:attr/borderlessButtonStyle"
+	/>    
+</LinearLayout><!-- From: file:/Users/miwhitaker/Documents/Android%20Studio/Textalyzer/app/src/main/res/layout/about.xml -->

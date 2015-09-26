@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BarChartAttrs"><attr format="dimension" name="chart_barSpacing"/><attr format="dimension" name="chart_setSpacing"/></declare-styleable>
+    <declare-styleable name="ChartAttrs"><attr format="dimension" name="chart_axisThickness"/><attr format="reference|color" name="chart_axisColor"/><attr format="dimension" name="chart_axisBorderSpacing"/><attr format="dimension" name="chart_axisTopSpacing"/><attr format="boolean" name="chart_labels"/><attr format="reference|color" name="chart_labelColor"/><attr format="dimension" name="chart_fontSize"/><attr format="string" name="chart_typeface"/><attr format="reference|color" name="chart_shadowColor"/><attr format="dimension" name="chart_shadowDx"/><attr format="dimension" name="chart_shadowDy"/><attr format="dimension" name="chart_shadowRadius"/></declare-styleable>
+    <!-- From: file:/Users/miwhitaker/Documents/Android%20Studio/Textalyzer/app/src/main/res/values/dimens.xml -->
+    <eat-comment/>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!-- From: file:/Users/miwhitaker/Documents/Android%20Studio/Textalyzer/app/build/intermediates/exploded-aar/com.diogobernardino/williamchart/2.0.1/res/values/values.xml -->
+    <eat-comment/>
+    <dimen name="axis_dist_from_label">5dp</dimen>
+    <dimen name="axis_thickness">2dp</dimen>
+    <dimen name="bar_spacing">6dp</dimen>
+    <dimen name="dot_region_radius">18dp</dimen>
+    <dimen name="font_size">10dp</dimen>
+    <dimen name="grid_thickness">1dp</dimen>
+    <dimen name="set_spacing">3dp</dimen>
+    <!-- From: file:/Users/miwhitaker/Documents/Android%20Studio/Textalyzer/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="action_settings">Settings</string>
+    <string name="app_name">Textalyzer</string>
+    <string name="detail_header"> </string>
+    <string name="hello_world">Hello world!</string>
+    <string name="info_pre_common">Most Common Word</string>
+    <string name="info_pre_convo">Conversations Started</string>
+    <string name="info_pre_count">Text Count</string>
+    <string name="info_pre_delay">Average Delay</string>
+    <string name="info_pre_emote">Emoticons</string>
+    <string name="info_pre_in">Friend: </string>
+    <string name="info_pre_length">Average Length</string>
+    <string name="info_pre_out">You: </string>
+    <string name="placeholder">Placeholder text</string>
+    <string name="tip_convo">Number of times you or your friend has initiated the conversation</string>
+    <string name="tip_count">A count of texts sent to or from your friend</string>
+    <string name="tip_delay">Average number of seconds between texts</string>
+    <string name="tip_friend">A perfect score is 50:50 on every category</string>
+    <string name="tip_length">The average number of characters per text</string>
+    <!-- From: file:/Users/miwhitaker/Documents/Android%20Studio/Textalyzer/app/src/main/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="AppBaseTheme" parent="android:Theme.Holo.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+    <style name="AppTheme" parent="AppBaseTheme">
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+    </style>
+    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">#FF6600</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textColorHighlight">#FFFFFF</item>
+  	</style>
+</resources>

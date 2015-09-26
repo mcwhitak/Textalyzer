@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+    <com.db.chart.view.LineChartView
+        xmlns:chart="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/linechart"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"/>
+
+</RelativeLayout><!-- From: file:/Users/miwhitaker/Documents/Android%20Studio/Textalyzer/app/src/main/res/layout/general_linegraph.xml -->

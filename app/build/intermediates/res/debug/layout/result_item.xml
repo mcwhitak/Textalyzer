@@ -1,0 +1,62 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/result_item_relative"
+    android:layout_width="match_parent"
+    android:layout_height="40dp">
+    <RelativeLayout
+        android:id="@+id/result_initial"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+   	>
+   		<TextView
+        	android:id="@+id/result_item_category"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:textSize="16sp"
+        	android:layout_centerVertical="true"
+        	android:padding="10dp"
+        	android:layout_alignParentLeft="true"
+   		/>
+    
+    	<RelativeLayout
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_centerVertical="true"
+        	android:layout_alignParentRight="true"
+   		>
+        
+        	<TextView
+       			android:id="@+id/result_item_value1"
+        		android:layout_width="wrap_content"
+        		android:layout_height="wrap_content"
+        		android:layout_alignParentRight="true"
+        		android:textSize="16sp"
+        		android:padding="5dp"
+        		android:layout_marginRight="5dp"
+  			/>
+    
+   			<TextView
+        		android:id="@+id/result_item_value2"
+        		android:layout_width="wrap_content"
+        		android:layout_height="wrap_content"
+        		android:layout_alignParentRight="true"
+        		android:layout_below="@id/result_item_value1"
+        		android:textSize="16sp"
+        		android:padding="5dp"
+        		android:layout_marginRight="5dp"
+        		android:visibility="gone"
+    		/>
+    	</RelativeLayout>    
+    </RelativeLayout>
+	<TextView
+	    android:id="@+id/result_tips"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center"
+	    android:layout_centerVertical="true"
+	    android:textSize="16sp"
+	    android:text="TIPS GO HERE"
+	    android:visibility="gone"
+	/>
+</RelativeLayout><!-- From: file:/Users/miwhitaker/Documents/Android%20Studio/Textalyzer/app/src/main/res/layout/result_item.xml -->

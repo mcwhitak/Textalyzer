@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Textalyzer</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="detail_header">&#160;</string>
+    <string name="info_pre_in">Friend:&#160;</string>
+    <string name="info_pre_out">You:&#160;</string>
+    <string name="info_pre_common">Most Common Word</string>
+    <string name="info_pre_delay">Average Delay</string>
+    <string name="info_pre_convo">Conversations Started</string>
+    <string name="info_pre_length">Average Length</string>
+    <string name="info_pre_count">Text Count</string>
+    <string name="info_pre_emote">Emoticons</string>
+    <string name="tip_count">A count of texts sent to or from your friend</string>
+    <string name="tip_length">The average number of characters per text</string>
+  	<string name="tip_delay">Average number of seconds between texts</string>
+  	<string name="tip_convo">Number of times you or your friend has initiated the conversation</string>
+	<string name="tip_friend">A perfect score is 50:50 on every category</string>
+	<string name="placeholder">Placeholder text</string>
+  	
+</resources>
