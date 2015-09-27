@@ -8,6 +8,5 @@
         xmlns:chart="http://schemas.android.com/apk/res-auto"
         android:id="@+id/linechart"
         android:layout_width="match_parent"
-        android:layout_height="100dp"/>
-
+        android:layout_height="200dp"/>
 </RelativeLayout><!-- From: file:/Users/miwhitaker/Documents/Android%20Studio/Textalyzer/app/src/main/res/layout/general_linegraph.xml -->

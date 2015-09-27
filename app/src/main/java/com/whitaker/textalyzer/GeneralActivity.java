@@ -1,5 +1,6 @@
 package com.whitaker.textalyzer;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import com.db.chart.model.LineSet;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +44,10 @@ public class GeneralActivity extends TextalyzerActivity
 	private String leastFavoriteContactForThem = "None"; // by started conversation - your started conversations
 
 	private LineSet lineSet;
-	
+	private DecimalFormat lineFormat;
+    private Paint gridPaint;
+    private int appColor = Color.parseColor("#FF6600");
+
 	private ArrayList<String> adapterInstructions;
 	
 	private int [] textOGram = new int[]{0,0,0,0,0,0,
@@ -51,12 +56,12 @@ public class GeneralActivity extends TextalyzerActivity
 			0,0,0,0,0,0};
 
 	private String[] categories = {"Total Incoming Texts", "Total Outgoing Texts","Most Likely to Start Conversations:", "With you", "You started",
-					"Least Likely to Start Conversations:","With", "With you","Frequency of texts by hour", "", "WHY GOD"};
+					"Least Likely to Start Conversations:","With", "With you","Frequency of texts by hour", ""};
 
-	private String[] timeLabels = {"12am", "1am", "2am", "3am", "4am", "5am", "6am", "7am", "8am", "9am", "10am", "11am",
-									"12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7am", "8pm", "9pm", "10pm", "11pm"};
+	private String[] timeLabels = {"12", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11",
+									"12", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"};
 	
-	private int[] type = {0, 0, 1, 0, 0, 1 ,0, 0, 1, 2, 0};
+	private int[] type = {0, 0, 1, 0, 0, 1 ,0, 0, 1, 2};
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -74,8 +79,9 @@ public class GeneralActivity extends TextalyzerActivity
 		}
 		
 		adapterInstructions = new ArrayList<String>();
-		lineSet = new LineSet();
-		
+        setUpLineChart();
+
+
 		int leastFavoriteContactForYouCount = 0;
 		int leastFavoriteContactForThemCount = 0;
 		
@@ -125,15 +131,27 @@ public class GeneralActivity extends TextalyzerActivity
 		adapterInstructions.add(leastFavoriteContactForYou);
 		adapterInstructions.add(leastFavoriteContactForThem);
 		adapterInstructions.add("");
-		adapterInstructions.add("BOB DICK");
-		adapterInstructions.add("PENIS HAT DLXXXXX");
+		adapterInstructions.add("");
 		for(int i=0; i<24; i++)
 		{
-
-			lineSet.addPoint(timeLabels[i], textOGram[i]);
+			float timePercent = (float)textOGram[i] / (float)(totalIncomingTexts + totalOutgoingTexts);
+			lineSet.addPoint(timeLabels[i], timePercent * 100);
 		}
 		itemListView.setAdapter(new ItemAdapter());
 	}
+
+    private void setUpLineChart() {
+        lineSet = new LineSet();
+        lineSet.setSmooth(true);
+        lineSet.setColor(appColor);
+        lineSet.setFill(appColor);
+
+        lineFormat = new DecimalFormat("###");
+        lineFormat.setPositiveSuffix("%");
+
+        gridPaint = new Paint();
+        gridPaint.setColor(Color.BLACK);
+    }
 	
 	private void grabAllViews()
 	{
@@ -141,7 +159,7 @@ public class GeneralActivity extends TextalyzerActivity
 	}
 	
 	private class ItemAdapter extends BaseAdapter
-	{
+    {
 		@Override
 		public int getCount() 
 		{
@@ -201,9 +219,10 @@ public class GeneralActivity extends TextalyzerActivity
 			} else if (resID == R.layout.general_linegraph) {
 				LineChartView chart = (LineChartView)itemView.findViewById(R.id.linechart);
 				chart.addData(lineSet);
-				chart.setFontSize(10);
+                chart.setGrid(ChartView.GridType.FULL, gridPaint);
+				chart.setLabelsFormat(lineFormat);
+				chart.setFontSize(22);
 				chart.show();
-				chart.setVisibility(View.VISIBLE);
 			}
 
 			return itemView;
