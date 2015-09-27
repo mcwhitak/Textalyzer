@@ -52,43 +52,53 @@ ADDED from AndroidManifest.xml:20:9
 		ADDED from AndroidManifest.xml:22:13
 	android:name
 		ADDED from AndroidManifest.xml:21:13
-activity#com.whitaker.textalyzer.DetailActivity
-ADDED from AndroidManifest.xml:25:9
+activity#com.whitaker.textalyzer.OpenSourceActivity
+ADDED from AndroidManifest.xml:26:9
 	android:screenOrientation
-		ADDED from AndroidManifest.xml:27:13
-	android:name
-		ADDED from AndroidManifest.xml:26:13
-activity#com.whitaker.textalyzer.GeneralActivity
-ADDED from AndroidManifest.xml:29:9
-	android:screenOrientation
-		ADDED from AndroidManifest.xml:31:13
-	android:name
 		ADDED from AndroidManifest.xml:30:13
-activity#com.whitaker.textalyzer.AboutActivity
-ADDED from AndroidManifest.xml:34:9
-	android:screenOrientation
-		ADDED from AndroidManifest.xml:38:4
 	android:configChanges
-		ADDED from AndroidManifest.xml:37:13
+		ADDED from AndroidManifest.xml:28:13
 	android:theme
+		ADDED from AndroidManifest.xml:29:13
+	android:name
+		ADDED from AndroidManifest.xml:27:13
+activity#com.whitaker.textalyzer.DetailActivity
+ADDED from AndroidManifest.xml:33:9
+	android:screenOrientation
 		ADDED from AndroidManifest.xml:35:13
 	android:name
-		ADDED from AndroidManifest.xml:36:13
-activity#com.whitaker.textalyzer.SplashScreenActivity
-ADDED from AndroidManifest.xml:40:9
+		ADDED from AndroidManifest.xml:34:13
+activity#com.whitaker.textalyzer.GeneralActivity
+ADDED from AndroidManifest.xml:37:9
 	android:screenOrientation
-		ADDED from AndroidManifest.xml:43:13
+		ADDED from AndroidManifest.xml:39:13
+	android:name
+		ADDED from AndroidManifest.xml:38:13
+activity#com.whitaker.textalyzer.AboutActivity
+ADDED from AndroidManifest.xml:42:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:46:4
+	android:configChanges
+		ADDED from AndroidManifest.xml:45:13
 	android:theme
-		ADDED from AndroidManifest.xml:42:13
+		ADDED from AndroidManifest.xml:43:13
 	android:name
-		ADDED from AndroidManifest.xml:41:13
+		ADDED from AndroidManifest.xml:44:13
+activity#com.whitaker.textalyzer.SplashScreenActivity
+ADDED from AndroidManifest.xml:48:9
+	android:screenOrientation
+		ADDED from AndroidManifest.xml:51:13
+	android:theme
+		ADDED from AndroidManifest.xml:50:13
+	android:name
+		ADDED from AndroidManifest.xml:49:13
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from AndroidManifest.xml:44:13
+ADDED from AndroidManifest.xml:52:13
 action#android.intent.action.MAIN
-ADDED from AndroidManifest.xml:45:17
+ADDED from AndroidManifest.xml:53:17
 	android:name
-		ADDED from AndroidManifest.xml:45:25
+		ADDED from AndroidManifest.xml:53:25
 category#android.intent.category.LAUNCHER
-ADDED from AndroidManifest.xml:47:17
+ADDED from AndroidManifest.xml:55:17
 	android:name
-		ADDED from AndroidManifest.xml:47:27
+		ADDED from AndroidManifest.xml:55:27

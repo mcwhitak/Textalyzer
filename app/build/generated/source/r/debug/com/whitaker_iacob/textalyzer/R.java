@@ -157,7 +157,7 @@ containing a value of this type.
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f09001f;
+        public static final int action_settings=0x7f090021;
         public static final int appname=0x7f090000;
         public static final int break1=0x7f090011;
         public static final int breakmain=0x7f090008;
@@ -176,17 +176,19 @@ containing a value of this type.
         public static final int linechart=0x7f090016;
         public static final int list_general=0x7f090017;
         public static final int list_information=0x7f090012;
+        public static final int listview=0x7f090018;
         public static final int menu_about=0x7f090004;
         public static final int open_source=0x7f090003;
+        public static final int opensource_text=0x7f090019;
         public static final int relative_header=0x7f09000d;
-        public static final int result_initial=0x7f090019;
-        public static final int result_item_category=0x7f09001a;
-        public static final int result_item_relative=0x7f090018;
-        public static final int result_item_value1=0x7f09001b;
-        public static final int result_item_value2=0x7f09001c;
-        public static final int result_tips=0x7f09001d;
+        public static final int result_initial=0x7f09001b;
+        public static final int result_item_category=0x7f09001c;
+        public static final int result_item_relative=0x7f09001a;
+        public static final int result_item_value1=0x7f09001d;
+        public static final int result_item_value2=0x7f09001e;
+        public static final int result_tips=0x7f09001f;
         public static final int score_header=0x7f09000e;
-        public static final int splashscreen=0x7f09001e;
+        public static final int splashscreen=0x7f090020;
         public static final int tagline=0x7f090002;
         public static final int version=0x7f090001;
     }
@@ -200,8 +202,10 @@ containing a value of this type.
         public static final int general_item=0x7f030006;
         public static final int general_linegraph=0x7f030007;
         public static final int general_stats=0x7f030008;
-        public static final int result_item=0x7f030009;
-        public static final int splashscreen=0x7f03000a;
+        public static final int opensource=0x7f030009;
+        public static final int opensource_item=0x7f03000a;
+        public static final int result_item=0x7f03000b;
+        public static final int splashscreen=0x7f03000c;
     }
     public static final class menu {
         public static final int main=0x7f080000;
@@ -219,12 +223,13 @@ containing a value of this type.
         public static final int info_pre_in=0x7f070009;
         public static final int info_pre_length=0x7f07000a;
         public static final int info_pre_out=0x7f07000b;
-        public static final int placeholder=0x7f07000c;
-        public static final int tip_convo=0x7f07000d;
-        public static final int tip_count=0x7f07000e;
-        public static final int tip_delay=0x7f07000f;
-        public static final int tip_friend=0x7f070010;
-        public static final int tip_length=0x7f070011;
+        public static final int license_williamchart=0x7f07000c;
+        public static final int placeholder=0x7f07000d;
+        public static final int tip_convo=0x7f07000e;
+        public static final int tip_count=0x7f07000f;
+        public static final int tip_delay=0x7f070010;
+        public static final int tip_friend=0x7f070011;
+        public static final int tip_length=0x7f070012;
     }
     public static final class style {
         /**  API 11 theme customizations can go here. 
