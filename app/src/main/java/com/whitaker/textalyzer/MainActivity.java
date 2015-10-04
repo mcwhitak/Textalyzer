@@ -47,6 +47,7 @@ public class MainActivity extends Activity implements OnItemClickListener, OnCli
 	private BounceListView contactListView;
 	private RelativeLayout generalLayout;
 	private ContactsAdapter contactAdapter;
+	private static final String ADDRESS = "address";
 	
 	
 	public static final int ONE_HOUR = 60 * 60 * 1000;
@@ -105,9 +106,7 @@ public class MainActivity extends Activity implements OnItemClickListener, OnCli
 		contactListView = (BounceListView)findViewById(R.id.contacts_list);
 		generalLayout = (RelativeLayout)findViewById(R.id.general_relative);
 	}
-	
 
-	
 	private class ContactsAdapter extends BaseAdapter
 	{
 		private ArrayList<ContactHolder> contactList;
@@ -181,7 +180,7 @@ public class MainActivity extends Activity implements OnItemClickListener, OnCli
 			{				
 				ContactHolder contact = (ContactHolder)contactListView.getAdapter().getItem(position);
 				Intent intent = new Intent(getCtx(), DetailActivity.class);
-				intent.putExtra("address", contact.phoneNumber);
+				intent.putExtra(ADDRESS, contact.phoneNumber);
 				startActivity(intent);
 			}
 		}

@@ -87,50 +87,35 @@ public class ContactHolder
 	public double getTextCountRatio()
 	{
 		int total = incomingTextCount + outgoingTextCount;
-		if (total == 0)
-		{
-			textCountRatio = -1;
-		}
-		else
-		{
-			textCountRatio = (double) outgoingTextCount / (double) total;
-		}
+		textCountRatio = (total == 0) ? -1 : (double) outgoingTextCount / (double) total;
 		return textCountRatio;
 	}
 	
 	public double getTextAverageRatio() 
 	{
 		int total = incomingTextAverage + outgoingTextAverage;
-		if (total == 0) textAverageRatio = -1;
-		else
-			textAverageRatio = (double) outgoingTextAverage / (double) total;
+		textAverageRatio = (total == 0) ? -1 : (double) outgoingTextAverage / (double) total;
 		return textAverageRatio;
 	}
 	
 	public double getDelayRatio() 
 	{
 		double total = averageIncomingDelay + averageOutgoingDelay;
-		if (total == 0) delayRatio = -1;
-		else
-			delayRatio = (double) averageOutgoingDelay / (double) total;
+		delayRatio = (total == 0) ? -1 : (double) averageOutgoingDelay / (double) total;
 		return delayRatio;
 	}
 	
 	public double getConversationsStartedRatio() 
 	{
 		double total = incomingConversationsStarted + outgoingConversationsStarted;
-		if (total == 0) conversationsStartedRatio = -1;
-		else 
-			conversationsStartedRatio = (double) outgoingConversationsStarted / (double) total;
+		conversationsStartedRatio = (total == 0) ? -1 : (double) outgoingConversationsStarted / (double) total;
 		return conversationsStartedRatio;
 	}
 	
 	public double getEmoticonsCountRatio() 
 	{
 		double total = incomingEmoticonsCount + outgoingEmoticonsCount;
-		if (total == 0) emoticonsCountRatio = -1;
-		else
-			emoticonsCountRatio = (double) outgoingEmoticonsCount / (double) total;
+		emoticonsCountRatio = (total == 0) ? -1 : (double) outgoingEmoticonsCount / (double) total;
 		return emoticonsCountRatio;
 	}
 	
@@ -365,6 +350,21 @@ public class ContactHolder
 		addInstruction(ctx.getString(R.string.info_pre_common), ctx.getString(R.string.info_pre_in) + incomingMostCommon[0], ctx.getString(R.string.info_pre_out) + outgoingMostCommon[0]);
 		addInstruction(ctx.getString(R.string.info_pre_emote), ctx.getString(R.string.info_pre_in) + incomingEmoticonsCount, ctx.getString(R.string.info_pre_out) + outgoingEmoticonsCount);
 	}
+
+    private int emojiCount(String body) {
+        byte[] emoticonStart = {(byte)0xf0, (byte)0x9f, (byte)0x98, (byte)0x81};
+        byte[] emoticonEnd = {(byte)0xf0, (byte)0x9f, (byte)0x99, (byte)0x8f};
+
+        byte[] dingbatStart = {(byte) 0xe2, (byte) 0x9c, (byte) 0x82};
+        byte[] dingbatEnd = {(byte)0xe2, (byte)0x9e, (byte)0xb0};
+
+        byte[] transportStart = {(byte) 0xf0, (byte) 0x9f, (byte) 0x9a, (byte) 0x80};
+        byte[] transportEnd = {(byte) 0xf0, (byte) 0x9f, (byte) 0x9b, (byte) 0x80};
+
+
+        byte[] emojiByteEnd = {(byte)0xf0, (byte) 0x9f, (byte)0x95, (byte)0xA7};
+        return 0;
+    }
 	
 	public static class ContactComparator implements Comparator
 	{

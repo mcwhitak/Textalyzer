@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<View 
-	xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/splashscreen" 
-    android:layout_width="wrap_content"
-    android:layout_height="fill_parent"
-    android:background="#FF6600"
-    android:layout_gravity="center"
-/><!-- From: file:/Users/miwhitaker/Documents/Android%20Studio/Textalyzer/app/src/main/res/layout/splashscreen.xml -->
