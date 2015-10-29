@@ -201,11 +201,15 @@ public class TextalyzerApplication extends Application
 	
 	private String addressClipper(String address)
 	{
+		address = address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
 		if(address.contains("+1"))
 		{
 			address = address.substring(2);
 		}
-		address = address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
+		if(address.charAt(0) == '1' && address.length() == 11)
+		{
+			address = address.substring(1);
+		}
 		return address;
 	}
 	
