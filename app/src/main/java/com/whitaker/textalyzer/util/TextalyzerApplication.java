@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
 import com.whitaker.textalyzer.ContactHolder;
 import com.whitaker.textalyzer.TextMessage;
 import com.whitaker.textalyzer.TextMessage.Directions;
@@ -17,6 +20,7 @@ import android.app.Application;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.telephony.TelephonyManager;
 
 public class TextalyzerApplication extends Application
 {
@@ -138,7 +142,7 @@ public class TextalyzerApplication extends Application
 				
 				if(body == null)
 					continue;
-				
+
 				determineWordFrequency(body, Directions.INBOUND, holder);
 				holder.textReceivedLength += body.length(); 
 				holder.incomingTextCount++;
@@ -198,18 +202,17 @@ public class TextalyzerApplication extends Application
 			getContact(contactString).analyze(this);
 		}	
 	}
-	
+
 	private String addressClipper(String address)
 	{
-		address = address.replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
-		if(address.contains("+1"))
-		{
-			address = address.substring(2);
-		}
-		if(address.charAt(0) == '1' && address.length() == 11)
-		{
-			address = address.substring(1);
-		}
+		TelephonyManager tm = (TelephonyManager)getSystemService(getApplicationContext().TELEPHONY_SERVICE);
+		String country = tm.getNetworkCountryIso().toUpperCase();
+		PhoneNumberUtil pnu = PhoneNumberUtil.getInstance();
+		PhoneNumber number = null;
+		try {
+			number = pnu.parse(address, country);
+			address = pnu.format(number, PhoneNumberUtil.PhoneNumberFormat.E164);
+		} catch (NumberParseException e) {}
 		return address;
 	}
 	
