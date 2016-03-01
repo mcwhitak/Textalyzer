@@ -138,11 +138,11 @@ public class TextalyzerApplication extends Application
 				{
 					continue;
 				}
-				String body = cursor.getString(cursor.getColumnIndex("body")).toLowerCase();
+				String body = cursor.getString(cursor.getColumnIndex("body"));
 				
 				if(body == null)
 					continue;
-
+				body = body.toLowerCase();
 				determineWordFrequency(body, Directions.INBOUND, holder);
 				holder.textReceivedLength += body.length(); 
 				holder.incomingTextCount++;
