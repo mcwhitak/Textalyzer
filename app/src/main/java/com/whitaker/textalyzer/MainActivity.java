@@ -57,27 +57,29 @@ public class MainActivity extends Activity implements OnItemClickListener, OnCli
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		
-		int titleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
-		TextView abTV = (TextView)findViewById(titleId);
-		abTV.setTextColor(Color.WHITE);
-		
+        setContentView(R.layout.splashscreen);
+
 		TextalyzerApplication app = (TextalyzerApplication)this.getApplication();
-		if(!app.isReady())
-		{
-			app.initMap();
-			app.populateMap();
-		}
-		
-		grabAllViews();
-		
-		contactAdapter = new ContactsAdapter();
-		contactListView.setAdapter(contactAdapter);
-		contactListView.setOnItemClickListener(this);
-		generalLayout.setOnClickListener(this);
-		
-		
+
+        Runnable doAfter = new Runnable() {
+            @Override
+            public void run() {
+                setContentView(R.layout.activity_main);
+
+                int titleId = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
+                TextView abTV = (TextView)findViewById(titleId);
+                abTV.setTextColor(Color.WHITE);
+
+                grabAllViews();
+
+                contactAdapter = new ContactsAdapter();
+                contactListView.setAdapter(contactAdapter);
+                contactListView.setOnItemClickListener(MainActivity.this);
+                generalLayout.setOnClickListener(MainActivity.this);
+            }
+        };
+
+        new AnalyzeTask(this, app, doAfter).execute();
 	}
 	
 	@Override

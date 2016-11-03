@@ -19,6 +19,8 @@
   	<string name="tip_convo">Number of times you or your friend has initiated the conversation</string>
 	<string name="tip_friend">A perfect score is 50:50 on every category</string>
 	<string name="placeholder">Placeholder text</string>
+    <string name="analyzing_inbox">Analyzing inbox…</string>
+    <string name="analyzing_sent">Analyzing sent…</string>
 
     <string name="license_williamchart">
         William Chart License (https://github.com/diogobernardino/WilliamChart)\n

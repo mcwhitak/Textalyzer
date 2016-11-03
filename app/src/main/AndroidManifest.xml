@@ -20,8 +20,14 @@
         <activity
             android:name="com.whitaker.textalyzer.MainActivity"
             android:label="@string/app_name"
-            android:screenOrientation="nosensor"
-        />
+            android:screenOrientation="nosensor">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name="com.whitaker.textalyzer.OpenSourceActivity"
@@ -45,16 +51,6 @@
             android:configChanges="screenSize"
 			android:screenOrientation="nosensor"
 		/>
-        <activity
-            android:name="com.whitaker.textalyzer.SplashScreenActivity"
-            android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar"
-            android:screenOrientation="nosensor">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-       	</activity>
     </application>
 
 </manifest>

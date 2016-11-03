@@ -14,6 +14,7 @@ import com.whitaker.textalyzer.TextMessage.Directions;
 import com.whitaker_iacob.textalyzer.R;
 
 import android.app.Application;
+import android.app.ProgressDialog;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
@@ -31,6 +32,7 @@ public class TextalyzerApplication extends Application
 	private List<Date> timesReceived;
 	private List<Date> timesSent;
 	private Map<String, String> nameMap;
+	private ProgressDialog progressDialog;
 	
 	public void initMap()
 	{
@@ -64,7 +66,7 @@ public class TextalyzerApplication extends Application
 		return (contacts == null) ? false : true; 
 	}
 	
-	private void grabNumbers()
+	public void grabNumbers()
 	{
 		Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null,null, null);
 		while (phones.moveToNext())
@@ -77,9 +79,15 @@ public class TextalyzerApplication extends Application
 		phones.close();
 	}
 	
-	private void grabInbox()
+	public void grabInbox()
 	{
 		Cursor cursor = getContentResolver().query(Uri.parse("content://sms/inbox"), null, null, null, null);
+		if(cursor == null)
+			return;
+
+		if(progressDialog != null){
+			progressDialog.setMax(cursor.getCount());
+		}
 		cursor.moveToFirst();
 		do
 		{
@@ -148,14 +156,21 @@ public class TextalyzerApplication extends Application
 				holder.textMessages.add(message);
 				timesReceived.add(new Date(date));
 			}
-			
+			if(progressDialog != null)
+				progressDialog.incrementProgressBy(1);
 		}while(cursor.moveToNext());
 		cursor.close();
 	}
 	
-	private void grabOutbox()
+	public void grabOutbox()
 	{
 		Cursor cursor = getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, null);
+		if(cursor == null)
+			return;
+
+		if(progressDialog != null){
+			progressDialog.setMax(cursor.getCount());
+		}
 		cursor.moveToFirst();
 		do
 		{
@@ -181,7 +196,8 @@ public class TextalyzerApplication extends Application
 				holder.textMessages.add(message);
 				timesSent.add(new Date(date));
 			}
-			
+			if(progressDialog != null)
+				progressDialog.incrementProgressBy(1);
 		} while(cursor.moveToNext());
 		cursor.close();
 	}
@@ -193,10 +209,14 @@ public class TextalyzerApplication extends Application
 		grabInbox();
 		grabOutbox();
 		
+		populateMapEnd();
+	}
+
+	public void populateMapEnd(){
 		for (String contactString: getKeySet())
 		{
 			getContact(contactString).analyze(this);
-		}	
+		}
 	}
 	
 	private String addressClipper(String address)
@@ -253,5 +273,9 @@ public class TextalyzerApplication extends Application
 			}
 			
 		}
+	}
+
+	public void setProgressDialog(ProgressDialog progressDialog) {
+		this.progressDialog = progressDialog;
 	}
 }
